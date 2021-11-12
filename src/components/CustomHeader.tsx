@@ -1,12 +1,12 @@
 import React from 'react';
+import { IProps } from '../interfaces';
 import { useTheme } from '@mui/material/styles';
+import { getPageTitle, ADMINISTRATION, WAREHOUSE_ACTION, DASHBOARD_ACTION, SIGN_IN_ACTION, PROFILE } from '../constants/pages';
+import { GetUsr } from '../api/CustomAPI';
+import { Button, Menu, MenuItem } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 import HomeIcon from '@mui/icons-material/Home';
 import HomeMaxIcon from '@mui/icons-material/HomeMax';
-import { Button, Menu, MenuItem } from '@mui/material';
-import { IProps } from '../interfaces';
-import { GetUsr } from '../api/CustomAPI';
-import { getPageTitle, ADMINISTRATION, WAREHOUSE_ACTION, DASHBOARD_ACTION, PROFILE } from '../constants/pages';
 
 interface ICustomHeader extends IProps {
   currentPage: string
@@ -67,12 +67,7 @@ const CustomHeader: React.FC<ICustomHeader> = ({
                       switchPage(WAREHOUSE_ACTION);
                     }}
                   >
-                    <HomeIcon 
-                      color="primary" 
-                      style={{
-                        transform: 'scale(1.5)',
-                      }}
-                    />
+                    <HomeIcon color="primary" className="HomeIcon" />
                   </Button>
                   <Button
                     id="basic-button"
@@ -83,12 +78,7 @@ const CustomHeader: React.FC<ICustomHeader> = ({
                       switchPage(DASHBOARD_ACTION);
                     }}
                   >
-                    <HomeMaxIcon 
-                      color="primary" 
-                      style={{
-                        transform: 'scale(1.5)',
-                      }}
-                    />
+                    <HomeMaxIcon color="primary" className="SettingsIcon" />
                   </Button>
                   <div style={{
                     display: 'inline',
@@ -102,9 +92,7 @@ const CustomHeader: React.FC<ICustomHeader> = ({
                     >
                       <PersonIcon 
                         color="primary" 
-                        style={{
-                          transform: 'scale(1.5)',
-                        }}
+                        className="PersonIcon"
                       />
                     </Button>
                     <Menu

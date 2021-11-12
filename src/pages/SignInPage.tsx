@@ -1,22 +1,25 @@
-import { IPages } from '../interfaces';
-import { SignIn } from '../api/CustomAPI';
-import { ISignInResponse } from '../api/CustomAPIModel';
-import React, { useEffect } from 'react';
-import { cookieSetToken } from '../utils/cookieSetData';
-import { FORGOT_PASSWORD, WAREHOUSE_ACTION } from '../constants/pages';
-import { ContainedButton, OutlinedButton } from '../components/BaseComponents/CustomButtons';
+// import { SignIn } from '@api/CustomAPI';
+// import { cookieSetToken } from '@utils/cookieSetData';
+// import Cookies from 'js-cookie';
+// import { ISignInResponse } from "../api/CustomAPIModel";
+
 import CustomTextField from '../components/CustomTextField';
+import React, { useEffect } from 'react';
+import { FORGOT_PASSWORD, WAREHOUSE_ACTION } from "../constants/pages";
+import { IPages } from "../interfaces";
+import { ContainedButton, OutlinedButton } from '../components/BaseComponents/CustomButtons';
+
 
 const SignInPage: React.FC<IPages> = ({
   switchPage,
 }) => {
   const SignInOnClick = () => {
-    SignIn({
-      'email': 'marat.ggg@gmail.com',
-      'password': 'string'
-    }).then((r: ISignInResponse) => {
-      cookieSetToken('auth_user_token', 'Bearer ' + r.access_token);
-    });
+    // SignIn({
+    //   'email': 'marat.ggg@gmail.com',
+    //   'password': 'string'
+    // }).then((r: ISignInResponse) => {
+    //   cookieSetToken('auth_user_token', 'Bearer ' + r.access_token);
+    // });
   };
 
   const GoToForgotPassword = () => {
@@ -24,12 +27,12 @@ const SignInPage: React.FC<IPages> = ({
   };
 
   const checkAuthorization = async () => {
-    SignIn({
-      'email': 'marat.ggg@gmail.com',
-      'password': 'string'
-    }).then((r: ISignInResponse) => {
-      cookieSetToken('auth_user_token', 'Bearer ' + r.access_token);
-    });
+    // SignIn({
+    //   'email': 'marat.ggg@gmail.com',
+    //   'password': 'string'
+    // }).then((r: ISignInResponse) => {
+    //   cookieSetToken('auth_user_token', 'Bearer ' + r.access_token);
+    // });
     // const result = await Cookies.get('auth_user_token');
     // console.log('Sign in checkAuthorization = ', result);
     switchPage(WAREHOUSE_ACTION);

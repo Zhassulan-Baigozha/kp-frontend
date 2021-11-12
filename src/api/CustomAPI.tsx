@@ -1,7 +1,6 @@
-import ApiRequest from '../utils/request';
 import { AxiosResponse } from 'axios';
+import ApiRequest from './requestAuth';
 import { IUser } from '../store/user/types';
-
 import { IGetRolesItem, IGetWSResponse, ISignInRequest, ISignInResponse } from './CustomAPIModel';
 import API from './request';
 
