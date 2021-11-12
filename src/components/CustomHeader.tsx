@@ -1,12 +1,12 @@
 import React from 'react';
 import { IProps } from '../interfaces';
-import { useTheme } from '@mui/material/styles';
 import { getPageTitle, ADMINISTRATION, WAREHOUSE_ACTION, DASHBOARD_ACTION, SIGN_IN_ACTION, PROFILE } from '../constants/pages';
 import { GetUsr } from '../api/CustomAPI';
 import { Button, Menu, MenuItem } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 import HomeIcon from '@mui/icons-material/Home';
 import HomeMaxIcon from '@mui/icons-material/HomeMax';
+import { primaryColor } from '../constants/customTheme';
 
 interface ICustomHeader extends IProps {
   currentPage: string
@@ -17,7 +17,7 @@ const CustomHeader: React.FC<ICustomHeader> = ({
   currentPage,
   switchPage,
 }) => {
-  const theme = useTheme();
+  
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -53,7 +53,7 @@ const CustomHeader: React.FC<ICustomHeader> = ({
                 fontWeight: 500,
                 lineHeight: '42px',
                 opacity: 0.5,
-                color: theme.palette.primary.main,
+                color: primaryColor,
                 width: '33%',
               }}>{getPageTitle(currentPage)}</td>
               <td style={{textAlign: 'right', width: '34%'}}>
@@ -67,7 +67,13 @@ const CustomHeader: React.FC<ICustomHeader> = ({
                       switchPage(WAREHOUSE_ACTION);
                     }}
                   >
-                    <HomeIcon color="primary" className="HomeIcon" />
+                    <HomeIcon 
+                      style={{ 
+                        color: primaryColor,
+                        transform: 'scale(1.5)',
+                        padding: '8px 0px',
+                      }}
+                    />
                   </Button>
                   <Button
                     id="basic-button"
@@ -78,7 +84,13 @@ const CustomHeader: React.FC<ICustomHeader> = ({
                       switchPage(DASHBOARD_ACTION);
                     }}
                   >
-                    <HomeMaxIcon color="primary" className="SettingsIcon" />
+                    <HomeMaxIcon 
+                      style={{ 
+                        color: primaryColor,
+                        transform: 'scale(1.5)',
+                        padding: '8px 0px',
+                      }}
+                    />
                   </Button>
                   <div style={{
                     display: 'inline',
@@ -91,8 +103,11 @@ const CustomHeader: React.FC<ICustomHeader> = ({
                       onClick={handleClick}
                     >
                       <PersonIcon 
-                        color="primary" 
-                        className="PersonIcon"
+                        style={{ 
+                          color: primaryColor,
+                          transform: 'scale(1.5)',
+                          padding: '8px 0px',
+                        }}
                       />
                     </Button>
                     <Menu

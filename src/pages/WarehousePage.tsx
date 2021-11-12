@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import BackgroundPaper from '../layout/BackgroundPaper';
-import { GetWS } from '../api/CustomAPI';
 import { IGridData } from '../api/CustomAPIModel';
 import { OutlinedButton } from '../components/BaseComponents/CustomButtons';
 import { AddIco, InstallIco, RelocationIco, RepairIco } from '../assets/svg';

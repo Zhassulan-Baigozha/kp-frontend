@@ -1,13 +1,35 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+html {
+  background-color: #f0f0f0;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+body {
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  font-family: "Roboto";
+  font-style: normal;
+}
+
+.MRE-MuiDrawer-paperAnchorRight {
+  width: 640px;
+}
+.MRE-MuiDrawer-paperAnchorBottom {
+  background-color: white;
+  border-radius: 16px;
+  margin: 0;
+  height: 90% !important;
+}
+.MRE-MuiPaper-elevation16 {
+  box-shadow: none !important;
+}
+.roomsWithPrices::before {
+  position: absolute;
+  top: 12px;
+  display: block;
+  width: 100%;
+  border-bottom: 1px dotted #c4c4c4;
+  content: "";
+  z-index: -1;
 }
