@@ -1,37 +1,9 @@
 import react from 'react';
-
-export interface IFetchDataState<T> {
-  data: T;
-  loading: boolean;
-}
+import { IUser } from './store/user/types';
 
 export interface ITablePagination {
   pageNo: number;
   pageSize: number;
-}
-
-export interface ISelectOption {
-  value: any,
-  label: string;
-}
-
-export interface IApartmentBlock {
-  address: string,
-  blockId: string,
-  blockName: string,
-  deadline: string,
-  fgjs: number,
-  groupTypeId: number,
-  hasBooklet: boolean,
-  maxTotalPrice: number,
-  minTotalPrice: number,
-  photoURL200: string,
-  photoURL400: string,
-  photoURL1600: string,
-  placementCount: number,
-  propertyClassName: string,
-  realEstateId: string,
-  webSite: string,
 }
 
 export type TKeyValuePair<T> = {
@@ -49,25 +21,6 @@ export type TNavigationBlock = {
   };
 };
 
-export interface IButtonProps {
-  onCLick: () => void,
-  text: string,
-  width: string,
-  disabled?: boolean,
-  startIcon?: react.ReactNode,
-  fullWidth?: boolean,
-}
-
-export interface ISelectedAdresses {
-  region?: string, 
-  state?: string
-  street?: string
-  houseNum?: string
-  apartmentNum?: string
-}
-
-export type TSelectedAdressesKeys = 'region' | 'state' | 'street' | 'apartmentNum' | 'houseNum'
-
 export interface IMocks1 {
   name: string,
   calories: number,
@@ -75,10 +28,43 @@ export interface IMocks1 {
   carbs: number,
   protein: number,
 }
-//**************************************************************** */
+
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface IProps {}
 
 export interface IPages extends IProps {
   switchPage: (value: string) => void
+  openCustomDialog: boolean
+  setOpenCustomDialog: (value: boolean) => void
 }
+
+export interface IComboBoxOption {
+  label: string
+  id: number
+  name?: string
+}
+
+export interface ISignUpUser extends IUser{
+  password?: string,
+  new_password?: string,
+  repeat_password?: string,
+}
+
+export interface ISignUpRequest {
+  email: string,
+  name: string,
+  office: number | null,
+  password: string,
+  position: string,
+  repeat_password: string,
+  roles: string,
+  surname: string,
+}
+
+export interface IUpdateUserRole {
+  role_name: string,
+  user_id: string
+}
+
+export type WagonExistanceType = 'find' | 'notFind' | null
+export type TAlertStatus= 'success' | 'error'

@@ -1,78 +1,100 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { GetUsr } from '../api/CustomAPI';
-import CustomHeader from '../components/CustomHeader';
 import { 
-  ADD_ACTION, 
-  REPAIR_ACTION, 
-  INSTALL_ACTION,
-  RELOCATION_ACTION,
-  ADMINISTRATION,
   SIGN_IN_ACTION,
   WAREHOUSE_ACTION,
-  DASHBOARD_ACTION,
-  FORGOT_PASSWORD,
-  PROFILE,
-} from '../constants/pages';
-import { setUserData } from '../store/user/actions';
-import WarehousePage from '../pages/WarehousePage';
-import SignInPage from '../pages/SignInPage';
-import { IRootState } from '../store';
-// import AddAction from 'src/pages/Warehouse/AddAction';
-// import RepairAction from 'src/pages/Warehouse/RepairAction';
-// import RelocationAction from 'src/pages/Warehouse/RelocationAction';
-// import InstallAction from 'src/pages/Warehouse/InstallAction';
-// import DashboardPage from 'src/pages/DashboardPage';
-// import ForgotPassword from 'src/pages/ForgotPassword';
-// import ProfilePage from 'src/pages/ProfilePage';
-// import Administration from 'src/pages/Administration';
+  Pagination,
+} from './pages';
+// import CustomHeader from 'src/components/CustomHeader';
+import { useDispatch, useSelector } from 'react-redux';
+import { IRootState } from 'src/store';
+import { AuthReNew, GetAllUsr, GetOffices, GetRoles, GetStatuses, GetTransportList, GetUsr, GetWarehouse, GetWS } from 'src/api/CustomAPI';
+import { setUserData } from 'src/store/user/actions';
+import { setAllStatusesList } from 'src/store/allStatuses/actions';
+import { setOfficesList } from 'src/store/offices/actions';
+import { setWarehouseList } from 'src/store/warehouse/actions';
+import { setRolesList } from 'src/store/roles/actions';
+import { setAllUsersList } from 'src/store/allUsers/actions';
+import { setTokenData } from 'src/store/token/actions';
+import './Main.css';
+import ConvertWS from 'src/utils/ConvertWS';
+import { setSortedWSList } from 'src/store/sortedWS/actions';
+import { IStatusesTable } from 'src/store/allStatuses/types';
+// import CustomDialog from 'src/components/CustomDialog';
+import { setTransportList } from 'src/store/transportList/actions';
 
 const Main: React.FC = () => {
-  const [authorized, setAuthorized] = useState<boolean>(false);
-  const [currentPage, switchPage] = useState<string>(authorized? WAREHOUSE_ACTION: SIGN_IN_ACTION);
-
-  const userData = useSelector((state: IRootState) => state.user.data);
-  console.log('userData = ', userData);
+  const token = useSelector((state: IRootState) => state.token.data);
+  const [currentPage, setCurrentPage] = useState<string>('');
+  const [openCustomDialog, setOpenCustomDialog] = React.useState<boolean>(false);
   const dispatch = useDispatch();
-
-  const pagination = () => {
-    switch (currentPage) {
-    case WAREHOUSE_ACTION: return <WarehousePage switchPage={switchPage}/>;
-    // case DASHBOARD_ACTION: return <DashboardPage switchPage={switchPage}/>;
-    // case ADMINISTRATION: return <Administration switchPage={switchPage}/>;
-    // case FORGOT_PASSWORD: return <ForgotPassword switchPage={switchPage}/>;
-    case SIGN_IN_ACTION: return <SignInPage switchPage={switchPage} setAuthorized={setAuthorized}/>;
-    // case PROFILE: return <ProfilePage switchPage={switchPage}/>;
-    // case ADD_ACTION: return <AddAction switchPage={switchPage}/>;
-    // case REPAIR_ACTION: return <RepairAction switchPage={switchPage}/>;
-    // case INSTALL_ACTION: return <InstallAction switchPage={switchPage}/>;
-    // case RELOCATION_ACTION: return <RelocationAction switchPage={switchPage}/>;
-    default: return <div />;
-    }
+  const compareNumbers = (a:IStatusesTable, b:IStatusesTable) => {
+    if (a.code < b.code ) return -1;
+    if (a.code > b.code ) return 1;
+    return 0;
   };
-  useEffect(() => {
-    if (authorized) {
-      GetUsr().then((res) => {
-        console.log('GetUsr res   = ', res);
-        dispatch(setUserData(res));
-        switchPage(WAREHOUSE_ACTION);
-      }).catch((err) => {
-        console.log('GetUsr error = ', err);
-      });
-    }
-  }, [authorized]);
 
-  // GetRoles().then((res:IGetRolesItem[]) => {
-  //   console.log(res.map(item => ({
-  //     label: item.display_name,
-  //     id: item.id
-  //   })));
-  // });
+  useEffect(() => {
+    if (token.access.length > 0 && token.refresh.length > 0 ) {
+      GetUsr(token.access)
+        .then(async (GetUsrResponse) => {
+          console.log('GetUsrResponse', GetUsrResponse);
+          if (currentPage === SIGN_IN_ACTION) {
+            setCurrentPage(WAREHOUSE_ACTION);
+            const GetRolesResponse = await GetRoles(token.access);
+            const GetWSResponse = await GetWS(token.access);
+            const GetAllUsrResponse = await GetAllUsr(token.access);
+            const GetOfficesResponse = await GetOffices(token.access);
+            const GetWarehouseResponse = await GetWarehouse(token.access);
+            const GetStatusesResponse = await GetStatuses(token.access);
+            const GetTransportListResponse = await GetTransportList(token.access);
+            const ConvertWSResponse = ConvertWS(GetWSResponse, GetStatusesResponse);
+            dispatch(setTransportList(GetTransportListResponse));
+            dispatch(setSortedWSList(ConvertWSResponse));
+            dispatch(setUserData(GetUsrResponse));
+            dispatch(setAllStatusesList(GetStatusesResponse.sort(compareNumbers)));
+            dispatch(setOfficesList(GetOfficesResponse));
+            dispatch(setWarehouseList(GetWarehouseResponse));
+            dispatch(setRolesList(GetRolesResponse.map((item) => ({ ...item, label: item.name }))));
+            dispatch(setAllUsersList(GetAllUsrResponse));
+          }
+        })
+        .catch((error) => {
+          console.log('error', error);
+          if (error?.response?.status === 401 && error?.response?.status === 400) {
+            AuthReNew(token.access,{ refresh_token: token.refresh })
+              .then(res => {
+                dispatch(setTokenData({
+                  access: res.access_token,
+                  refresh: res.refresh,
+                }));
+              });
+          } else {
+            setCurrentPage(SIGN_IN_ACTION);
+            console.error(error);
+          }
+        });
+    } else {
+      console.log('No token');
+      if (currentPage!== SIGN_IN_ACTION ) {
+        setCurrentPage(SIGN_IN_ACTION);
+      }
+    }
+  },[currentPage, dispatch, token]);
 
   return (
     <>
-      <CustomHeader currentPage={currentPage} switchPage={switchPage}/> 
-      {pagination()}
+      {/* <CustomDialog 
+        openCustomDialog={openCustomDialog} 
+        setOpenCustomDialog={setOpenCustomDialog}
+        switchPage={setCurrentPage}
+      />
+      <CustomHeader currentPage={currentPage} switchPage={setCurrentPage}/> */}
+      <Pagination 
+        currentPage={currentPage} 
+        switchPage={setCurrentPage}
+        openCustomDialog={openCustomDialog} 
+        setOpenCustomDialog={setOpenCustomDialog}
+      />
     </>
   );
 };
