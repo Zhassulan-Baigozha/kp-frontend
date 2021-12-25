@@ -1,4 +1,4 @@
-html {
+/* html {
   background-color: #f0f0f0;
 }
 
@@ -32,4 +32,30 @@ body {
   border-bottom: 1px dotted #c4c4c4;
   content: "";
   z-index: -1;
+} */
+
+/* ////////////////////////////////////////////////// */
+/* #components-layout-demo-fixed .logo {
+  float: left;
+  width: 120px;
+  height: 31px;
+  margin: 16px 24px 16px 0;
+  background: #fff;
+}
+.site-layout .site-layout-background {
+  background: #fff;
+} */
+
+.ant-layout-header {
+  background: #fff;
+}
+
+.site-layout-background {
+  background: #fff;
+}
+
+.ant-btn:hover,
+.ant-btn:focus {
+  color: #263b5e;
+  border-color: #263b5e;
 }

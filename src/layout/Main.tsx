@@ -4,7 +4,7 @@ import {
   WAREHOUSE_ACTION,
   Pagination,
 } from './pages';
-// import CustomHeader from 'src/components/CustomHeader';
+import CustomHeader from 'src/components/CustomHeader';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from 'src/store';
 import { AuthReNew, GetAllUsr, GetOffices, GetRoles, GetStatuses, GetTransportList, GetUsr, GetWarehouse, GetWS } from 'src/api/CustomAPI';
@@ -21,11 +21,14 @@ import { setSortedWSList } from 'src/store/sortedWS/actions';
 import { IStatusesTable } from 'src/store/allStatuses/types';
 // import CustomDialog from 'src/components/CustomDialog';
 import { setTransportList } from 'src/store/transportList/actions';
+import { Layout, Menu, Breadcrumb, Button } from 'antd';
+import { primaryColor } from 'src/constants';
 
 const Main: React.FC = () => {
   const token = useSelector((state: IRootState) => state.token.data);
   const [currentPage, setCurrentPage] = useState<string>('');
   const [openCustomDialog, setOpenCustomDialog] = React.useState<boolean>(false);
+  const { Header, Content, Footer } = Layout;
   const dispatch = useDispatch();
   const compareNumbers = (a:IStatusesTable, b:IStatusesTable) => {
     if (a.code < b.code ) return -1;
@@ -83,6 +86,27 @@ const Main: React.FC = () => {
 
   return (
     <>
+      <Layout>
+        <CustomHeader currentPage={currentPage} switchPage={setCurrentPage}/>
+        <Content className="site-layout" style={{ 
+          padding: '0 50px', 
+          marginTop: '100px',
+          
+        }}>
+          <div className="site-layout-background" style={{ padding: '24px', borderRadius: '16px',}}>
+            <Button style={{ 
+              backgroundColor: primaryColor, 
+              color: '#fff',
+              borderRadius: '8px',
+              height: '40px',
+              fontWeight: '500',
+            }}>
+              Войти
+            </Button>
+          </div>
+        </Content>
+        <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
+      </Layout>,
       {/* <CustomDialog 
         openCustomDialog={openCustomDialog} 
         setOpenCustomDialog={setOpenCustomDialog}
@@ -95,6 +119,7 @@ const Main: React.FC = () => {
         openCustomDialog={openCustomDialog} 
         setOpenCustomDialog={setOpenCustomDialog}
       />
+      
     </>
   );
 };
