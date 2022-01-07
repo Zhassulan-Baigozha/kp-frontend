@@ -59,3 +59,7 @@ body {
   color: #263b5e;
   border-color: #263b5e;
 }
+
+.ant-input {
+  background-color: #f0f0f0;
+}

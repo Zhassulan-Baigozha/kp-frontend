@@ -1,13 +1,13 @@
 import React from 'react';
-// import WarehousePage from '../pages/WarehousePage';
-// import SignInPage from '../pages/SignInPage';
-// import AddAction from '../pages/AddAction';
-// import RepairAction from '../pages/RepairAction';
-// import RelocationAction from '../pages/RelocationAction';
-// import InstallAction from '../pages/InstallAction';
-// import DashboardPage from '../pages/DashboardPage';
-// import ProfilePage from '../pages/ProfilePage';
-// import Administration from '../pages/Administration';
+import WarehousePage from '../pages/WarehousePage';
+import SignInPage from '../pages/SignInPage';
+import AddAction from '../pages/AddAction';
+import RepairAction from '../pages/RepairAction';
+import RelocationAction from '../pages/RelocationAction';
+import InstallAction from '../pages/InstallAction';
+import DashboardPage from '../pages/DashboardPage';
+import ProfilePage from '../pages/ProfilePage';
+import Administration from '../pages/Administration';
 import { IPages } from 'src/interfaces';
 
 export const DASHBOARD_ACTION = 'Dashboard';
@@ -45,37 +45,36 @@ export const Pagination:React.FC<IPagination> = ({
   openCustomDialog,
   setOpenCustomDialog,
 }) => {
-  return null;
-  // switch (currentPage) {
-  // case WAREHOUSE_ACTION: return<WarehousePage 
-  //   switchPage={switchPage} 
-  //   openCustomDialog={openCustomDialog}
-  //   setOpenCustomDialog={setOpenCustomDialog}
-  // />;
-  // case DASHBOARD_ACTION: return <DashboardPage 
-  //   switchPage={switchPage} 
-  //   openCustomDialog={openCustomDialog}
-  //   setOpenCustomDialog={setOpenCustomDialog}
-  // />;
-  // case ADMINISTRATION: return <Administration 
-  //   switchPage={switchPage} 
-  //   openCustomDialog={openCustomDialog}
-  //   setOpenCustomDialog={setOpenCustomDialog}
-  // />;
-  // case SIGN_IN_ACTION: return <SignInPage />;
-  // case PROFILE: return <ProfilePage 
-  //   switchPage={switchPage} 
-  //   openCustomDialog={openCustomDialog}
-  //   setOpenCustomDialog={setOpenCustomDialog}
-  // />;
-  // case ADD_ACTION: return <AddAction />;
-  // case REPAIR_ACTION: return <RepairAction />;
-  // case INSTALL_ACTION: return <InstallAction 
-  //   switchPage={switchPage} 
-  //   openCustomDialog={openCustomDialog}
-  //   setOpenCustomDialog={setOpenCustomDialog}
-  // />;
-  // case RELOCATION_ACTION: return <RelocationAction />;
-  // default: return <div />;
-  // }
+  switch (currentPage) {
+  case WAREHOUSE_ACTION: return <WarehousePage 
+    switchPage={switchPage} 
+    openCustomDialog={openCustomDialog}
+    setOpenCustomDialog={setOpenCustomDialog}
+  />;
+  case DASHBOARD_ACTION: return <DashboardPage 
+    switchPage={switchPage} 
+    openCustomDialog={openCustomDialog}
+    setOpenCustomDialog={setOpenCustomDialog}
+  />;
+  case ADMINISTRATION: return <Administration 
+    switchPage={switchPage} 
+    openCustomDialog={openCustomDialog}
+    setOpenCustomDialog={setOpenCustomDialog}
+  />;
+  case SIGN_IN_ACTION: return <SignInPage />;
+  case PROFILE: return <ProfilePage 
+    switchPage={switchPage} 
+    openCustomDialog={openCustomDialog}
+    setOpenCustomDialog={setOpenCustomDialog}
+  />;
+  case ADD_ACTION: return <AddAction />;
+  case REPAIR_ACTION: return <RepairAction />;
+  case INSTALL_ACTION: return <InstallAction 
+    switchPage={switchPage} 
+    openCustomDialog={openCustomDialog}
+    setOpenCustomDialog={setOpenCustomDialog}
+  />;
+  case RELOCATION_ACTION: return <RelocationAction />;
+  default: return <div />;
+  }
 };

@@ -84,7 +84,8 @@ const CustomHeader: React.FC<ICustomHeader> = ({
               <td style={{textAlign: 'left', width: '33%', padding: 0}} onClick={()=>{
                 switchPage(WAREHOUSE_ACTION);
               }}>
-                <img src={'http://www.ttservice.kz/images/logo.png'} alt="Logo" height="74px"/>
+                logo
+                {/* <img src={'http://www.ttservice.kz/images/logo.png'} alt="Logo" height="74px"/> */}
               </td>
               <td style={{
                 textAlign: 'center',
@@ -104,6 +105,7 @@ const CustomHeader: React.FC<ICustomHeader> = ({
                     icon={<HomeFilled />} 
                     onClick={()=>{
                       switchPage(WAREHOUSE_ACTION);
+                      console.log('WAREHOUSE_ACTION', WAREHOUSE_ACTION);
                     }}
                     style={{
                       marginRight: '16px',
