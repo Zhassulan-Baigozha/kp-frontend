@@ -22,7 +22,7 @@ import { IStatusesTable } from 'src/store/allStatuses/types';
 // import CustomDialog from 'src/components/CustomDialog';
 import { setTransportList } from 'src/store/transportList/actions';
 import { Layout, Button } from 'antd';
-import { primaryColor } from 'src/constants';
+import { primaryColor } from 'src/constants/primaryColor';
 
 const Main: React.FC = () => {
   const token = useSelector((state: IRootState) => state.token.data);
@@ -35,53 +35,53 @@ const Main: React.FC = () => {
     return 0;
   };
 
-  // useEffect(() => {
-  //   console.log('token', token);
-  //   if (token.access.length > 0 && token.refresh.length > 0 ) {
-  //     GetUsr(token.access)
-  //       .then(async (GetUsrResponse) => {
-  //         if (currentPage === SIGN_IN_ACTION) {
-  //           setCurrentPage(WAREHOUSE_ACTION);
-  //           const GetRolesResponse = await GetRoles(token.access);
-  //           const GetWSResponse = await GetWS(token.access);
-  //           const GetAllUsrResponse = await GetAllUsr(token.access);
-  //           const GetOfficesResponse = await GetOffices(token.access);
-  //           const GetWarehouseResponse = await GetWarehouse(token.access);
-  //           const GetStatusesResponse = await GetStatuses(token.access);
-  //           const GetTransportListResponse = await GetTransportList(token.access);
-  //           const ConvertWSResponse = ConvertWS(GetWSResponse, GetStatusesResponse);
-  //           dispatch(setTransportList(GetTransportListResponse));
-  //           dispatch(setSortedWSList(ConvertWSResponse));
-  //           dispatch(setUserData(GetUsrResponse));
-  //           dispatch(setAllStatusesList(GetStatusesResponse.sort(compareNumbers)));
-  //           dispatch(setOfficesList(GetOfficesResponse));
-  //           dispatch(setWarehouseList(GetWarehouseResponse));
-  //           dispatch(setRolesList(GetRolesResponse.map((item) => ({ ...item, label: item.name }))));
-  //           dispatch(setAllUsersList(GetAllUsrResponse));
-  //         }
-  //       })
-  //       .catch((error) => {
-  //         console.log('error', error);
-  //         if (error?.response?.status === 401 && error?.response?.status === 400) {
-  //           AuthReNew(token.access,{ refresh_token: token.refresh })
-  //             .then(res => {
-  //               dispatch(setTokenData({
-  //                 access: res.access_token,
-  //                 refresh: res.refresh,
-  //               }));
-  //             });
-  //         } else {
-  //           setCurrentPage(SIGN_IN_ACTION);
-  //           console.error(error);
-  //         }
-  //       });
-  //   } else {
-  //     console.log('No token');
-  //     if (currentPage!== SIGN_IN_ACTION ) {
-  //       setCurrentPage(SIGN_IN_ACTION);
-  //     }
-  //   }
-  // },[currentPage, dispatch, token]);
+  useEffect(() => {
+    console.log('token', token);
+    if (token.access.length > 0 && token.refresh.length > 0 ) {
+      GetUsr(token.access)
+        .then(async (GetUsrResponse) => {
+          if (currentPage === SIGN_IN_ACTION) {
+            setCurrentPage(WAREHOUSE_ACTION);
+            const GetRolesResponse = await GetRoles(token.access);
+            const GetWSResponse = await GetWS(token.access);
+            const GetAllUsrResponse = await GetAllUsr(token.access);
+            const GetOfficesResponse = await GetOffices(token.access);
+            const GetWarehouseResponse = await GetWarehouse(token.access);
+            const GetStatusesResponse = await GetStatuses(token.access);
+            const GetTransportListResponse = await GetTransportList(token.access);
+            const ConvertWSResponse = ConvertWS(GetWSResponse, GetStatusesResponse);
+            dispatch(setTransportList(GetTransportListResponse));
+            dispatch(setSortedWSList(ConvertWSResponse));
+            dispatch(setUserData(GetUsrResponse));
+            dispatch(setAllStatusesList(GetStatusesResponse.sort(compareNumbers)));
+            dispatch(setOfficesList(GetOfficesResponse));
+            dispatch(setWarehouseList(GetWarehouseResponse));
+            dispatch(setRolesList(GetRolesResponse.map((item) => ({ ...item, label: item.name }))));
+            dispatch(setAllUsersList(GetAllUsrResponse));
+          }
+        })
+        .catch((error) => {
+          console.log('error', error);
+          if (error?.response?.status === 401 && error?.response?.status === 400) {
+            AuthReNew(token.access,{ refresh_token: token.refresh })
+              .then(res => {
+                dispatch(setTokenData({
+                  access: res.access_token,
+                  refresh: res.refresh,
+                }));
+              });
+          } else {
+            setCurrentPage(SIGN_IN_ACTION);
+            console.error(error);
+          }
+        });
+    } else {
+      console.log('No token');
+      if (currentPage!== SIGN_IN_ACTION ) {
+        setCurrentPage(SIGN_IN_ACTION);
+      }
+    }
+  },[currentPage, dispatch, token]);
 
   return (
     <>

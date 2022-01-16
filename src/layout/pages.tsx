@@ -31,7 +31,7 @@ export const getPageTitle = (value: string):string => {
   case ADMINISTRATION: return 'Администрирование';
   case SIGN_IN_ACTION: return 'Авторизоваться';
   case PROFILE: return 'Личный кабинет';
-  default: return 'Передвижения КП';
+  default: return 'Авторизоваться';
   }
 };
 
@@ -62,11 +62,7 @@ export const Pagination:React.FC<IPagination> = ({
     setOpenCustomDialog={setOpenCustomDialog}
   />;
   case SIGN_IN_ACTION: return <SignInPage />;
-  case PROFILE: return <ProfilePage 
-    switchPage={switchPage} 
-    openCustomDialog={openCustomDialog}
-    setOpenCustomDialog={setOpenCustomDialog}
-  />;
+  case PROFILE: return <ProfilePage />;
   case ADD_ACTION: return <AddAction />;
   case REPAIR_ACTION: return <RepairAction />;
   case INSTALL_ACTION: return <InstallAction 
@@ -75,6 +71,6 @@ export const Pagination:React.FC<IPagination> = ({
     setOpenCustomDialog={setOpenCustomDialog}
   />;
   case RELOCATION_ACTION: return <RelocationAction />;
-  default: return <div />;
+  default: return <SignInPage />;
   }
 };

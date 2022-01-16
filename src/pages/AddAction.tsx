@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import CustomTextField from 'src/components/CustomTextField';
 import { IComboBoxOption, TAlertStatus, WagonExistanceType } from 'src/interfaces';
 import { AddWSFromWagon, AppendPurchased, GetWagonById, GetWarehouseByStoreId } from 'src/api/CustomAPI';
 import { useSelector } from 'react-redux';
@@ -8,10 +7,11 @@ import { IAppendPurchasedForm, IGridData } from 'src/api/CustomAPIModel';
 import ConvertWS from 'src/utils/ConvertWS';
 import { getCurrentDateString } from 'src/utils/getCurrentDateString';
 import { AddActionTypeNames } from 'src/constants/AddActionTypeNames';
-// import { Button } from '@mui/material';
-// import ComboBox from 'src/components/ComboBox';
-// import CheckIcon from '@mui/icons-material/Check';
-// import BackgroundPaper from '../layout/BackgroundPaper';
+import BackgroundPaper from 'src/layout/BackgroundPaper';
+import ComboBox from 'src/components/base/ComboBox';
+import Purchased from 'src/components/AddAction_From/Purchased';
+import CustomTextField from 'src/components/CustomTextField';
+import { CustomCheckBtn } from 'src/components/base/CustomBtn';
 // import WSTable from 'src/components/WSTable';
 // import Purchased from 'src/components/AddAction_From/Purchased';
 // import CustomizedInputBase from 'src/components/CustomizedInputBase';
@@ -48,24 +48,26 @@ const AddAction: React.FC = () => {
   const statuses = useSelector((state: IRootState) => state.allStatuses.data);
   const warehouse = useSelector((state: IRootState) => state.warehouse.data);
   const warehouseList = warehouse.map((item) =>({id: item.id, label: item.name}));
-  const [selectedWarehouse, selectWarehouse] = React.useState<IComboBoxOption | null>(null);
+  const [selectedWarehouse, selectWarehouse] = useState<IComboBoxOption | null>(null);
   const [typeOfAdding, setToggleTypeOfAdding] 
-    = React.useState<IComboBoxOption | null>(AddActionTypeNames[2]);
-  const [purchasedWSData, setPurchasedWSData] = React.useState<IAppendPurchasedForm>(initNewField);
-  const [wagonNum, setWagonNum] = React.useState<string>('21206958');
-  const [wagonBtnDisabled, setWagonBtnDisabled] = React.useState<boolean>(false);
-  const [openAlert, setOpenAlert] = React.useState<boolean>(false);
-  const [alertText, setAlertText] = React.useState<string>('');
-  const [alertStatus, setAlertStatus] = React.useState<TAlertStatus>('error');
-  const [wagonExists, setWagonExists] = React.useState<WagonExistanceType>(null);
+    = useState<IComboBoxOption | null>(AddActionTypeNames[2]);
+  const [purchasedWSData, setPurchasedWSData] = useState<IAppendPurchasedForm>(initNewField);
+  const [wagonNum, setWagonNum] = useState<string>('21206958');
+  const [wagonBtnDisabled, setWagonBtnDisabled] = useState<boolean>(false);
+  const [openAlert, setOpenAlert] = useState<boolean>(false);
+  const [alertText, setAlertText] = useState<string>('');
+  const [alertStatus, setAlertStatus] = useState<TAlertStatus>('error');
+  const [wagonExists, setWagonExists] = useState<WagonExistanceType>(null);
   const [ws, setWS] = useState<IGridData[]>([]);
   const [selectedWS, selectWS] = useState<number | null>(null);
   const selectedWarehousePurchased = 
     warehouseList.filter((item)=>(item.id === purchasedWSData.warehouse_id)).length === 1
     ? warehouseList.filter((item)=>(item.id === purchasedWSData.warehouse_id))[0]
     : null;
-
-
+  console.log('token', token);
+  console.log('statuses', statuses);
+  console.log('warehouse', warehouse);
+  console.log('warehouseList', warehouseList);
   const handleClick = async () => {
     if (typeOfAdding?.id === 1 && wagonNum){
       GetWagonById(token.access, wagonNum)
@@ -90,6 +92,7 @@ const AddAction: React.FC = () => {
         });
     }
   }
+
   const addNewWS1 = () => {
     if (!selectedWarehouse?.id){ 
       setAlertText('Вы не выбрали Склад');
@@ -122,9 +125,11 @@ const AddAction: React.FC = () => {
       console.log(err);
     })
   }
+
   const addNewWS2 = () => {
     console.log('addNewWS2');
   }
+
   const addNewWSType3 = () => {
     const temp = {
       date_survey: purchasedWSData.date_survey + 'T00:00:00Z',
@@ -167,131 +172,112 @@ const AddAction: React.FC = () => {
   }
 
   return (
-    <div>
-      AddAction
-    </div>
-    // <BackgroundPaper>
-    //   <AlertBox 
-    //     open={openAlert}
-    //     setOpen={setOpenAlert}
-    //     alertText={alertText}
-    //     status={alertStatus}
-    //   />
-    //   <div style={{ paddingBottom: '16px', display: 'flex'}}>
-    //     <ComboBox 
-    //       label={'Выберите формат добавления'} 
-    //       options={AddActionTypeNames}
-    //       value={typeOfAdding}
-    //       onChange={(value)=>{
-    //         setToggleTypeOfAdding(value);
-    //         setWS([]);
-    //       }}
-    //     />
-    //     { typeOfAdding?.id === 1 && (
-    //       <>
-    //         <div style={{display: 'flex'}}>
-    //           <CustomizedInputBase 
-    //             value={wagonNum} 
-    //             placeholder={'Номер вагона'}
-    //             onIconClick={handleClick}
-    //             disabled={wagonBtnDisabled}
-    //             onTextChange={(value)=>{
-    //               setWagonNum(value);
-    //               setWagonBtnDisabled(false);
-    //               setWagonExists(null);
-    //             }}
-    //             validate={wagonExists}
-    //           />
-    //           <ComboBox 
-    //             label={'Выберите Склад'} 
-    //             options={warehouseList}
-    //             value={selectedWarehouse}
-    //             onChange={(value) => {
-    //               if (value?.id && (warehouseList.filter(item => item.id === value.id).length === 1)){
-    //                 selectWarehouse(warehouseList.filter(item => item.id === value.id)[0]);
-    //               }
-    //             }}
-    //           />
-    //           <Button 
-    //             variant="outlined" 
-    //             style={{
-    //               height: '40px',
-    //             }} 
-    //             onClick={addNewWS1}>
-    //             <CheckIcon color="success"/> 
-    //           </Button>
-    //         </div>
-    //       </>
-    //     )}
-    //     {typeOfAdding?.id === 2 &&
-    //       (
-    //         <>
-    //           <CustomTextField label={'Номер транспорта'}/>
-    //           <ComboBox 
-    //             label={'Выберите Склад'} 
-    //             options={warehouseList}
-    //             value={selectedWarehouse}
-    //             onChange={(value) => {
-    //               if (value?.id && (warehouseList.filter(item => item.id === value.id).length === 1)){
-    //                 selectWarehouse(warehouseList.filter(item => item.id === value.id)[0]);
-    //                 GetWarehouseByStoreId(token.access, value.id.toString())
-    //                   .then((response)=>{
-    //                     const ConvertWSResponse = ConvertWS(response, statuses);
-    //                     setWS(ConvertWSResponse);
-    //                   })
-    //               }
-    //             }}
-    //           />
-    //           <Button 
-    //             variant="outlined" 
-    //             style={{height: '40px'}} 
-    //             onClick={addNewWS2}>
-    //             <CheckIcon color="success"/> 
-    //           </Button>
-    //         </>
-    //       )
-    //     }
-    //     {(typeOfAdding?.id === 3) && (
-    //       <>
-    //         <ComboBox 
-    //           label={'Выберите Склад'} 
-    //           options={warehouseList}
-    //           value={selectedWarehousePurchased}
-    //           onChange={(value) => {
-                
-    //             if (value?.id && (warehouseList.filter(item => item.id === value.id).length === 1)){
-    //               setPurchasedWSData({...purchasedWSData, warehouse_id: value.id});
-    //             } else if(value === null) {
-    //               setPurchasedWSData({...purchasedWSData, warehouse_id: 0});
-    //             }
-    //           }}
-    //         />
-    //         <Button 
-    //           variant="outlined" 
-    //           style={{height: '40px'}} 
-    //           onClick={addNewWSType3}>
-    //           <CheckIcon color="success"/> 
-    //         </Button>
-    //       </>
-    //     )}
-    //   </div>
-    //   {(typeOfAdding?.id === 3) &&(
-    //     <Purchased purchasedWSData={purchasedWSData} setPurchasedWSData={setPurchasedWSData} />
-    //   )}
-    //   { typeOfAdding?.id !== 3 && ws.length > 0 && <WSTable ws={ws} 
-    //     onSelect={(selectedItemsWSTable:number[])=>{
-    //       if (selectedItemsWSTable?.length > 0){
-    //         selectWS(selectedItemsWSTable[0]);
-    //         console.log(
-    //           ws.map((item) =>{
-    //             console.log(item);
-    //             return item;
-    //           })
-    //         );
-    //       }
-    //     }}
-    //     /> }
-    // </BackgroundPaper>
+    <BackgroundPaper>
+      {/* <AlertBox 
+        open={openAlert}
+        setOpen={setOpenAlert}
+        alertText={alertText}
+        status={alertStatus}
+      />*/}
+
+      <div style={{ paddingBottom: '16px', display: 'flex'}}>
+        <ComboBox 
+          label={'Выберите формат добавления'} 
+          options={AddActionTypeNames}
+          value={typeOfAdding}
+          onChange={(value)=>{
+            setToggleTypeOfAdding(value);
+            setWS([]);
+          }}
+        />
+        { typeOfAdding?.id === 1 && (
+          <>
+            <div style={{display: 'flex'}}>
+              {/* <CustomizedInputBase 
+                value={wagonNum} 
+                placeholder={'Номер вагона'}
+                onIconClick={handleClick}
+                disabled={wagonBtnDisabled}
+                onTextChange={(value)=>{
+                  setWagonNum(value);
+                  setWagonBtnDisabled(false);
+                  setWagonExists(null);
+                }}
+                validate={wagonExists}
+              /> */}
+              <ComboBox 
+                label={'Выберите Склад'} 
+                options={warehouseList}
+                value={selectedWarehouse}
+                onChange={(value) => {
+                  if (value?.id && (warehouseList.filter(item => item.id === value.id).length === 1)){
+                    selectWarehouse(warehouseList.filter(item => item.id === value.id)[0]);
+                  }
+                }}
+              />
+              <CustomCheckBtn onClick={addNewWS1} />
+            </div>
+          </>
+        )}
+        {typeOfAdding?.id === 2 &&
+          (
+            <>
+              <CustomTextField placeholder={'Номер транспорта'} fullWidth={true}/>
+              <ComboBox 
+                label={'Выберите Склад'} 
+                options={warehouseList}
+                value={selectedWarehouse}
+                onChange={(value) => {
+                  if (value?.id && (warehouseList.filter(item => item.id === value.id).length === 1)){
+                    selectWarehouse(warehouseList.filter(item => item.id === value.id)[0]);
+                    GetWarehouseByStoreId(token.access, value.id.toString())
+                      .then((response)=>{
+                        const ConvertWSResponse = ConvertWS(response, statuses);
+                        setWS(ConvertWSResponse);
+                      })
+                  }
+                }}
+              />
+              <CustomCheckBtn onClick={addNewWS2}/>
+            </>
+          )
+        }
+        {(typeOfAdding?.id === 3) && (
+          <>
+            <ComboBox 
+              label={'Выберите Склад'} 
+              options={warehouseList}
+              value={selectedWarehousePurchased}
+              onChange={(value) => {
+              
+                if (value?.id && (warehouseList.filter(item => item.id === value.id).length === 1)){
+                  setPurchasedWSData({...purchasedWSData, warehouse_id: value.id});
+                } else if(value === null) {
+                  setPurchasedWSData({...purchasedWSData, warehouse_id: 0});
+                }
+              }}
+            />
+            <CustomCheckBtn onClick={addNewWSType3}/>
+          </>
+        )}
+      </div>
+      {(typeOfAdding?.id === 3) &&(
+        <Purchased purchasedWSData={purchasedWSData} setPurchasedWSData={setPurchasedWSData} />
+      )}
+      {/* { typeOfAdding?.id !== 3 && ws.length > 0 && <WSTable ws={ws} 
+        onSelect={(selectedItemsWSTable:number[])=>{
+          if (selectedItemsWSTable?.length > 0){
+            selectWS(selectedItemsWSTable[0]);
+            console.log(
+              ws.map((item) =>{
+                console.log(item);
+                return item;
+              })
+            );
+          }
+        }}
+        /> }  */}
+    </BackgroundPaper>
   );
 };
 

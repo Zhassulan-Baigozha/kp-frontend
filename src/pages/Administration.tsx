@@ -9,6 +9,7 @@ import UpdateEmployeeData from 'src/components/Administration/UpdateEmployeeData
 import UpdateEmployeeRole from 'src/components/Administration/UpdateEmployeeRole';
 import { useSelector } from 'react-redux';
 import { IRootState } from 'src/store';
+import { Collapse } from 'antd';
 
 const Administration: React.FC<IPages> = ({
   setOpenCustomDialog,

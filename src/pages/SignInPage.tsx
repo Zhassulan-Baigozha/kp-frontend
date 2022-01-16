@@ -4,9 +4,9 @@ import CustomTextField from 'src/components/CustomTextField';
 import { useDispatch, useSelector } from 'react-redux';
 import { setTokenData } from 'src/store/token/actions';
 import { IRootState } from 'src/store';
-import { primaryColor } from 'src/constants';
-import { Button } from 'antd';
+import { primaryColor } from 'src/constants/primaryColor';
 import CustomPasswordField from 'src/components/CustomPasswordField';
+import { CustomBlockBtn } from 'src/components/base/CustomBtn';
 
 interface ILogin {
   login: string,
@@ -76,15 +76,9 @@ const SignInPage: React.FC = () => {
           }}
         />
         <div style={{ width: '100%' }}>
-          <Button onClick={SignInOnClick} block style={{ 
-            backgroundColor: primaryColor, 
-            color: '#fff',
-            borderRadius: '8px',
-            height: '40px',
-            fontWeight: '500',
-          }}>
-            Войти
-          </Button>
+          <CustomBlockBtn onClick={SignInOnClick} >
+            Войти 
+          </CustomBlockBtn>
         </div> 
         <div style={{ 
           display: 'block',

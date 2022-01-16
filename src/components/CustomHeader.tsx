@@ -16,7 +16,7 @@ import {
 // import { Button, Menu, MenuItem } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { IRootState } from 'src/store';
-import { primaryColor } from 'src/constants';
+import { primaryColor } from 'src/constants/primaryColor';
 import { Header } from 'antd/lib/layout/layout';
 import { Menu, Dropdown, Button, Space } from 'antd';
 import { FileTextFilled, HomeFilled, UserOutlined } from '@ant-design/icons';
@@ -43,7 +43,7 @@ const CustomHeader: React.FC<ICustomHeader> = ({
   };
   const menu = (
     <Menu>
-      <Menu.Item onClick={()=>{
+      <Menu.Item key={'PROFILE'} onClick={()=>{
         handleClose();
         switchPage(PROFILE);
         GetUsr(token.access).then((res) => {
@@ -54,13 +54,13 @@ const CustomHeader: React.FC<ICustomHeader> = ({
       }}>
         Личный кабинет
       </Menu.Item>
-      <Menu.Item onClick={()=>{
+      <Menu.Item key={'ADMINISTRATION'} onClick={()=>{
         handleClose();
         switchPage(ADMINISTRATION);
       }}>
         Администрирование
       </Menu.Item>
-      <Menu.Item onClick={()=>{
+      <Menu.Item key={'SIGN_IN_ACTION'} onClick={()=>{
         handleClose();
         localStorage.removeItem('auth_user_token');
         switchPage(SIGN_IN_ACTION);
@@ -105,7 +105,6 @@ const CustomHeader: React.FC<ICustomHeader> = ({
                     icon={<HomeFilled />} 
                     onClick={()=>{
                       switchPage(WAREHOUSE_ACTION);
-                      console.log('WAREHOUSE_ACTION', WAREHOUSE_ACTION);
                     }}
                     style={{
                       marginRight: '16px',

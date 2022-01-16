@@ -63,3 +63,12 @@ body {
 .ant-input {
   background-color: #f0f0f0;
 }
+.OutlinedBtn {
+  border-color: #263b5e;
+  border-radius: 5px;
+  font-weight: 400;
+}
+.WarehouseBtnText {
+  margin-left: 8px;
+  font-size: 16px;
+}

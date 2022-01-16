@@ -3,6 +3,9 @@ import { IComboBoxOption, IPages } from 'src/interfaces';
 import { IRootState } from 'src/store';
 import { useSelector } from 'react-redux';
 import { I_KP_ByTypes } from '../mocks/KPByTypes';
+import BackgroundPaper from 'src/layout/BackgroundPaper';
+import ComboBox from 'src/components/base/ComboBox';
+import { CustomMotionTable } from 'src/components/CustomMotionTable';
 // import ComboBox from 'src/components/ComboBox';
 // import BackgroundPaper from '../layout/BackgroundPaper';
 // import KPByTypesTable from 'src/components/KPByTypesTable/KPByTypesTable';
@@ -23,43 +26,41 @@ const DashboardPage: React.FC<IPages> = () => {
   })));
 
   return (
-    <div>
-      DashboardPage
-    </div>
-    // <BackgroundPaper>
-    //   <div style={{ marginBottom: '16px' }}>
-    //     <ComboBox 
-    //       label={'Выберите Склад'} 
-    //       options={warehouseList}
-    //       value={selectedWarehouse}
-    //       onChange={(value) => {
-    //         if (value?.id && (warehouseList.filter(item => item.id === value.id).length === 1)){
-    //           selectWarehouse(warehouseList.filter(item => item.id === value.id)[0]);
-    //           setStatusTable(statuses.map((item)=>({
-    //             ...item,
-    //             id: item.code,
-    //             amount: sortedWS.filter((sortedWSItem)=> (
-    //               sortedWSItem.type === item.name && 
-    //               value.id === sortedWSItem.id
-    //               )).length,
-    //             status: item.type_status,
-    //           })));
-    //         } else if(value === null) {
-    //           selectWarehouse(value);
-    //           setStatusTable(statuses.map((item)=>({
-    //             ...item,
-    //             id: item.code,
-    //             amount: sortedWS.filter((sortedWSItem)=> (
-    //               sortedWSItem.type === item.name
-    //               )).length,
-    //             status: item.type_status,
-    //           })));
-    //         }
-    //       }}
-    //     />
-    //   </div>
-    //   <KPByTypesTable M_STORE={statusTable}/>
-    // </BackgroundPaper>
+    <BackgroundPaper>
+      <div style={{ marginBottom: '16px' }}>
+        <ComboBox 
+          label={'Выберите Склад'} 
+          options={warehouseList}
+          value={selectedWarehouse}
+          onChange={(value) => {
+            if (value?.id && (warehouseList.filter(item => item.id === value.id).length === 1)){
+              selectWarehouse(warehouseList.filter(item => item.id === value.id)[0]);
+              setStatusTable(statuses.map((item)=>({
+                ...item,
+                id: item.code,
+                amount: sortedWS.filter((sortedWSItem)=> (
+                  sortedWSItem.type === item.name && 
+                  value.id === sortedWSItem.id
+                  )).length,
+                status: item.type_status,
+              })));
+            } else if(value === null) {
+              selectWarehouse(value);
+              setStatusTable(statuses.map((item)=>({
+                ...item,
+                id: item.code,
+                amount: sortedWS.filter((sortedWSItem)=> (
+                  sortedWSItem.type === item.name
+                  )).length,
+                status: item.type_status,
+              })));
+            }
+          }}
+        />
+      </div>
+      <CustomMotionTable />
+      {/* <KPByTypesTable M_STORE={statusTable}/> */}
+    </BackgroundPaper>
   );
 };
 
