@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 import { IRootState } from 'src/store';
 import { IGridData } from 'src/api/CustomAPIModel';
 import { GetWagonById, GetWarehouseByStoreId } from 'src/api/CustomAPI';
-import ConvertWS from 'src/utils/ConvertWS';
 import BackgroundPaper from 'src/layout/BackgroundPaper';
 import { primaryColor } from 'src/constants/primaryColor';
 import ComboBox from 'src/components/base/ComboBox';
@@ -30,12 +29,12 @@ const InstallAction: React.FC<IPages> = ({switchPage}) => {
   const handleClick = async () => {
     GetWagonById(token.access, wagonNum)
       .then((getWagonByIdResponse) => {
-        const ConvertWSResponse = ConvertWS([
-          getWagonByIdResponse.wheel_set_first,
-          getWagonByIdResponse.wheel_set_second,
-          getWagonByIdResponse.wheel_set_third,
-          getWagonByIdResponse.wheel_set_fourth
-        ]);
+        // const ConvertWSResponse = ConvertWS([
+        //   getWagonByIdResponse.wheel_set_first,
+        //   getWagonByIdResponse.wheel_set_second,
+        //   getWagonByIdResponse.wheel_set_third,
+        //   getWagonByIdResponse.wheel_set_fourth
+        // ]);
         // setWSWagon(ConvertWSResponse);
         setWagonBtnDisabled(true);
         setWagonExists('find');
@@ -62,7 +61,7 @@ const InstallAction: React.FC<IPages> = ({switchPage}) => {
                 selectWarehouse(warehouseList.filter(item => item.id === value.id)[0]);
                 GetWarehouseByStoreId(token.access, value.id.toString())
                   .then((response)=>{
-                    const ConvertWSResponse = ConvertWS(response);
+                    // const ConvertWSResponse = ConvertWS(response);
                     // setWSWarehouse(ConvertWSResponse);
                   })
               }

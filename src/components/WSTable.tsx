@@ -3,7 +3,6 @@ import { Table } from 'antd';
 import NestedTable from './NestedTable';
 import { IRootState } from 'src/store';
 import { useSelector } from 'react-redux';
-import ConvertWS from 'src/utils/ConvertWS';
 import { IWSListTable } from 'src/interfaces';
 
 interface IWSTable {
@@ -57,17 +56,23 @@ const WSTable: React.FC<IWSTable> = ({ws}) => {
   ];
 
   return (
-    <Table
-      bordered
-      columns={columns2}
-      dataSource={ws}
-      size="small"
-      rowClassName={'rowClassName2'}
-      expandable={{ 
-        rowExpandable: record => !!(record?.wheels && record?.wheels?.length),
-        expandedRowRender: record => <NestedTable wheels={record.wheels}/>, 
-      }}
-    />
+    <div style={{
+      margin: '10px',
+      padding: '8px',
+    }}>
+      <Table
+        bordered
+        columns={columns2}
+        dataSource={ws}
+        size="small"
+        rowClassName={'rowClassName2'}
+        expandable={{ 
+          rowExpandable: record => !!(record?.wheels && record?.wheels?.length),
+          expandedRowRender: record => <NestedTable wheels={record.wheels}/>, 
+        }}
+        pagination={{ pageSize: 40, hideOnSinglePage: true }}
+      />
+    </div>
   );
 };
 

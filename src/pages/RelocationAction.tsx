@@ -3,7 +3,6 @@ import { IComboBoxOption } from 'src/interfaces';
 import { useSelector } from 'react-redux';
 import { IRootState } from 'src/store';
 import { GetTransfersByWh_id, GetWarehouseByStoreId } from 'src/api/CustomAPI';
-import ConvertWS from 'src/utils/ConvertWS';
 import { IGridData } from 'src/api/CustomAPIModel';
 import BackgroundPaper from '../layout/BackgroundPaper';
 import ComboBox from 'src/components/base/ComboBox';

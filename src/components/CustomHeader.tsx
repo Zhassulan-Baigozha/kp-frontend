@@ -38,7 +38,6 @@ const CustomHeader: React.FC<ICustomHeader> = ({
   const warehouseList = warehouse.map((item) =>({id: item.id, label: item.name}));
   const dispatch = useDispatch();
   const [selectedWarehouse, selectWarehouse] = React.useState<IComboBoxOption | null>(null);
-  console.log('selectedWarehouse = ', selectedWarehouse);
   const menu = (
     <Menu>
       <Menu.Item key={'PROFILE'} onClick={()=>{
@@ -65,7 +64,6 @@ const CustomHeader: React.FC<ICustomHeader> = ({
     </Menu>
   );
   const hangleWSSelect = (value: IComboBoxOption | null) => {
-    console.log('warehouse ', warehouse);
     if (value?.id) {
       selectWarehouse(value);
       GetWarehouseByStoreId(token.access, value.id.toString()).then((res)=>{

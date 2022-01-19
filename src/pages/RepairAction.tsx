@@ -4,7 +4,6 @@ import { IRootState } from 'src/store';
 import { IComboBoxOption, TAlertStatus } from 'src/interfaces';
 import { IGetRepairWSResponse, IGridData, IRepairWSUpdateRequest } from 'src/api/CustomAPIModel';
 import { GetWSByWarehouse, RepairWSChangeStatus, RepairWSUpdate } from 'src/api/CustomAPI';
-import ConvertWS from 'src/utils/ConvertWS';
 import BackgroundPaper from '../layout/BackgroundPaper';
 import ComboBox from 'src/components/base/ComboBox';
 // import ComboBox from 'src/components/ComboBox';
@@ -114,7 +113,7 @@ const RepairAction: React.FC = () => {
               GetWSByWarehouse(token.access, value.id)
                 .then((response)=>{
                   setWheelsetArray(response);
-                  const ConvertWSResponse = ConvertWS(response.map(item=> item.wheelset));
+                  // const ConvertWSResponse = ConvertWS(response.map(item=> item.wheelset));
                   // setWS(ConvertWSResponse);
                 })
             }

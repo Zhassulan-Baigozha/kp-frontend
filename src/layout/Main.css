@@ -7,11 +7,6 @@ body {
   padding: 0;
 }
 
-* {
-  font-family: "Roboto";
-  font-style: normal;
-}
-
 .MRE-MuiDrawer-paperAnchorRight {
   width: 640px;
 }
@@ -32,7 +27,8 @@ body {
   border-bottom: 1px dotted #c4c4c4;
   content: "";
   z-index: -1;
-} */
+}
+*/
 
 /* ////////////////////////////////////////////////// */
 /* #components-layout-demo-fixed .logo {
@@ -45,6 +41,11 @@ body {
 .site-layout .site-layout-background {
   background: #fff;
 } */
+
+* {
+  font-family: "Roboto";
+  font-style: normal;
+}
 
 .ant-layout-header {
   background: #fff;
@@ -71,9 +72,13 @@ body {
 .WarehouseBtnText {
   margin-left: 8px;
   font-size: 16px;
+  color: #263b5e;
 }
 
 .ant-select-selector {
   background-color: #f0f0f0 !important;
   border-radius: 8px !important;
+}
+.ant-table-cell {
+  padding: 4px 4px 4px 12px !important;
 }

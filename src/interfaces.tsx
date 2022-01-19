@@ -70,12 +70,13 @@ export type WagonExistanceType = 'find' | 'notFind' | null
 export type TAlertStatus= 'success' | 'error'
 
 export interface IWSListTable {
-  key: number,
   axisNum: string,
-  wagonId: number,
   axisType: string,
-  manufacturerCode: number,
   createdAt: string,
   description: string,
+  key: number,
+  manufacturerCode: number,
+  status: number,
+  wagonId: number,
   wheels: IWheel[] | null,
 }

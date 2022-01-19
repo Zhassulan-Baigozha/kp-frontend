@@ -28,7 +28,6 @@ import { setTokenData } from 'src/store/token/actions';
 import { setWSList } from 'src/store/wsList/actions';
 
 import './Main.css';
-import ConvertWS from 'src/utils/ConvertWS';
 import { setSortedWSList } from 'src/store/sortedWS/actions';
 import { IStatusesTable } from 'src/store/allStatuses/types';
 // import CustomDialog from 'src/components/CustomDialog';
@@ -41,11 +40,11 @@ const Main: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<string>('');
   const [openCustomDialog, setOpenCustomDialog] = React.useState<boolean>(false);
   const dispatch = useDispatch();
-  // const compareNumbers = (a:IStatusesTable, b:IStatusesTable) => {
-  //   if (a.code < b.code ) return -1;
-  //   if (a.code > b.code ) return 1;
-  //   return 0;
-  // };
+  const compareNumbers = (a:IStatusesTable, b:IStatusesTable) => {
+    if (a.code < b.code ) return -1;
+    if (a.code > b.code ) return 1;
+    return 0;
+  };
 
   useEffect(() => {
     if (token.access.length > 0 && token.refresh.length > 0 ) {
@@ -67,7 +66,7 @@ const Main: React.FC = () => {
             console.log('GetTransportListResponse', GetTransportListResponse);
             dispatch(setTransportList(GetTransportListResponse));
             // dispatch(setUserData(GetUsrResponse));
-            // dispatch(setAllStatusesList(GetStatusesResponse.sort(compareNumbers)));
+            dispatch(setAllStatusesList(GetStatusesResponse.sort(compareNumbers)));
             // dispatch(setOfficesList(GetOfficesResponse));
             // dispatch(setRolesList(GetRolesResponse.map((item) => ({ ...item, label: item.name }))));
             // dispatch(setAllUsersList(GetAllUsrResponse));

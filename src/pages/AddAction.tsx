@@ -4,7 +4,6 @@ import { AddWSFromWagon, AppendPurchased, GetWagonById, GetWarehouseByStoreId } 
 import { useSelector } from 'react-redux';
 import { IRootState } from 'src/store';
 import { IAppendPurchasedForm, IGridData } from 'src/api/CustomAPIModel';
-import ConvertWS from 'src/utils/ConvertWS';
 import { getCurrentDateString } from 'src/utils/getCurrentDateString';
 import { AddActionTypeNames } from 'src/constants/AddActionTypeNames';
 import BackgroundPaper from 'src/layout/BackgroundPaper';
@@ -70,12 +69,12 @@ const AddAction: React.FC = () => {
     if (typeOfAdding?.id === 1 && wagonNum){
       GetWagonById(token.access, wagonNum)
         .then((getWagonByIdResponse) => {
-          const ConvertWSResponse = ConvertWS([
-            getWagonByIdResponse.wheel_set_first,
-            getWagonByIdResponse.wheel_set_second,
-            getWagonByIdResponse.wheel_set_third,
-            getWagonByIdResponse.wheel_set_fourth
-          ]);
+          // const ConvertWSResponse = ConvertWS([
+          //   getWagonByIdResponse.wheel_set_first,
+          //   getWagonByIdResponse.wheel_set_second,
+          //   getWagonByIdResponse.wheel_set_third,
+          //   getWagonByIdResponse.wheel_set_fourth
+          // ]);
           // setWS(ConvertWSResponse);
           setWagonBtnDisabled(true);
           setWagonExists('find');
@@ -241,7 +240,7 @@ const AddAction: React.FC = () => {
                       selectWarehouse(warehouseList.filter(item => item.id === value.id)[0]);
                       GetWarehouseByStoreId(token.access, value.id.toString())
                         .then((response)=>{
-                          const ConvertWSResponse = ConvertWS(response);
+                          // const ConvertWSResponse = ConvertWS(response);
                           // setWS(ConvertWSResponse);
                         })
                     }

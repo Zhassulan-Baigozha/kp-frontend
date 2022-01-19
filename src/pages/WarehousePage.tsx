@@ -1,22 +1,18 @@
 import React from 'react';
 import { ADD_ACTION, INSTALL_ACTION, RELOCATION_ACTION, REPAIR_ACTION } from 'src/layout/pages';
 import { IPages } from 'src/interfaces';
-import { IRootState } from 'src/store';
-import { useSelector } from 'react-redux';
-import BackgroundPaper from 'src/layout/BackgroundPaper';
 import { Button } from 'antd';
 import { ApartmentOutlined, DownloadOutlined, NodeExpandOutlined, PlusSquareOutlined } from '@ant-design/icons';
 import WSTable from 'src/components/WSTable';
-import ConvertWS from 'src/utils/ConvertWS';
+import useConvertWs from 'src/hooks/useConvertWs';
+import BackgroundPaper from 'src/layout/BackgroundPaper';
 // import { OutlinedButton } from 'src/components/CustomButtons';
 // import { AddIco, InstallIco, RelocationIco, RepairIco } from '../assets/svg';
 
 const WarehousePage: React.FC<IPages> = ({
   switchPage,
 }) => {
-  const sortedWS = useSelector((state: IRootState) => state.sortedWS.data);
-  const wsList = useSelector((state: IRootState) => state.wsList.data);
-  const convertedWS = ConvertWS(wsList);
+  const { convertedWS } = useConvertWs();
 
   return (
     <BackgroundPaper>
