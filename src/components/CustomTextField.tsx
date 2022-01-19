@@ -19,7 +19,7 @@ const CustomTextField: React.FC<ICustomTextField & InputProps> = ({
   disabled = false, 
 }) => {
   return (
-    <Input /*error={error}*/ 
+    <Input
       placeholder={placeholder}
       onChange={onChange}
       value={value}
@@ -27,23 +27,10 @@ const CustomTextField: React.FC<ICustomTextField & InputProps> = ({
       style={{
         backgroundColor: '#f0f0f0', 
         marginBottom: '16px', 
-        marginRight: '16px',
         borderRadius: '8px',
         width: fullWidth ? '100%': '300px',
       }}
     />
-    // <TextField 
-    //   error={params.error}
-    //   id="outlined-basic-1" 
-    //   variant="outlined" 
-    //   size="small" 
-    //   
-    //   value={value}
-    //   onChange={(value:React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-    //     onTextChange?.(value.target.value);
-    //   }}
-    //   
-    // />
   );
 };
 

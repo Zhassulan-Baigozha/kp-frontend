@@ -2,8 +2,14 @@
 
 body {
   background: #f0f0f0;
+  overflow-y: scroll;
 }
 .anticon {
   color: #263b5e;
 }
-
+.rowClassName2 {
+  border-color: #263b5e;
+}
+th {
+  background: #f0f0f0;
+}

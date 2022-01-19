@@ -110,8 +110,8 @@ const RepairAction: React.FC = () => {
               GetWSByWarehouse(token.access, value.id)
                 .then((response)=>{
                   setWheelsetArray(response);
-                  const ConvertWSResponse = ConvertWS(response.map(item=> item.wheelset), statuses);
-                  setWS(ConvertWSResponse);
+                  const ConvertWSResponse = ConvertWS(response.map(item=> item.wheelset));
+                  // setWS(ConvertWSResponse);
                 })
             }
           }}

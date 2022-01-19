@@ -16,7 +16,6 @@ const WarehousePage: React.FC<IPages> = ({
   const sortedWS = useSelector((state: IRootState) => state.sortedWS.data);
   return (
     <BackgroundPaper>
-
       <div style={{marginBottom: '32px', textAlign: 'right'}}>
         <div style={{marginRight: '16px', display: 'inline-block'}}>
           <Button 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { IProps } from 'src/interfaces';
+import { IComboBoxOption, IProps } from 'src/interfaces';
 // import { useTheme } from '@mui/material/styles';
 import { 
   getPageTitle, 
@@ -21,6 +21,7 @@ import { Header } from 'antd/lib/layout/layout';
 import { Menu, Dropdown, Button, Space } from 'antd';
 import { FileTextFilled, HomeFilled, UserOutlined } from '@ant-design/icons';
 import { GetUsr } from 'src/api/CustomAPI';
+import ComboBox from './base/ComboBox';
 
 interface ICustomHeader extends IProps {
   currentPage: string
@@ -31,16 +32,11 @@ const CustomHeader: React.FC<ICustomHeader> = ({
   currentPage,
   switchPage,
 }) => {
-  // const theme = useTheme();
   const token = useSelector((state: IRootState) => state.token.data);
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  const warehouse = useSelector((state: IRootState) => state.warehouse.data);
+  const warehouseList = warehouse.map((item) =>({id: item.id, label: item.name}));
+  const [selectedWarehouse, selectWarehouse] = React.useState<IComboBoxOption | null>(null);
+  const handleClose = () => {};
   const menu = (
     <Menu>
       <Menu.Item key={'PROFILE'} onClick={()=>{
@@ -69,6 +65,7 @@ const CustomHeader: React.FC<ICustomHeader> = ({
       </Menu.Item>
     </Menu>
   );
+  
   return (
     <Header style={{ 
       backgroundColor: '#fff',
@@ -85,7 +82,6 @@ const CustomHeader: React.FC<ICustomHeader> = ({
                 switchPage(WAREHOUSE_ACTION);
               }}>
                 logo
-                {/* <img src={'http://www.ttservice.kz/images/logo.png'} alt="Logo" height="74px"/> */}
               </td>
               <td style={{
                 textAlign: 'center',
@@ -99,7 +95,17 @@ const CustomHeader: React.FC<ICustomHeader> = ({
                 width: '33%',
               }}>{getPageTitle(currentPage)}</td>
               <td style={{textAlign: 'right', width: '34%'}}>
-                <div>
+                <div style={{display: '-webkit-inline-box'}}>
+                  <div style={{marginRight: '16px'}}>
+                    <ComboBox 
+                      label={'Выберите Склад'} 
+                      options={warehouseList}
+                      value={selectedWarehouse}
+                      onChange={(value) => {
+                        selectWarehouse(value);
+                      }}
+                    />
+                  </div>
                   <Button 
                     shape="circle" 
                     icon={<HomeFilled />} 
@@ -123,12 +129,10 @@ const CustomHeader: React.FC<ICustomHeader> = ({
                   <div style={{
                     display: 'inline',
                   }}>
-                    
                     <Dropdown overlay={menu} placement="bottomRight">
                       <Button 
                         shape="circle" 
                         icon={<UserOutlined />}  
-                        onClick={handleClick}
                       />
                     </Dropdown>
                     {/* 

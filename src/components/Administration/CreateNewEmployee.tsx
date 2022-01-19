@@ -115,9 +115,9 @@ const CreateNewEmployee: React.FC<ICreateNewEmployee> = ({
             options={roles}
             value={value}
             onChange={(value) => {
-              if (value?.name){
-                setNewUser({...newUser, roles: value.name});
-              }
+              // if (value?.name){
+                // setNewUser({...newUser, roles: value.name});
+              // }
             }}
           />
         </CollapseElemLayout>

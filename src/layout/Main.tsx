@@ -7,7 +7,17 @@ import {
 import CustomHeader from 'src/components/CustomHeader';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from 'src/store';
-import { AuthReNew, GetAllUsr, GetOffices, GetRoles, GetStatuses, GetTransportList, GetUsr, GetWarehouse, GetWS } from 'src/api/CustomAPI';
+import { AuthReNew, 
+  GetAllUsr, 
+  GetOffices, 
+  GetRoles, 
+  GetStatuses, 
+  GetTransportList, 
+  GetUsr, 
+  GetWarehouse, 
+  GetWS 
+} from 'src/api/CustomAPI';
+
 import { setUserData } from 'src/store/user/actions';
 import { setAllStatusesList } from 'src/store/allStatuses/actions';
 import { setOfficesList } from 'src/store/offices/actions';
@@ -15,6 +25,8 @@ import { setWarehouseList } from 'src/store/warehouse/actions';
 import { setRolesList } from 'src/store/roles/actions';
 import { setAllUsersList } from 'src/store/allUsers/actions';
 import { setTokenData } from 'src/store/token/actions';
+import { setWSList } from 'src/store/wsList/actions';
+
 import './Main.css';
 import ConvertWS from 'src/utils/ConvertWS';
 import { setSortedWSList } from 'src/store/sortedWS/actions';
@@ -49,15 +61,15 @@ const Main: React.FC = () => {
             const GetWarehouseResponse = await GetWarehouse(token.access);
             const GetStatusesResponse = await GetStatuses(token.access);
             const GetTransportListResponse = await GetTransportList(token.access);
-            const ConvertWSResponse = ConvertWS(GetWSResponse, GetStatusesResponse);
-            dispatch(setTransportList(GetTransportListResponse));
-            dispatch(setSortedWSList(ConvertWSResponse));
-            dispatch(setUserData(GetUsrResponse));
-            dispatch(setAllStatusesList(GetStatusesResponse.sort(compareNumbers)));
-            dispatch(setOfficesList(GetOfficesResponse));
+            dispatch(setWSList(GetWSResponse));
             dispatch(setWarehouseList(GetWarehouseResponse));
-            dispatch(setRolesList(GetRolesResponse.map((item) => ({ ...item, label: item.name }))));
-            dispatch(setAllUsersList(GetAllUsrResponse));
+
+            // dispatch(setTransportList(GetTransportListResponse));
+            // dispatch(setUserData(GetUsrResponse));
+            // dispatch(setAllStatusesList(GetStatusesResponse.sort(compareNumbers)));
+            // dispatch(setOfficesList(GetOfficesResponse));
+            // dispatch(setRolesList(GetRolesResponse.map((item) => ({ ...item, label: item.name }))));
+            // dispatch(setAllUsersList(GetAllUsrResponse));
           }
         })
         .catch((error) => {

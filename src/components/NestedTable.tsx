@@ -1,68 +1,46 @@
 import * as React from 'react';
 import { Table } from 'antd';
+import { IWSListTable } from 'src/interfaces';
+import { IWheel } from 'src/api/CustomAPIModel';
 
 interface INestedTable {
-
+  wheels: IWheel[] | null
 }
 
-const NestedTable: React.FC<INestedTable> = () => {
+const NestedTable: React.FC<INestedTable> = ({wheels}) => {
   const columns2 = [  
     {
-      title: '№',
-      dataIndex: 'axisId',
-      key: 'axisId',
+      title: 'CKK',
+      dataIndex: 'CKK',
+      key: 'CKK',
       width: 150,
     },
     {
-      title: '№ Оси',
-      dataIndex: 'axisNum',
-      key: 'axisNum',
+      title: 'TO',
+      dataIndex: 'rim',
+      key: 'rim',
       width: 150,
     },
     {
-      title: '№ Вагона',
-      dataIndex: 'wagonId',
-      key: 'wagonId',
+      title: 'ТГ',
+      dataIndex: 'flange',
+      key: 'flange',
       width: 150,
     },
-    {
-      title: 'Тип',
-      dataIndex: 'axisType',
-      key: 'axisType',
-      width: 150,
-    },
-    {
-      title: 'Клеймо произ.',
-      dataIndex: 'manufacturerCode',
-      key: 'manufacturerCode',
-      width: 150,
-    },
-    {
-      title: 'Год изг.',
-      dataIndex: 'createdAt',
-      key: 'createdAt',
-      width: 150,
-    },
-    {
-      title: 'Вид КП',
-      dataIndex: 'WPtype',
-      key: 'WPtype',
-      width: 150,
-    },
-    {
-      title: 'Примечание',
-      dataIndex: 'note',
-      key: 'note',
-      width: 150,
-    },
-  ]
-
+  ];
+  const data = !!(wheels?.length) ? wheels.map((item) => ({
+    ...item,
+    key: item.id,
+    CKK: item.number
+  })) : [];
+  console.log('wheels', data);
   return (
     <Table
       bordered
       columns={columns2}
-      dataSource={[]}
+      dataSource={data}
       size="small"
+      pagination={{ hideOnSinglePage: true }}
     />
   );
 };

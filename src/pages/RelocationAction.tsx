@@ -53,17 +53,17 @@ const RelocationAction: React.FC = () => {
           value={fromWarehouse}
           onChange={async (value) => {
             if (value?.id && (warehouseList.filter(item => item.id === value.id).length === 1)){
-              setFromWarehouse(warehouseList.filter(item => item.id === value.id)[0]);
-              await GetWarehouseByStoreId(token.access, value.id.toString())
-                .then((response)=>{
-                  const ConvertWSResponse = ConvertWS(response, statuses);
-                  setWS(ConvertWSResponse);
-                  setLeft(ConvertWSResponse.map(item=> (
-                    (item.idAxis ? ('№ Оси:'  + item.idAxis.toString() + '; '): '') + 
-                    (item.CKK_1 ?  ('№ КП_1:' + item.CKK_1.toString() + '; '): '') + 
-                    (item.CKK_2 ?  ('№ КП_2:' + item.CKK_2.toString() + '; '): '')
-                  )));
-                })
+              // setFromWarehouse(warehouseList.filter(item => item.id === value.id)[0]);
+              // await GetWarehouseByStoreId(token.access, value.id.toString())
+              //   .then((response)=>{
+              //     const ConvertWSResponse = ConvertWS(response);
+              //     setWS(ConvertWSResponse);
+              //     setLeft(ConvertWSResponse.map(item=> (
+              //       (item.idAxis ? ('№ Оси:'  + item.idAxis.toString() + '; '): '') + 
+              //       (item.CKK_1 ?  ('№ КП_1:' + item.CKK_1.toString() + '; '): '') + 
+              //       (item.CKK_2 ?  ('№ КП_2:' + item.CKK_2.toString() + '; '): '')
+              //     )));
+              //   })
               const GetTransfersByWh_idResponse = await GetTransfersByWh_id(token.access, value?.id.toString());
               console.log('GetTransfersByWh_idResponse', GetTransfersByWh_idResponse);
               if (GetTransfersByWh_idResponse?.length > 0) {

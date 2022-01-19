@@ -85,12 +85,12 @@ const UpdateEmployeeRole: React.FC<IUpdateEmployeeData> = ({
                 : null
             }
             onChange={(item) => {
-              if (item?.name) {
-                setUserFields({
-                  ...userFields,
-                  role_name: item.name
-                });
-              }
+              // if (item?.name) {
+              //   setUserFields({
+              //     ...userFields,
+              //     role_name: item.name
+              //   });
+              // }
             }}
           />
         </CollapseElemLayout>

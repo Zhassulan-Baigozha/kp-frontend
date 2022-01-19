@@ -2,6 +2,7 @@ import { Col, Row } from 'antd';
 import Title from 'antd/lib/typography/Title';
 import React from 'react';
 import { IAppendPurchasedForm } from 'src/api/CustomAPIModel';
+import InnerBlock from 'src/layout/InnerBlock';
 import CustomTextField from '../CustomTextField';
 
 interface IPurchased {
@@ -108,6 +109,7 @@ const Purchased: React.FC<IPurchased> = ({
       </>
     )
   }
+
   const wheelPair2Fields = () => {
     return (
       <>
@@ -203,78 +205,84 @@ const Purchased: React.FC<IPurchased> = ({
   }
 
   return (
-    <Row>
-      <Col span={8}>
-        <Title level={5} style={{ paddingBottom: '16px' }}>
-          Данные левого колеса
-        </Title>
-        {wheelPair1Fields()}
+    <Row gutter={16}>
+      <Col span={8} className="gutter-row">
+        <InnerBlock>
+          <Title level={5} style={{ paddingBottom: '16px' }}>
+            Данные левого колеса
+          </Title>
+          {wheelPair1Fields()}
+        </InnerBlock>
       </Col>
-      <Col span={8}>
-        <Title level={5} style={{ paddingBottom: '16px' }}>
-          Данные правого колеса
-        </Title>
-        {wheelPair2Fields()}
+      <Col span={8} className="gutter-row">
+        <InnerBlock>
+          <Title level={5} style={{ paddingBottom: '16px' }}>
+            Данные правого колеса
+          </Title>
+          {wheelPair2Fields()}
+        </InnerBlock>
       </Col>
-      <Col span={8}>
-        <Title level={5}  style={{ paddingBottom: '16px' }}>
-          Данные оси
-        </Title>
-        <div style={{display: 'block', paddingBottom: '16px'}}>
-          <CustomTextField 
-            placeholder={'Номер'}
-            onChange={(value) => {
-              setPurchasedWSData({...purchasedWSData, number: value.target.value});
-            }}
-            value={purchasedWSData.number}
-          />
-        </div>
-        <div style={{display: 'block', paddingBottom: '16px'}}>
-          <CustomTextField 
-            placeholder={'Год изготовления'}
-            onChange={(value) => {
-              if (
-                typeof (+value.target.value) === 'number' 
-                && !isNaN(+value.target.value)
-                && value.target.value.length <= 4
-                && (+value.target.value) <= 3000
-              ){
-                setPurchasedWSData({...purchasedWSData, year_issue: +value.target.value});
-              }
-            }}
-            value={purchasedWSData.year_issue.toString()}
-          />
-        </div>
-        <div style={{display: 'block', paddingBottom: '16px'}}>
-          <CustomTextField 
-            placeholder={'Дата Ремонта'}
-            onChange={(value) => {
-              // 1992-12-25
-              setPurchasedWSData({...purchasedWSData, date_survey: value.target.value});
-            }}
-            value={purchasedWSData.date_survey}
-          />
-        </div>
-        <div style={{display: 'block', paddingBottom: '16px'}}>
-          <CustomTextField 
-            placeholder={'Клеймо производителя'}
-            onChange={(value) => {
-              if (typeof (+value.target.value) === 'number' && !isNaN(+value.target.value)){
-                setPurchasedWSData({...purchasedWSData, manufacturer_code: +value.target.value});
-              }
-            }}
-            value={purchasedWSData.manufacturer_code.toString()}
-          />
-        </div>
-        <div style={{display: 'block', paddingBottom: '16px'}}>
-          <CustomTextField 
-            placeholder={'Примечание'}
-            onChange={(value)=>{
-              setPurchasedWSData({...purchasedWSData, description: value.target.value});
-            }}
-            value={purchasedWSData.description}
-          />
-        </div>
+      <Col span={8} className="gutter-row">
+        <InnerBlock>
+          <Title level={5}  style={{ paddingBottom: '16px' }}>
+            Данные оси
+          </Title>
+          <div style={{display: 'block', paddingBottom: '16px'}}>
+            <CustomTextField 
+              placeholder={'Номер'}
+              onChange={(value) => {
+                setPurchasedWSData({...purchasedWSData, number: value.target.value});
+              }}
+              value={purchasedWSData.number}
+            />
+          </div>
+          <div style={{display: 'block', paddingBottom: '16px'}}>
+            <CustomTextField 
+              placeholder={'Год изготовления'}
+              onChange={(value) => {
+                if (
+                  typeof (+value.target.value) === 'number' 
+                  && !isNaN(+value.target.value)
+                  && value.target.value.length <= 4
+                  && (+value.target.value) <= 3000
+                ){
+                  setPurchasedWSData({...purchasedWSData, year_issue: +value.target.value});
+                }
+              }}
+              value={purchasedWSData.year_issue.toString()}
+            />
+          </div>
+          <div style={{display: 'block', paddingBottom: '16px'}}>
+            <CustomTextField 
+              placeholder={'Дата Ремонта'}
+              onChange={(value) => {
+                // 1992-12-25
+                setPurchasedWSData({...purchasedWSData, date_survey: value.target.value});
+              }}
+              value={purchasedWSData.date_survey}
+            />
+          </div>
+          <div style={{display: 'block', paddingBottom: '16px'}}>
+            <CustomTextField 
+              placeholder={'Клеймо производителя'}
+              onChange={(value) => {
+                if (typeof (+value.target.value) === 'number' && !isNaN(+value.target.value)){
+                  setPurchasedWSData({...purchasedWSData, manufacturer_code: +value.target.value});
+                }
+              }}
+              value={purchasedWSData.manufacturer_code.toString()}
+            />
+          </div>
+          <div style={{display: 'block', paddingBottom: '16px'}}>
+            <CustomTextField 
+              placeholder={'Примечание'}
+              onChange={(value)=>{
+                setPurchasedWSData({...purchasedWSData, description: value.target.value});
+              }}
+              value={purchasedWSData.description}
+            />
+          </div>
+        </InnerBlock>
       </Col>
     </Row>
   );

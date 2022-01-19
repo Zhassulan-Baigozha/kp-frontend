@@ -29,6 +29,9 @@ import { ITransportListState } from './transportList/types';
 import sortedWS from './sortedWS/reducers';
 import { ISortedWSState } from './sortedWS/types';
 
+import wsList from './wsList/reducers';
+import { IWSListState } from './wsList/types';
+
 export interface IRootState {
   user: IUserState,
   allUsers: IAllUsersState,
@@ -39,6 +42,7 @@ export interface IRootState {
   allStatuses: IAllStatusesState,
   sortedWS: ISortedWSState, 
   transportList: ITransportListState,
+  wsList: IWSListState,
 }
 
 export default createStore(
@@ -52,6 +56,7 @@ export default createStore(
     allStatuses,
     sortedWS,
     transportList,
+    wsList,
   }),
   composeWithDevTools(
     applyMiddleware(thunk),

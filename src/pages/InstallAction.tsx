@@ -35,8 +35,8 @@ const InstallAction: React.FC<IPages> = ({switchPage}) => {
           getWagonByIdResponse.wheel_set_second,
           getWagonByIdResponse.wheel_set_third,
           getWagonByIdResponse.wheel_set_fourth
-        ], statuses);
-        setWSWagon(ConvertWSResponse);
+        ]);
+        // setWSWagon(ConvertWSResponse);
         setWagonBtnDisabled(true);
         setWagonExists('find');
       })
@@ -62,8 +62,8 @@ const InstallAction: React.FC<IPages> = ({switchPage}) => {
                 selectWarehouse(warehouseList.filter(item => item.id === value.id)[0]);
                 GetWarehouseByStoreId(token.access, value.id.toString())
                   .then((response)=>{
-                    const ConvertWSResponse = ConvertWS(response, statuses);
-                    setWSWarehouse(ConvertWSResponse);
+                    const ConvertWSResponse = ConvertWS(response);
+                    // setWSWarehouse(ConvertWSResponse);
                   })
               }
             }}

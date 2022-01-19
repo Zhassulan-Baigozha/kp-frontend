@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { IComboBoxOption } from 'src/interfaces';
-import { Button, Dropdown, Menu } from 'antd';
+import { Select } from 'antd';
 
-
+const { Option } = Select;
 interface IComboBox {
   label?: string
   options: IComboBoxOption[]
@@ -16,29 +16,28 @@ const ComboBox: React.FC<IComboBox> = ({
   options,
   value,
 }) => {
-  const menu = (
-    <Menu>
-      {options?.length > 0 && options.map(option =>(
-        <Menu.Item key={option.id} onClick={() =>{onChange?.(option);}}>
-          {option.label}
-        </Menu.Item>
-      ))}
-    </Menu>
-  );
-
+  function handleChange(value: any) {
+    const selectedOption = options.filter(option => option.id === value);
+    if (selectedOption.length === 1) {
+      onChange?.(selectedOption[0]);
+    }
+  }
   return (
-    <Dropdown overlay={menu} placement="bottomCenter">
-      <Button style={{
-        backgroundColor: '#f0f0f0', 
-        marginBottom: '16px', 
+    <Select
+      style={{ 
+        width: "100%",
+        marginBottom: '16px',
         marginRight: '16px',
-        borderRadius: '8px',
-        width: '100%',
         textAlign: 'left',
-      }}>
-        {value?.label ?? label}
-      </Button>
-    </Dropdown>
+      }} onChange={handleChange}
+      value={value?.label ?? label}
+    >
+      {options?.length > 0 && options.map(option =>(
+        <Option value={option.id} key={option.id} >
+          {option.label}
+        </Option>
+      ))}
+    </Select>
   );
 };
 

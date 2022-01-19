@@ -1,4 +1,5 @@
 import react from 'react';
+import { IWheel } from './api/CustomAPIModel';
 import { IUser } from './store/user/types';
 
 export interface ITablePagination {
@@ -41,7 +42,6 @@ export interface IPages extends IProps {
 export interface IComboBoxOption {
   label: string
   id: number
-  name?: string
 }
 
 export interface ISignUpUser extends IUser{
@@ -68,3 +68,14 @@ export interface IUpdateUserRole {
 
 export type WagonExistanceType = 'find' | 'notFind' | null
 export type TAlertStatus= 'success' | 'error'
+
+export interface IWSListTable {
+  key: number,
+  axisNum: string,
+  wagonId: number,
+  axisType: string,
+  manufacturerCode: number,
+  createdAt: string,
+  description: string,
+  wheels: IWheel[] | null,
+}

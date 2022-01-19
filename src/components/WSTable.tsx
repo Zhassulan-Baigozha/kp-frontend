@@ -1,19 +1,17 @@
 import * as React from 'react';
 import { Table } from 'antd';
 import NestedTable from './NestedTable';
+import { IRootState } from 'src/store';
+import { useSelector } from 'react-redux';
+import ConvertWS from 'src/utils/ConvertWS';
 
-interface IWSTable {
-
-}
+interface IWSTable {}
 
 const WSTable: React.FC<IWSTable> = () => {
-  const columns2 = [  
-    {
-      title: '№',
-      dataIndex: 'axisId',
-      key: 'axisId',
-      width: 150,
-    },
+  const wsList = useSelector((state: IRootState) => state.wsList.data);
+  const convertedWS = ConvertWS(wsList);
+  console.log('wsList = ', ConvertWS(wsList));
+  const columns2 = [
     {
       title: '№ Оси',
       dataIndex: 'axisNum',
@@ -46,8 +44,8 @@ const WSTable: React.FC<IWSTable> = () => {
     },
     {
       title: 'Вид КП',
-      dataIndex: 'WPtype',
-      key: 'WPtype',
+      dataIndex: 'WStype',
+      key: 'WStype',
       width: 150,
     },
     {
@@ -56,15 +54,19 @@ const WSTable: React.FC<IWSTable> = () => {
       key: 'note',
       width: 150,
     },
-  ]
+  ];
 
   return (
     <Table
       bordered
       columns={columns2}
-      dataSource={[]}
-      size="middle"
-      expandable={{ expandedRowRender: record => <NestedTable />, }}
+      dataSource={convertedWS}
+      size="small"
+      rowClassName={'rowClassName2'}
+      expandable={{ 
+        rowExpandable: record => !!(record?.wheels && record?.wheels?.length),
+        expandedRowRender: record => <NestedTable wheels={record.wheels}/>, 
+      }}
     />
   );
 };

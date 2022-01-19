@@ -21,7 +21,7 @@ const DashboardPage: React.FC<IPages> = () => {
   const [statusTable, setStatusTable] = useState<I_KP_ByTypes[]>(statuses.map((item)=>({
     ...item,
     id: item.code,
-    amount: sortedWS.filter((value)=> value.type === item.name).length,
+    // amount: sortedWS.filter((value)=> value.type === item.name).length,
     status: item.type_status,
   })));
 
@@ -35,25 +35,25 @@ const DashboardPage: React.FC<IPages> = () => {
           onChange={(value) => {
             if (value?.id && (warehouseList.filter(item => item.id === value.id).length === 1)){
               selectWarehouse(warehouseList.filter(item => item.id === value.id)[0]);
-              setStatusTable(statuses.map((item)=>({
-                ...item,
-                id: item.code,
-                amount: sortedWS.filter((sortedWSItem)=> (
-                  sortedWSItem.type === item.name && 
-                  value.id === sortedWSItem.id
-                  )).length,
-                status: item.type_status,
-              })));
+              // setStatusTable(statuses.map((item)=>({
+              //   ...item,
+              //   id: item.code,
+              //   amount: sortedWS.filter((sortedWSItem)=> (
+              //     sortedWSItem.type === item.name && 
+              //     value.id === sortedWSItem.id
+              //     )).length,
+              //   status: item.type_status,
+              // })));
             } else if(value === null) {
               selectWarehouse(value);
-              setStatusTable(statuses.map((item)=>({
-                ...item,
-                id: item.code,
-                amount: sortedWS.filter((sortedWSItem)=> (
-                  sortedWSItem.type === item.name
-                  )).length,
-                status: item.type_status,
-              })));
+              // setStatusTable(statuses.map((item)=>({
+              //   ...item,
+              //   id: item.code,
+              //   amount: sortedWS.filter((sortedWSItem)=> (
+              //     sortedWSItem.type === item.name
+              //     )).length,
+              //   status: item.type_status,
+              // })));
             }
           }}
         />
