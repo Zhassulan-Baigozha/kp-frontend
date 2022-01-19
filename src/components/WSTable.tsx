@@ -4,13 +4,13 @@ import NestedTable from './NestedTable';
 import { IRootState } from 'src/store';
 import { useSelector } from 'react-redux';
 import ConvertWS from 'src/utils/ConvertWS';
+import { IWSListTable } from 'src/interfaces';
 
-interface IWSTable {}
+interface IWSTable {
+  ws: IWSListTable[]
+}
 
-const WSTable: React.FC<IWSTable> = () => {
-  const wsList = useSelector((state: IRootState) => state.wsList.data);
-  const convertedWS = ConvertWS(wsList);
-  console.log('wsList = ', ConvertWS(wsList));
+const WSTable: React.FC<IWSTable> = ({ws}) => {
   const columns2 = [
     {
       title: '№ Оси',
@@ -60,7 +60,7 @@ const WSTable: React.FC<IWSTable> = () => {
     <Table
       bordered
       columns={columns2}
-      dataSource={convertedWS}
+      dataSource={ws}
       size="small"
       rowClassName={'rowClassName2'}
       expandable={{ 

@@ -113,7 +113,7 @@ const AddAction: React.FC = () => {
     AddWSFromWagon(token.access, {
       wagon_id: +wagonNum, 
       description: '',
-      warehouse_id: selectedWarehouse.id,
+      warehouse_id: +selectedWarehouse.id,
       ws_list: [selectedWS]
     }).then((res)=>{
       setAlertText('Вы успешно добавили КП');
@@ -278,7 +278,7 @@ const AddAction: React.FC = () => {
                   onChange={(value) => {
                   
                     if (value?.id && (warehouseList.filter(item => item.id === value.id).length === 1)){
-                      setPurchasedWSData({...purchasedWSData, warehouse_id: value.id});
+                      setPurchasedWSData({...purchasedWSData, warehouse_id: +value.id});
                     } else if(value === null) {
                       setPurchasedWSData({...purchasedWSData, warehouse_id: 0});
                     }

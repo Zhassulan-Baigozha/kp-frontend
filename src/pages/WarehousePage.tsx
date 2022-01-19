@@ -7,6 +7,7 @@ import BackgroundPaper from 'src/layout/BackgroundPaper';
 import { Button } from 'antd';
 import { ApartmentOutlined, DownloadOutlined, NodeExpandOutlined, PlusSquareOutlined } from '@ant-design/icons';
 import WSTable from 'src/components/WSTable';
+import ConvertWS from 'src/utils/ConvertWS';
 // import { OutlinedButton } from 'src/components/CustomButtons';
 // import { AddIco, InstallIco, RelocationIco, RepairIco } from '../assets/svg';
 
@@ -14,6 +15,9 @@ const WarehousePage: React.FC<IPages> = ({
   switchPage,
 }) => {
   const sortedWS = useSelector((state: IRootState) => state.sortedWS.data);
+  const wsList = useSelector((state: IRootState) => state.wsList.data);
+  const convertedWS = ConvertWS(wsList);
+
   return (
     <BackgroundPaper>
       <div style={{marginBottom: '32px', textAlign: 'right'}}>
@@ -62,7 +66,7 @@ const WarehousePage: React.FC<IPages> = ({
         </div>
 
       </div>
-      <WSTable/>
+      <WSTable ws={convertedWS}/>
     </BackgroundPaper>
     //   <WSTable ws={sortedWS}/>
   );

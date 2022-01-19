@@ -42,7 +42,7 @@ const UpdatePasswordBlock: React.FC<IUpdatePasswordBlock> = ({
       passwords.repeat_password && 
       passwords.new_password === passwords.repeat_password
     ){
-      UpdatePassword(token.access, {...passwords, uuid: users[selectedUser.id].uuid});
+      UpdatePassword(token.access, {...passwords, uuid: users[+selectedUser.id].uuid});
       message.success('Пароль обновлен');
     } else {
       if (!selectedUser?.id) {

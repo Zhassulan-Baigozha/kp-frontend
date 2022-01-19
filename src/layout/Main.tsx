@@ -41,30 +41,31 @@ const Main: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<string>('');
   const [openCustomDialog, setOpenCustomDialog] = React.useState<boolean>(false);
   const dispatch = useDispatch();
-  const compareNumbers = (a:IStatusesTable, b:IStatusesTable) => {
-    if (a.code < b.code ) return -1;
-    if (a.code > b.code ) return 1;
-    return 0;
-  };
+  // const compareNumbers = (a:IStatusesTable, b:IStatusesTable) => {
+  //   if (a.code < b.code ) return -1;
+  //   if (a.code > b.code ) return 1;
+  //   return 0;
+  // };
 
   useEffect(() => {
-    console.log('token', token);
     if (token.access.length > 0 && token.refresh.length > 0 ) {
       GetUsr(token.access)
         .then(async (GetUsrResponse) => {
           if (currentPage === SIGN_IN_ACTION) {
             setCurrentPage(WAREHOUSE_ACTION);
             const GetRolesResponse = await GetRoles(token.access);
-            const GetWSResponse = await GetWS(token.access);
             const GetAllUsrResponse = await GetAllUsr(token.access);
             const GetOfficesResponse = await GetOffices(token.access);
-            const GetWarehouseResponse = await GetWarehouse(token.access);
             const GetStatusesResponse = await GetStatuses(token.access);
             const GetTransportListResponse = await GetTransportList(token.access);
-            dispatch(setWSList(GetWSResponse));
+            const GetWarehouseResponse = await GetWarehouse(token.access);
             dispatch(setWarehouseList(GetWarehouseResponse));
-
-            // dispatch(setTransportList(GetTransportListResponse));
+            console.log('GetRolesResponse', GetRolesResponse);
+            console.log('GetAllUsrResponse', GetAllUsrResponse);
+            console.log('GetOfficesResponse', GetOfficesResponse);
+            console.log('GetStatusesResponse', GetStatusesResponse);
+            console.log('GetTransportListResponse', GetTransportListResponse);
+            dispatch(setTransportList(GetTransportListResponse));
             // dispatch(setUserData(GetUsrResponse));
             // dispatch(setAllStatusesList(GetStatusesResponse.sort(compareNumbers)));
             // dispatch(setOfficesList(GetOfficesResponse));
@@ -87,11 +88,8 @@ const Main: React.FC = () => {
             console.error(error);
           }
         });
-    } else {
-      console.log('No token');
-      if (currentPage!== SIGN_IN_ACTION ) {
-        setCurrentPage(SIGN_IN_ACTION);
-      }
+    } else if (currentPage!== SIGN_IN_ACTION) {
+      setCurrentPage(SIGN_IN_ACTION);
     }
   },[currentPage, dispatch, token]);
 

@@ -71,7 +71,7 @@ const RepairAction: React.FC = () => {
       RepairWSChangeStatus(token.access, {
         description: '',
         state_id: 1,
-        status_id: selectedStatus?.id,
+        status_id: +selectedStatus?.id,
         wheelset_id: selectedItem
       }).then((res)=>{
         setAlertText('Вы успешно добавили КП');
@@ -105,7 +105,11 @@ const RepairAction: React.FC = () => {
           options={warehouseList}
           value={selectedWarehouse}
           onChange={(value) => {
-            if (value?.id && (warehouseList.filter(item => item.id === value.id).length === 1)){
+            if (
+              value?.id && 
+              (warehouseList.filter(item => item.id === value.id).length === 1) &&
+              typeof (value?.id) === 'number'
+            ){
               selectWarehouse(warehouseList.filter(item => item.id === value.id)[0]);
               GetWSByWarehouse(token.access, value.id)
                 .then((response)=>{

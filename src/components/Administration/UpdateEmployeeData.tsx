@@ -147,7 +147,7 @@ const UpdateEmployeeData: React.FC<IUpdateEmployeeData> = ({
             }
             onChange={(office)=>{
               if (office?.id){
-                setUserFields({...userFields, office: office.id});
+                setUserFields({...userFields, office: +office.id});
               }
             }}
           />

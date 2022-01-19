@@ -41,7 +41,7 @@ export interface IPages extends IProps {
 
 export interface IComboBoxOption {
   label: string
-  id: number
+  id: number | string
 }
 
 export interface ISignUpUser extends IUser{

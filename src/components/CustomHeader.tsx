@@ -14,14 +14,15 @@ import {
 // import HomeIcon from '@mui/icons-material/Home';
 // import HomeMaxIcon from '@mui/icons-material/HomeMax';
 // import { Button, Menu, MenuItem } from '@mui/material';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from 'src/store';
 import { primaryColor } from 'src/constants/primaryColor';
 import { Header } from 'antd/lib/layout/layout';
-import { Menu, Dropdown, Button, Space } from 'antd';
+import { Menu, Dropdown, Button } from 'antd';
 import { FileTextFilled, HomeFilled, UserOutlined } from '@ant-design/icons';
-import { GetUsr } from 'src/api/CustomAPI';
+import { GetUsr, GetWarehouseByStoreId } from 'src/api/CustomAPI';
 import ComboBox from './base/ComboBox';
+import { setWSList } from 'src/store/wsList/actions';
 
 interface ICustomHeader extends IProps {
   currentPage: string
@@ -35,12 +36,12 @@ const CustomHeader: React.FC<ICustomHeader> = ({
   const token = useSelector((state: IRootState) => state.token.data);
   const warehouse = useSelector((state: IRootState) => state.warehouse.data);
   const warehouseList = warehouse.map((item) =>({id: item.id, label: item.name}));
+  const dispatch = useDispatch();
   const [selectedWarehouse, selectWarehouse] = React.useState<IComboBoxOption | null>(null);
-  const handleClose = () => {};
+  console.log('selectedWarehouse = ', selectedWarehouse);
   const menu = (
     <Menu>
       <Menu.Item key={'PROFILE'} onClick={()=>{
-        handleClose();
         switchPage(PROFILE);
         GetUsr(token.access).then((res) => {
           console.log('GetUsr res   = ', res);
@@ -51,13 +52,11 @@ const CustomHeader: React.FC<ICustomHeader> = ({
         Личный кабинет
       </Menu.Item>
       <Menu.Item key={'ADMINISTRATION'} onClick={()=>{
-        handleClose();
         switchPage(ADMINISTRATION);
       }}>
         Администрирование
       </Menu.Item>
       <Menu.Item key={'SIGN_IN_ACTION'} onClick={()=>{
-        handleClose();
         localStorage.removeItem('auth_user_token');
         switchPage(SIGN_IN_ACTION);
       }}>
@@ -65,7 +64,15 @@ const CustomHeader: React.FC<ICustomHeader> = ({
       </Menu.Item>
     </Menu>
   );
-  
+  const hangleWSSelect = (value: IComboBoxOption | null) => {
+    console.log('warehouse ', warehouse);
+    if (value?.id) {
+      selectWarehouse(value);
+      GetWarehouseByStoreId(token.access, value.id.toString()).then((res)=>{
+        dispatch(setWSList(res));
+      })
+    }
+  }
   return (
     <Header style={{ 
       backgroundColor: '#fff',
@@ -96,16 +103,16 @@ const CustomHeader: React.FC<ICustomHeader> = ({
               }}>{getPageTitle(currentPage)}</td>
               <td style={{textAlign: 'right', width: '34%'}}>
                 <div style={{display: '-webkit-inline-box'}}>
-                  <div style={{marginRight: '16px'}}>
-                    <ComboBox 
-                      label={'Выберите Склад'} 
-                      options={warehouseList}
-                      value={selectedWarehouse}
-                      onChange={(value) => {
-                        selectWarehouse(value);
-                      }}
-                    />
-                  </div>
+                  {SIGN_IN_ACTION !== currentPage && (
+                    <div style={{marginRight: '16px'}}>
+                      <ComboBox 
+                        label={'Выберите Склад'} 
+                        options={warehouseList}
+                        value={selectedWarehouse}
+                        onChange={hangleWSSelect}
+                      />
+                    </div>
+                  )}
                   <Button 
                     shape="circle" 
                     icon={<HomeFilled />} 

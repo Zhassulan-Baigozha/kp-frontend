@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { IComboBoxOption } from 'src/interfaces';
 import { useSelector } from 'react-redux';
 import { IRootState } from 'src/store';
@@ -22,16 +22,14 @@ const RelocationAction: React.FC = () => {
   const statuses = useSelector((state: IRootState) => state.allStatuses.data);
   const warehouse = useSelector((state: IRootState) => state.warehouse.data);
   const transportList = useSelector((state: IRootState) => state.transportList.data);
-  const [selectTransport, setSelectTransport] = React.useState<IComboBoxOption | null>(null);
+  const [selectTransport, setSelectedTransport] = React.useState<IComboBoxOption | null>(null);
   const [transportType, setTransportType] = React.useState<IComboBoxOption | null>(null);
   const [transferList, setTransferList] = React.useState<IComboBoxOption[]>([]);
   const [getTransfersByWhApi, setGetTransfersByWhApi] = React.useState<any[]>([]);
-  const tempTransportList = 
+  const filteredTransportList = 
     transportList
-    .filter((item) => (
-      (item.transport_type === 'TRAIN' && transportType?.id === 2)
-      || (item.transport_type === 'TRUCK' && transportType?.id === 1)
-    )).map((item, idx) => ({id: idx, label: item.number}));
+    .filter((item) => (item.transport_type === transportType?.id))
+    .map((item, idx) => ({id: idx, label: item.number}));
   const warehouseList = warehouse.map((item) =>({id: item.id, label: item.name}));
   const [fromWarehouse, setFromWarehouse] = React.useState<IComboBoxOption | null>(null);
   const [toWarehouse, setToWarehouse] = React.useState<IComboBoxOption | null>(null);
@@ -43,7 +41,8 @@ const RelocationAction: React.FC = () => {
     if (a.id > b.id ) return 1;
     return 0;
   };
-
+  console.log('transportList = ', transportList);
+  console.log('selectTransport = ', selectTransport);
   return (
     <BackgroundPaper>
       <div style={{ display: 'flex'}}>
@@ -99,43 +98,21 @@ const RelocationAction: React.FC = () => {
           options={transportTypes}
           value={transportType}
           onChange={(value)=>{
+            console.log('value = ', value);
             setTransportType(value);
-            setSelectTransport(null);
+            setSelectedTransport(null);
           }}
         />
         <ComboBox 
           label={'Номер транспорта'} 
-          options={tempTransportList}
+          options={filteredTransportList}
           value={selectTransport}
-          onChange={setSelectTransport}
+          onChange={setSelectedTransport}
         />
         <div style={{display: 'inline-block'}}>
           <CustomCheckBtn onClick={()=>{}}/>
         </div>
       </div>
-      {/* { transferList.length > 0 && <TransferList 
-        list={transferList}
-        onSelect={(value)=>{
-          console.log('TransferList', value, transferList);
-          console.log('getTransfersByWhApi', getTransfersByWhApi);
-          const fub = getTransfersByWhApi.filter((item)=> item.id === (+value));
-          console.log('fub', fub);
-          const buf2:string[] = [];
-          if (fub?.length > 0 && fub[0].wheelsets) {
-            fub[0].wheelsets.map((wheelset: any) => {
-              let sfa = (wheelset.wheel_set.number ? ('№ Оси:'  + wheelset.wheel_set.number + '; '): '');
-              console.log('sfa', sfa);
-              wheelset.wheel_set.wheels?.map((item: any, idx: number) => {
-                sfa = sfa + (item.number ? (`№ КП_${(idx + 1).toString()}:`  + item.number + '; '): '');
-              });
-              buf2.push(sfa);
-            });
-            setRight(buf2);
-          } else {
-            setRight([]);
-          }
-        }}
-      />} */}
       {/* <WSTransfer 
         left={left}
         setLeft={setLeft}

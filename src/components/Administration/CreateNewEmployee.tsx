@@ -136,7 +136,7 @@ const CreateNewEmployee: React.FC<ICreateNewEmployee> = ({
             }
             onChange={(office)=>{
               if (office?.id){
-                setNewUser({...newUser, office: office.id});
+                setNewUser({...newUser, office: +office.id});
               }
             }}
           />
