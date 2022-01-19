@@ -51,9 +51,10 @@ const RelocationAction: React.FC = () => {
           label={'Склад откуда'} 
           options={warehouseList}
           value={fromWarehouse}
-          onChange={async (value) => {
-            if (value?.id && (warehouseList.filter(item => item.id === value.id).length === 1)){
-              // setFromWarehouse(warehouseList.filter(item => item.id === value.id)[0]);
+          onChange={async (value: IComboBoxOption | null) => {
+            console.log('value = ', value);
+            if (value?.id){
+              setFromWarehouse(value);
               // await GetWarehouseByStoreId(token.access, value.id.toString())
               //   .then((response)=>{
               //     const ConvertWSResponse = ConvertWS(response);
