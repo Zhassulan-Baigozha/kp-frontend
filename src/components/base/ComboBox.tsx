@@ -4,6 +4,7 @@ import { Select } from 'antd';
 
 const { Option } = Select;
 interface IComboBox {
+  fullWidth?: boolean
   label?: string
   options: IComboBoxOption[]
   value: IComboBoxOption | null
@@ -11,6 +12,7 @@ interface IComboBox {
 }
 
 const ComboBox: React.FC<IComboBox> = ({
+  fullWidth = true,
   label,
   onChange,
   options,
@@ -25,7 +27,7 @@ const ComboBox: React.FC<IComboBox> = ({
   return (
     <Select
       style={{ 
-        width: "100%",
+        width: fullWidth ? '100%': '300px',
         marginBottom: '16px',
         marginRight: '16px',
         textAlign: 'left',

@@ -12,10 +12,12 @@ import Purchased from 'src/components/AddAction_From/Purchased';
 import CustomTextField from 'src/components/CustomTextField';
 import { CustomCheckBtn } from 'src/components/base/CustomBtn';
 import { Row, Col } from 'antd';
+import { Input } from 'antd';
 // import WSTable from 'src/components/WSTable';
 // import Purchased from 'src/components/AddAction_From/Purchased';
 // import CustomizedInputBase from 'src/components/CustomizedInputBase';
 // import AlertBox from 'src/components/AlertBox';
+const { Search } = Input;
 
 const initNewField: IAppendPurchasedForm = {
   date_survey: getCurrentDateString({onlyYear:false}) ,
@@ -65,6 +67,11 @@ const AddAction: React.FC = () => {
     warehouseList.filter((item)=>(item.id === purchasedWSData.warehouse_id)).length === 1
     ? warehouseList.filter((item)=>(item.id === purchasedWSData.warehouse_id))[0]
     : null;
+  const onSearch = (value: any) => {
+    setWagonNum(value);
+    setWagonBtnDisabled(false);
+    setWagonExists(null);
+  };
   const handleClick = async () => {
     if (typeOfAdding?.id === 1 && wagonNum){
       GetWagonById(token.access, wagonNum)
@@ -175,6 +182,7 @@ const AddAction: React.FC = () => {
           <Row gutter={16}>
             <Col className="gutter-row">
               <ComboBox 
+                fullWidth={false}
                 label={'Выберите формат добавления'} 
                 options={AddActionTypeNames}
                 value={typeOfAdding}
@@ -185,31 +193,29 @@ const AddAction: React.FC = () => {
                   }
                 }}
               />
-              <div style={{display: 'flex'}}>
-                {/* <CustomizedInputBase 
-                  value={wagonNum} 
-                  placeholder={'Номер вагона'}
-                  onIconClick={handleClick}
-                  disabled={wagonBtnDisabled}
-                  onTextChange={(value)=>{
-                    setWagonNum(value);
-                    setWagonBtnDisabled(false);
-                    setWagonExists(null);
-                  }}
-                  validate={wagonExists}
-                /> */}
-                <ComboBox 
-                  label={'Выберите Склад'} 
-                  options={warehouseList}
-                  value={selectedWarehouse}
-                  onChange={(value) => {
-                    if (value?.id && (warehouseList.filter(item => item.id === value.id).length === 1)){
-                      selectWarehouse(warehouseList.filter(item => item.id === value.id)[0]);
-                    }
-                  }}
-                />
-                <CustomCheckBtn onClick={addNewWS1} />
-              </div>
+              <ComboBox 
+                fullWidth={false}
+                label={'Выберите Склад'} 
+                options={warehouseList}
+                value={selectedWarehouse}
+                onChange={(value) => {
+                  if (value?.id && (warehouseList.filter(item => item.id === value.id).length === 1)){
+                    selectWarehouse(warehouseList.filter(item => item.id === value.id)[0]);
+                  }
+                }}
+              />
+              <Search 
+                placeholder={'Номер вагона'}
+                value={wagonNum} 
+                disabled={wagonBtnDisabled}
+                onSearch={onSearch} 
+                style={{ width: 300 }} 
+                // validate={wagonExists}
+                loading={true}
+              />
+              
+              <CustomCheckBtn onClick={addNewWS1} />
+              
             </Col>
           </Row>
         )}
