@@ -47,14 +47,19 @@ const initNewField: IAppendPurchasedForm = {
 
 const AddAction: React.FC = () => {
   const token = useSelector((state: IRootState) => state.token.data);
-  const statuses = useSelector((state: IRootState) => state.allStatuses.data);
+  const [loading, setLoading] = useState<boolean>(false);
+
+
+
   const warehouse = useSelector((state: IRootState) => state.warehouse.data);
   const warehouseList = warehouse.map((item) =>({id: item.id, label: item.name}));
   const [selectedWarehouse, selectWarehouse] = useState<IComboBoxOption | null>(null);
   const [typeOfAdding, setToggleTypeOfAdding] 
-    = useState<IComboBoxOption>(AddActionTypeNames[0]);
+  = useState<IComboBoxOption>(AddActionTypeNames[0]);
   console.log('AddActionTypeNames[0]', AddActionTypeNames[0]);
   const [purchasedWSData, setPurchasedWSData] = useState<IAppendPurchasedForm>(initNewField);
+
+  const statuses = useSelector((state: IRootState) => state.allStatuses.data);
   const [wagonNum, setWagonNum] = useState<string>('21206958');
   const [wagonBtnDisabled, setWagonBtnDisabled] = useState<boolean>(false);
   const [openAlert, setOpenAlert] = useState<boolean>(false);
@@ -67,34 +72,42 @@ const AddAction: React.FC = () => {
     warehouseList.filter((item)=>(item.id === purchasedWSData.warehouse_id)).length === 1
     ? warehouseList.filter((item)=>(item.id === purchasedWSData.warehouse_id))[0]
     : null;
-  const onSearch = (value: any) => {
+  const onSearch = (value: string) => {
+    console.log('onSearch value = ', value);
+    setLoading(true);
     setWagonNum(value);
-    setWagonBtnDisabled(false);
-    setWagonExists(null);
-  };
-  const handleClick = async () => {
-    if (typeOfAdding?.id === 1 && wagonNum){
-      GetWagonById(token.access, wagonNum)
+    //   setWagonBtnDisabled(false);
+    //   setWagonExists(null);
+    if (typeOfAdding?.id === 1 && wagonNum?.length === 8){
+      GetWagonById(token.access, value)
         .then((getWagonByIdResponse) => {
+          console.log('getWagonByIdResponse = ', getWagonByIdResponse);
           // const ConvertWSResponse = ConvertWS([
-          //   getWagonByIdResponse.wheel_set_first,
-          //   getWagonByIdResponse.wheel_set_second,
-          //   getWagonByIdResponse.wheel_set_third,
-          //   getWagonByIdResponse.wheel_set_fourth
+          // getWagonByIdResponse.wheel_set_first,
+          // getWagonByIdResponse.wheel_set_second,
+          // getWagonByIdResponse.wheel_set_third,
+          // getWagonByIdResponse.wheel_set_fourth
           // ]);
           // setWS(ConvertWSResponse);
-          setWagonBtnDisabled(true);
-          setWagonExists('find');
+          // setWagonBtnDisabled(true);
+          // setWagonExists('find');
         })
         .catch((err)=>{
-          setWS([]);
-          setWagonBtnDisabled(true);
-          setWagonExists('notFind');
-          console.log(err.response.code);
-          console.log(err.response.status);
-          console.log(err.response.message);
+          // setWS([]);
+          // setWagonBtnDisabled(true);
+          // setWagonExists('notFind');
+          // console.log(err.response.code);
+          // console.log(err.response.status);
+          // console.log(err.response.message);
+        })
+        .finally(()=>{
+          setLoading(false);
         });
     }
+  };
+  const handleClick = async () => {
+
+    
   }
 
   const addNewWS1 = () => {
@@ -186,6 +199,7 @@ const AddAction: React.FC = () => {
                 label={'Выберите формат добавления'} 
                 options={AddActionTypeNames}
                 value={typeOfAdding}
+                verticalAlign={true}
                 onChange={(value)=>{
                   if (value){
                     setToggleTypeOfAdding(value);
@@ -198,6 +212,7 @@ const AddAction: React.FC = () => {
                 label={'Выберите Склад'} 
                 options={warehouseList}
                 value={selectedWarehouse}
+                verticalAlign={true}
                 onChange={(value) => {
                   if (value?.id && (warehouseList.filter(item => item.id === value.id).length === 1)){
                     selectWarehouse(warehouseList.filter(item => item.id === value.id)[0]);
@@ -209,9 +224,12 @@ const AddAction: React.FC = () => {
                 value={wagonNum} 
                 disabled={wagonBtnDisabled}
                 onSearch={onSearch} 
-                style={{ width: 300 }} 
+                style={{ width: 300, marginRight: '16px' }} 
+                onChange={(value)=>{
+                  setWagonNum(value.target.value);
+                }}
                 // validate={wagonExists}
-                loading={true}
+                loading={loading}
               />
               
               <CustomCheckBtn onClick={addNewWS1} />

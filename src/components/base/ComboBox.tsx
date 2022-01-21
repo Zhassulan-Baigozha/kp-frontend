@@ -5,6 +5,7 @@ import { Select } from 'antd';
 const { Option } = Select;
 interface IComboBox {
   fullWidth?: boolean
+  verticalAlign?: boolean
   label?: string
   options: IComboBoxOption[]
   value: IComboBoxOption | null
@@ -13,6 +14,7 @@ interface IComboBox {
 
 const ComboBox: React.FC<IComboBox> = ({
   fullWidth = true,
+  verticalAlign = false,
   label,
   onChange,
   options,
@@ -31,6 +33,7 @@ const ComboBox: React.FC<IComboBox> = ({
         marginBottom: '16px',
         marginRight: '16px',
         textAlign: 'left',
+        verticalAlign: verticalAlign ? 'top': undefined,
       }} onChange={handleChange}
       value={value?.label ?? label}
     >
