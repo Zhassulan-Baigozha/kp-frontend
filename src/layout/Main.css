@@ -94,3 +94,12 @@ body {
   border-top-right-radius: 8px !important;
   border-bottom-right-radius: 8px !important;
 }
+
+.ant-table-tbody > tr > td,
+.ant-table-thead > tr > th {
+  border: 1px solid rgb(38, 59, 94, 0.5) !important;
+}
+
+.ant-table-thead > tr > th {
+  background-color: rgb(38, 59, 94, 0.2) !important;
+}
