@@ -1,6 +1,6 @@
 import { SignIn } from 'src/api/CustomAPI';
 import React, { useState } from 'react';
-import CustomTextField from 'src/components/CustomTextField';
+import CustomTextField from 'src/components/base/CustomTextField';
 import { useDispatch, useSelector } from 'react-redux';
 import { setTokenData } from 'src/store/token/actions';
 import { IRootState } from 'src/store';

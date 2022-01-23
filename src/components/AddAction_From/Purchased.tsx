@@ -3,7 +3,8 @@ import Title from 'antd/lib/typography/Title';
 import React from 'react';
 import { IAppendPurchasedForm } from 'src/api/CustomAPIModel';
 import InnerBlock from 'src/layout/InnerBlock';
-import CustomTextField from '../CustomTextField';
+import CustomTextArea from '../base/CustomTextArea';
+import CustomTextField from '../base/CustomTextField';
 
 interface IPurchased {
   purchasedWSData: IAppendPurchasedForm
@@ -274,7 +275,7 @@ const Purchased: React.FC<IPurchased> = ({
             />
           </div>
           <div style={{display: 'block', paddingBottom: '16px'}}>
-            <CustomTextField 
+            <CustomTextArea 
               placeholder={'Примечание'}
               onChange={(value)=>{
                 setPurchasedWSData({...purchasedWSData, description: value.target.value});

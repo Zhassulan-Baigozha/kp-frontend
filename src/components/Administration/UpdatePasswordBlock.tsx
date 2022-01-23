@@ -1,5 +1,5 @@
 import React from 'react';
-import CustomTextField from '../CustomTextField';
+import CustomTextField from '../base/CustomTextField';
 import { IComboBoxOption } from '../../interfaces';
 import { IUpdatePassword } from '../../api/CustomAPIModel';
 import { IUser } from '../../store/user/types';

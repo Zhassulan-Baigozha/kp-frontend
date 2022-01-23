@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import CustomTextField from 'src/components/CustomTextField';
+import CustomTextField from 'src/components/base/CustomTextField';
 import { ISignUpUser } from 'src/interfaces';
 import { IRootState } from 'src/store';
 import { Collapse, message } from 'antd';

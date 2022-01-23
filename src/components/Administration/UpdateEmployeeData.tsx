@@ -1,7 +1,7 @@
 import { GetAllUsr, UpdateUserData } from 'src/api/CustomAPI';
 import React from 'react';
 import { IUser } from 'src/store/user/types';
-import CustomTextField from '../CustomTextField';
+import CustomTextField from '../base/CustomTextField';
 import { IRootState } from 'src/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { validateEmail } from 'src/utils/validateEmail';

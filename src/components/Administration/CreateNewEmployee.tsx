@@ -1,6 +1,6 @@
 import { SignUp } from 'src/api/CustomAPI';
 import React from 'react';
-import CustomTextField from '../CustomTextField';
+import CustomTextField from '../base/CustomTextField';
 import { IComboBoxOption, ISignUpRequest } from 'src/interfaces';
 import { useSelector } from 'react-redux';
 import { IRootState } from 'src/store';

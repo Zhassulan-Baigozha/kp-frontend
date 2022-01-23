@@ -102,14 +102,13 @@ const CustomHeader: React.FC<ICustomHeader> = ({
               <td style={{textAlign: 'right', width: '34%'}}>
                 <div style={{display: '-webkit-inline-box'}}>
                   {SIGN_IN_ACTION !== currentPage && (
-                    <div style={{marginRight: '16px'}}>
-                      <ComboBox 
-                        label={'Выберите Склад'} 
-                        options={warehouseList}
-                        value={selectedWarehouse}
-                        onChange={hangleWSSelect}
-                      />
-                    </div>
+                    <ComboBox 
+                      fullWidth={false}
+                      label={'Выберите Склад'} 
+                      options={warehouseList}
+                      value={selectedWarehouse}
+                      onChange={hangleWSSelect}
+                    />
                   )}
                   <Button 
                     shape="circle" 
