@@ -27,6 +27,7 @@ const CustomTextField: React.FC<ICustomTextField & InputProps> = ({
       style={{
         backgroundColor: '#f0f0f0', 
         marginBottom: '16px', 
+        marginRight: '16px', 
         borderRadius: '8px',
         width: fullWidth ? '100%': '300px',
       }}
