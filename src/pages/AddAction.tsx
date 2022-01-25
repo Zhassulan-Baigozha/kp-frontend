@@ -14,6 +14,7 @@ import { CustomCheckBtn } from 'src/components/base/CustomBtn';
 import { Input, message } from 'antd';
 import WSTable from 'src/components/WSTable';
 import { convertWs } from 'src/utils/convertWs';
+import useWarehouseList from 'src/hooks/useWarehouseList';
 // import CustomizedInputBase from 'src/components/CustomizedInputBase';
 const { Search } = Input;
 
@@ -48,9 +49,7 @@ const AddAction: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
 
 
-
-  const warehouse = useSelector((state: IRootState) => state.warehouse.data);
-  const warehouseList = warehouse.map((item) =>({id: item.id, label: item.name}));
+  const { warehouseList } = useWarehouseList();
   const [selectedWarehouse, selectWarehouse] = useState<IComboBoxOption | null>(null);
   const [typeOfAdding, setToggleTypeOfAdding] 
   = useState<IComboBoxOption>(AddActionTypeNames[1]);

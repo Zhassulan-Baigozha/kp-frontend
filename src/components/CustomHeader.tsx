@@ -23,6 +23,7 @@ import { FileTextFilled, HomeFilled, UserOutlined } from '@ant-design/icons';
 import { GetUsr, GetWarehouseByStoreId } from 'src/api/CustomAPI';
 import ComboBox from './base/ComboBox';
 import { setWSList } from 'src/store/wsList/actions';
+import useWarehouseList from 'src/hooks/useWarehouseList';
 
 interface ICustomHeader extends IProps {
   currentPage: string
@@ -34,8 +35,7 @@ const CustomHeader: React.FC<ICustomHeader> = ({
   switchPage,
 }) => {
   const token = useSelector((state: IRootState) => state.token.data);
-  const warehouse = useSelector((state: IRootState) => state.warehouse.data);
-  const warehouseList = warehouse.map((item) =>({id: item.id, label: item.name}));
+  const { warehouseList } = useWarehouseList();
   const dispatch = useDispatch();
   const [selectedWarehouse, selectWarehouse] = useState<IComboBoxOption | null>(null);
   const menu = (

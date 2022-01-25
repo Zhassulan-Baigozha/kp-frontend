@@ -12,6 +12,7 @@ import ComboBox from 'src/components/base/ComboBox';
 // import ComboBox from 'src/components/ComboBox';
 import { transportTypes } from 'src/constants/transportTypes';
 import { CustomCheckBtn } from 'src/components/base/CustomBtn';
+import useWarehouseList from 'src/hooks/useWarehouseList';
 // import TransferList from 'src/components/Relocation_Form/TransferList';
 // import WSTransfer from 'src/components/Relocation_Form/WSTransfer';
 
@@ -19,7 +20,7 @@ import { CustomCheckBtn } from 'src/components/base/CustomBtn';
 const RelocationAction: React.FC = () => {
   const token = useSelector((state: IRootState) => state.token.data);
   const statuses = useSelector((state: IRootState) => state.allStatuses.data);
-  const warehouse = useSelector((state: IRootState) => state.warehouse.data);
+  const { warehouseList } = useWarehouseList();
   const transportList = useSelector((state: IRootState) => state.transportList.data);
   const [selectTransport, setSelectedTransport] = useState<IComboBoxOption | null>(null);
   const [transportType, setTransportType] = useState<IComboBoxOption | null>(null);
@@ -29,7 +30,6 @@ const RelocationAction: React.FC = () => {
     transportList
     .filter((item) => (item.transport_type === transportType?.id))
     .map((item, idx) => ({id: idx, label: item.number}));
-  const warehouseList = warehouse.map((item) =>({id: item.id, label: item.name}));
   const [fromWarehouse, setFromWarehouse] = useState<IComboBoxOption | null>(null);
   const [toWarehouse, setToWarehouse] = useState<IComboBoxOption | null>(null);
   const [ws, setWS] = useState<IGridData[]>([]);

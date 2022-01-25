@@ -10,6 +10,7 @@ import ComboBox from 'src/components/base/ComboBox';
 import { CheckCircleOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import { CustomCheckBtn } from 'src/components/base/CustomBtn';
+import useWarehouseList from 'src/hooks/useWarehouseList';
 // import CheckIcon from '@mui/icons-material/Check';
 // import WSTable from 'src/components/WSTable';
 // import CustomizedInputBase from 'src/components/CustomizedInputBase';
@@ -17,12 +18,11 @@ import { CustomCheckBtn } from 'src/components/base/CustomBtn';
 
 const InstallAction: React.FC<IPages> = ({switchPage}) => {
   const [wagonBtnDisabled, setWagonBtnDisabled] = useState<boolean>(false);
-  const warehouse = useSelector((state: IRootState) => state.warehouse.data);
+  const { warehouseList } = useWarehouseList();
   const statuses = useSelector((state: IRootState) => state.allStatuses.data);
   const token = useSelector((state: IRootState) => state.token.data);
   const [wsWarehouse, setWSWarehouse] = useState<IGridData[]>([]);
   const [wsWagon, setWSWagon] = useState<IGridData[]>([]);
-  const warehouseList = warehouse.map((item) =>({id: item.id, label: item.name}));
   const [selectedWarehouse, selectWarehouse] = useState<IComboBoxOption | null>(null);
   const [wagonNum, setWagonNum] = useState<string>('21206958');
   const [wagonExists, setWagonExists] = useState<WagonExistanceType>(null);
