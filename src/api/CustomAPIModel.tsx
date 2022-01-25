@@ -1,4 +1,4 @@
-import { ITransport } from "src/store/transportList/types";
+import { ITransport } from 'src/store/transportList/types';
 
 export interface ISignInResponse { 
   access_token: string,

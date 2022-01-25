@@ -1,4 +1,4 @@
-import { IGetWSResponse } from "src/api/CustomAPIModel";
+import { IGetWSResponse } from 'src/api/CustomAPIModel';
 
 export interface IWSListState {
   isFetching: boolean,

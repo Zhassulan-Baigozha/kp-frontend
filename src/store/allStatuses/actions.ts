@@ -11,8 +11,8 @@ export interface ISetFetcing {
 export type Action = ISetAction | ISetFetcing 
 
 export const setAllStatusesList = (data: IStatusesTable[]): ISetAction => {
-  return { type: 'allStatuses/SET', data };
+    return { type: 'allStatuses/SET', data };
 };
 export const isFetching = (isFetching: boolean): ISetFetcing => {
-  return { type: 'allStatuses/SET_FETCHING', isFetching };
+    return { type: 'allStatuses/SET_FETCHING', isFetching };
 };

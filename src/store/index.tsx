@@ -46,18 +46,18 @@ export interface IRootState {
 }
 
 export default createStore(
-  combineReducers<IRootState>({
-    user,
-    roles,
-    offices,
-    token,
-    allUsers,
-    warehouse,
-    allStatuses,
-    sortedWS,
-    transportList,
-    wsList,
-  }),
-  composeWithDevTools(
-    applyMiddleware(thunk),
-  ));
+    combineReducers<IRootState>({
+        user,
+        roles,
+        offices,
+        token,
+        allUsers,
+        warehouse,
+        allStatuses,
+        sortedWS,
+        transportList,
+        wsList,
+    }),
+    composeWithDevTools(
+        applyMiddleware(thunk),
+    ));

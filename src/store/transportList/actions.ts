@@ -11,8 +11,8 @@ export interface ISetFetcing {
 export type Action = ISetAction | ISetFetcing 
 
 export const setTransportList = (data: ITransport[]): ISetAction => {
-  return { type: 'transportList/SET', data };
+    return { type: 'transportList/SET', data };
 };
 export const isFetching = (isFetching: boolean): ISetFetcing => {
-  return { type: 'transportList/SET_FETCHING', isFetching };
+    return { type: 'transportList/SET_FETCHING', isFetching };
 };

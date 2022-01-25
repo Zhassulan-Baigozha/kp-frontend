@@ -5,12 +5,12 @@ interface ICollapseElemLayout {
 }
 
 const CollapseElemLayout:React.FC<ICollapseElemLayout> = ({ 
-  children
+    children
 }) => {
-  return (
-    <div style={{ padding: '8px 16px 0px 16px'}}>
-      {children}
-    </div>
-  )
+    return (
+        <div style={{ padding: '8px 16px 0px 16px'}}>
+            {children}
+        </div>
+    );
 };
 export default CollapseElemLayout;

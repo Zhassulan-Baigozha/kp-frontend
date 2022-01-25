@@ -3,10 +3,10 @@ import { IRootState } from 'src/store';
 import { convertWs } from 'src/utils/convertWs';
 
 const useConvertWs = () => {
-  const wsList = useSelector((state: IRootState) => state.wsList.data);
-  const convertedWS = convertWs(wsList);
+    const wsList = useSelector((state: IRootState) => state.wsList.data);
+    const convertedWS = convertWs(wsList);
 
-  return { convertedWS };
-}
+    return { convertedWS };
+};
 export default useConvertWs;
 

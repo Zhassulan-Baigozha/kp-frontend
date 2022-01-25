@@ -13,8 +13,8 @@ export interface ISetFetcing {
 export type Action = ISetAction | ISetFetcing
 
 export const setTokenData = (data: IToken): ISetAction => {
-  return { type: 'token/SET', data };
+    return { type: 'token/SET', data };
 };
 export const isFetching = (isFetching: boolean): ISetFetcing => {
-  return { type: 'token/SET_FETCHING', isFetching };
+    return { type: 'token/SET_FETCHING', isFetching };
 };

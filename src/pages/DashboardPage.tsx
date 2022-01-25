@@ -8,28 +8,27 @@ import { DashboardTableColumns } from 'src/constants/DashboardTableColumns';
 import useConvertWs from 'src/hooks/useConvertWs';
 
 const DashboardPage: React.FC<IPages> = () => {
-  const statuses = useSelector((state: IRootState) => state.allStatuses.data);
-  const { convertedWS } = useConvertWs();
+    const statuses = useSelector((state: IRootState) => state.allStatuses.data);
+    const { convertedWS } = useConvertWs();
 
-  const dataSource = statuses.map(s => ({
-    num: (+s.code) + 1,
-    name: s.name, 
-    commonState: s.type_status,
-    amount: convertedWS.filter(z => z.status === s.code).length
-  }));
+    const dataSource = statuses.map(s => ({
+        num: (+s.code) + 1,
+        name: s.name, 
+        commonState: s.type_status,
+        amount: convertedWS.filter(z => z.status === s.code).length
+    }));
 
-  
-  return (
-    <BackgroundPaper>
-      <Table 
-        dataSource={dataSource} 
-        columns={DashboardTableColumns} 
-        bordered
-        size="small"
-        pagination={{ pageSize: 40, hideOnSinglePage: true }}
-      />
-    </BackgroundPaper>
-  );
+    return (
+        <BackgroundPaper>
+            <Table 
+                dataSource={dataSource} 
+                columns={DashboardTableColumns} 
+                bordered
+                size="small"
+                pagination={{ pageSize: 40, hideOnSinglePage: true }}
+            />
+        </BackgroundPaper>
+    );
 };
 
 export default DashboardPage;

@@ -1,4 +1,4 @@
-import { IUser } from "../user/types";
+import { IUser } from '../user/types';
 
 export interface ISetAction {
   type: 'allUsers/SET'
@@ -11,8 +11,8 @@ export interface ISetFetcing {
 export type Action = ISetAction | ISetFetcing 
 
 export const setAllUsersList = (data: IUser[]): ISetAction => {
-  return { type: 'allUsers/SET', data };
+    return { type: 'allUsers/SET', data };
 };
 export const isFetching = (isFetching: boolean): ISetFetcing => {
-  return { type: 'allUsers/SET_FETCHING', isFetching };
+    return { type: 'allUsers/SET_FETCHING', isFetching };
 };

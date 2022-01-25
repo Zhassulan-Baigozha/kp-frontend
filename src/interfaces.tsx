@@ -3,79 +3,79 @@ import { IWheel } from './api/CustomAPIModel';
 import { IUser } from './store/user/types';
 
 export interface ITablePagination {
-  pageNo: number;
-  pageSize: number;
+    pageNo: number;
+    pageSize: number;
 }
 
 export type TKeyValuePair<T> = {
-  [key in string]: T;
+    [key in string]: T;
 };
 export type TKeyValuePairString = {
-  [key in string]: string;
+    [key in string]: string;
 };
 
 export type TNavigationBlock = {
-  [key in string]: {
-    component: React.ReactNode,
-    statusText: string,
-    stepText: string,
-  };
+    [key in string]: {
+        component: React.ReactNode,
+        statusText: string,
+        stepText: string,
+    };
 };
 
 export interface IMocks1 {
-  name: string,
-  calories: number,
-  fat: number,
-  carbs: number,
-  protein: number,
+    name: string,
+    calories: number,
+    fat: number,
+    carbs: number,
+    protein: number,
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface IProps {}
 
 export interface IPages extends IProps {
-  switchPage: (value: string) => void
-  openCustomDialog: boolean
-  setOpenCustomDialog: (value: boolean) => void
+    switchPage: (value: string) => void
+    openCustomDialog: boolean
+    setOpenCustomDialog: (value: boolean) => void
 }
 
 export interface IComboBoxOption {
-  label: string
-  id: number | string
+    label: string
+    id: number | string
 }
 
 export interface ISignUpUser extends IUser{
-  password?: string,
-  new_password?: string,
-  repeat_password?: string,
+    password?: string,
+    new_password?: string,
+    repeat_password?: string,
 }
 
 export interface ISignUpRequest {
-  email: string,
-  name: string,
-  office: number | null,
-  password: string,
-  position: string,
-  repeat_password: string,
-  roles: string,
-  surname: string,
+    email: string,
+    name: string,
+    office: number | null,
+    password: string,
+    position: string,
+    repeat_password: string,
+    roles: string,
+    surname: string,
 }
 
 export interface IUpdateUserRole {
-  role_name: string,
-  user_id: string
+    role_name: string,
+    user_id: string
 }
 
 export type WagonExistanceType = 'find' | 'notFind' | null
 
 export interface IWSListTable {
-  axisNum: string,
-  axisType: string,
-  createdAt: string,
-  description: string,
-  key: number,
-  manufacturerCode: number,
-  status: number,
-  wagonId: number,
-  wheels: IWheel[] | null,
+    axisNum: string,
+    axisType: string,
+    createdAt: string,
+    description: string,
+    key: number,
+    manufacturerCode: number,
+    status: number,
+    wagonId: number,
+    wheels: IWheel[] | null,
 }

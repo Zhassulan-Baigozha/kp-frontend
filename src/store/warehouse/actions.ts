@@ -12,8 +12,8 @@ export interface ISetFetcing {
 export type Action = ISetAction | ISetFetcing
 
 export const setWarehouseList = (data: IWarehouse[]): ISetAction => {
-  return { type: 'warehouse/SET', data };
+    return { type: 'warehouse/SET', data };
 };
 export const isFetching = (isFetching: boolean): ISetFetcing => {
-  return { type: 'warehouse/SET_FETCHING', isFetching };
+    return { type: 'warehouse/SET_FETCHING', isFetching };
 };

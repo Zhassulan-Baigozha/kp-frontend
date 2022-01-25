@@ -13,37 +13,37 @@ interface IComboBox {
 }
 
 const ComboBox: React.FC<IComboBox> = ({
-  fullWidth = true,
-  verticalAlign = false,
-  label,
-  onChange,
-  options,
-  value,
+    fullWidth = true,
+    verticalAlign = false,
+    label,
+    onChange,
+    options,
+    value,
 }) => {
-  function handleChange(value: any) {
-    const selectedOption = options.filter(option => option.id === value);
-    if (selectedOption.length === 1) {
-      onChange?.(selectedOption[0]);
+    function handleChange(value: any) {
+        const selectedOption = options.filter(option => option.id === value);
+        if (selectedOption.length === 1) {
+            onChange?.(selectedOption[0]);
+        }
     }
-  }
-  return (
-    <Select
-      style={{ 
-        width: fullWidth ? '100%': '300px',
-        marginBottom: '16px',
-        marginRight: '16px',
-        textAlign: 'left',
-        verticalAlign: verticalAlign ? 'top': undefined,
-      }} onChange={handleChange}
-      value={value?.label ?? label}
-    >
-      {options?.length > 0 && options.map(option =>(
-        <Option value={option.id} key={option.id} >
-          {option.label}
-        </Option>
-      ))}
-    </Select>
-  );
+    return (
+        <Select
+            style={{ 
+                width: fullWidth ? '100%': '300px',
+                marginBottom: '16px',
+                marginRight: '16px',
+                textAlign: 'left',
+                verticalAlign: verticalAlign ? 'top': undefined,
+            }} onChange={handleChange}
+            value={value?.label ?? label}
+        >
+            {options?.length > 0 && options.map(option =>(
+                <Option value={option.id} key={option.id} >
+                    {option.label}
+                </Option>
+            ))}
+        </Select>
+    );
 };
 
 export default ComboBox;

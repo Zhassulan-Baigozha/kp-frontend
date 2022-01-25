@@ -11,71 +11,71 @@ import { IRootState } from 'src/store';
 import { Collapse } from 'antd';
 
 const Administration: React.FC<IPages> = ({
-  setOpenCustomDialog,
+    setOpenCustomDialog,
 }) => {
-  const token = useSelector((state: IRootState) => state.token.data);
-  const [users, setUsers] = useState<IUser[]>([]);
-  const [snackText, setSnackText] = useState<string>('Данные обновлены');
-  const [dialogText, setDialogText] = useState<string>('');
-  const [expanded, setExpanded] = useState<string | false>('');
-  const [open, setOpen] = useState(false);
+    const token = useSelector((state: IRootState) => state.token.data);
+    const [users, setUsers] = useState<IUser[]>([]);
+    const [snackText, setSnackText] = useState<string>('Данные обновлены');
+    const [dialogText, setDialogText] = useState<string>('');
+    const [expanded, setExpanded] = useState<string | false>('');
+    const [open, setOpen] = useState(false);
 
-  const handlePanelChange =
+    const handlePanelChange =
     (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
-      setExpanded(isExpanded ? panel : false);
+        setExpanded(isExpanded ? panel : false);
     };
 
-  const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setOpen(false);
-  };
+    const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpen(false);
+    };
 
-  // useEffect(() => {
-  //   GetAllUsr(token.access).then((res: IUser[]) => {
-  //     setUsers(res);
-  //   }).catch((err)=>{
-  //     console.log(err.response);
-  //     if (err.response.status === 400){
-  //       setOpenCustomDialog(true);
-  //     }
-  //   });
-  // });
+    // useEffect(() => {
+    //   GetAllUsr(token.access).then((res: IUser[]) => {
+    //     setUsers(res);
+    //   }).catch((err)=>{
+    //     console.log(err.response);
+    //     if (err.response.status === 400){
+    //       setOpenCustomDialog(true);
+    //     }
+    //   });
+    // });
 
-  return (
-    <div style={{
-      width: '400px',
-      margin: '0 auto',
-      paddingTop: '32px',
-      position: 'relative',
-      top: '80px',
-    }}>
-      <CreateNewEmployee 
-        expanded={expanded}
-        handlePanelChange={handlePanelChange}
-        setOpen={setOpen}
-      />
-      <UpdateEmployeeData 
-        expanded={expanded}
-        handlePanelChange={handlePanelChange}
-        setOpen={setOpen}
-        users={users}
-      />
-      <UpdateEmployeeRole 
-        expanded={expanded}
-        handlePanelChange={handlePanelChange}
-        setOpen={setOpen}
-        users={users}
-      />
-      <UpdatePasswordBlock 
-        expanded={expanded}
-        handlePanelChange={handlePanelChange}
-        setOpen={setOpen}
-        users={users}
-      />
-    </div>
-  );
+    return (
+        <div style={{
+            width: '400px',
+            margin: '0 auto',
+            paddingTop: '32px',
+            position: 'relative',
+            top: '80px',
+        }}>
+            <CreateNewEmployee 
+                expanded={expanded}
+                handlePanelChange={handlePanelChange}
+                setOpen={setOpen}
+            />
+            <UpdateEmployeeData 
+                expanded={expanded}
+                handlePanelChange={handlePanelChange}
+                setOpen={setOpen}
+                users={users}
+            />
+            <UpdateEmployeeRole 
+                expanded={expanded}
+                handlePanelChange={handlePanelChange}
+                setOpen={setOpen}
+                users={users}
+            />
+            <UpdatePasswordBlock 
+                expanded={expanded}
+                handlePanelChange={handlePanelChange}
+                setOpen={setOpen}
+                users={users}
+            />
+        </div>
+    );
 };
 
 export default Administration;
