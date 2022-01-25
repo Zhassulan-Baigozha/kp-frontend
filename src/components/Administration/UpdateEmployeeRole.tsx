@@ -1,5 +1,5 @@
 import { UpdateUserRole } from 'src/api/CustomAPI';
-import React from 'react';
+import React, { useState } from 'react';
 import { IUpdateUserRole } from '../../interfaces';
 import { IUser } from '../../store/user/types';
 import { IRootState } from '../../store';
@@ -13,7 +13,6 @@ import ComboBox from '../base/ComboBox';
 interface IUpdateEmployeeData {
   expanded: string | false;
   handlePanelChange: (value: string) => (event: React.SyntheticEvent, isExpanded: boolean) => void;
-  setAlertText: (value: string) => void;
   setOpen: (value: boolean) => void;
   users: IUser[];
 }
@@ -21,12 +20,11 @@ interface IUpdateEmployeeData {
 const UpdateEmployeeRole: React.FC<IUpdateEmployeeData> = ({
   expanded,
   handlePanelChange,
-  setAlertText,
   setOpen,
   users,
 }) => {
   const { Panel } = Collapse;
-  const [userFields, setUserFields] = React.useState<IUpdateUserRole>({
+  const [userFields, setUserFields] = useState<IUpdateUserRole>({
     role_name: '',
     user_id: ''
   });

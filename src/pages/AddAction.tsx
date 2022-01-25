@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { IComboBoxOption, IWSListTable, TAlertStatus, WagonExistanceType } from 'src/interfaces';
+import { IComboBoxOption, IWSListTable, WagonExistanceType } from 'src/interfaces';
 import { AddWSFromWagon, AppendPurchased, GetWagonById, GetWarehouseByStoreId } from 'src/api/CustomAPI';
 import { useSelector } from 'react-redux';
 import { IRootState } from 'src/store';
@@ -11,11 +11,10 @@ import ComboBox from 'src/components/base/ComboBox';
 import Purchased from 'src/components/AddAction_From/Purchased';
 import CustomTextField from 'src/components/base/CustomTextField';
 import { CustomCheckBtn } from 'src/components/base/CustomBtn';
-import { Input } from 'antd';
+import { Input, message } from 'antd';
 import WSTable from 'src/components/WSTable';
 import { convertWs } from 'src/utils/convertWs';
 // import CustomizedInputBase from 'src/components/CustomizedInputBase';
-// import AlertBox from 'src/components/AlertBox';
 const { Search } = Input;
 
 const initNewField: IAppendPurchasedForm = {
@@ -59,9 +58,6 @@ const AddAction: React.FC = () => {
   const [wagonNum, setWagonNum] = useState<string>('21206958');
 
   const [wagonBtnDisabled, setWagonBtnDisabled] = useState<boolean>(false);
-  const [openAlert, setOpenAlert] = useState<boolean>(false);
-  const [alertText, setAlertText] = useState<string>('');
-  const [alertStatus, setAlertStatus] = useState<TAlertStatus>('error');
   const [wagonExists, setWagonExists] = useState<WagonExistanceType>(null);
   const [ws, setWS] = useState<IWSListTable[]>([]);
   const [selectedWS, selectWS] = useState<number | null>(null);
@@ -104,21 +100,15 @@ const AddAction: React.FC = () => {
 
   const addNewWS1 = () => {
     if (!selectedWarehouse?.id){ 
-      setAlertText('Вы не выбрали Склад');
-      setAlertStatus('error');
-      setOpenAlert(true);
+      message.error('Вы не выбрали Склад');
       return null 
     }
     if (wagonNum.length === 0){ 
-      setAlertText('Вы не выбрали Вагон');
-      setAlertStatus('error');
-      setOpenAlert(true);
+      message.error('Вы не выбрали Вагон');
       return null 
     }
     if (selectedWS === null){ 
-      setAlertText('Вы не выбрали Вагон');
-      setAlertStatus('error');
-      setOpenAlert(true);
+      message.error('Вы не выбрали КП');
       return null 
     }
     AddWSFromWagon(token.access, {
@@ -127,9 +117,7 @@ const AddAction: React.FC = () => {
       warehouse_id: +selectedWarehouse.id,
       ws_list: [selectedWS]
     }).then((res)=>{
-      setAlertText('Вы успешно добавили КП');
-      setAlertStatus('success');
-      setOpenAlert(true);
+      message.success('Вы успешно добавили КП');
     }).catch((err) => {
       console.log(err);
     })
@@ -168,15 +156,11 @@ const AddAction: React.FC = () => {
     };
     AppendPurchased(token.access, temp)
     .then((res)=>{
-      setAlertText('Вы успешно добавили КП');
-      setAlertStatus('success');
-      setOpenAlert(true);
+      message.success('Вы успешно добавили КП');
     })
     .catch((err)=>{
+      message.error('Произошла ошибка. Попробуйте перезагрузить страницу и попробуйте снова.');
       console.error(err);
-      setAlertText('Произошла ошибка. Попробуйте перезагрузить страницу и попробуйте снова.');
-      setAlertStatus('error');
-      setOpenAlert(true);
     });
   }
 

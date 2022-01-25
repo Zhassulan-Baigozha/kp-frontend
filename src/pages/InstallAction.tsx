@@ -16,16 +16,16 @@ import { CustomCheckBtn } from 'src/components/base/CustomBtn';
 
 
 const InstallAction: React.FC<IPages> = ({switchPage}) => {
-  const [wagonBtnDisabled, setWagonBtnDisabled] = React.useState<boolean>(false);
+  const [wagonBtnDisabled, setWagonBtnDisabled] = useState<boolean>(false);
   const warehouse = useSelector((state: IRootState) => state.warehouse.data);
   const statuses = useSelector((state: IRootState) => state.allStatuses.data);
   const token = useSelector((state: IRootState) => state.token.data);
   const [wsWarehouse, setWSWarehouse] = useState<IGridData[]>([]);
   const [wsWagon, setWSWagon] = useState<IGridData[]>([]);
   const warehouseList = warehouse.map((item) =>({id: item.id, label: item.name}));
-  const [selectedWarehouse, selectWarehouse] = React.useState<IComboBoxOption | null>(null);
-  const [wagonNum, setWagonNum] = React.useState<string>('21206958');
-  const [wagonExists, setWagonExists] = React.useState<WagonExistanceType>(null);
+  const [selectedWarehouse, selectWarehouse] = useState<IComboBoxOption | null>(null);
+  const [wagonNum, setWagonNum] = useState<string>('21206958');
+  const [wagonExists, setWagonExists] = useState<WagonExistanceType>(null);
   const handleClick = async () => {
     GetWagonById(token.access, wagonNum)
       .then((getWagonByIdResponse) => {

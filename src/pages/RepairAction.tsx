@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { IRootState } from 'src/store';
-import { IComboBoxOption, TAlertStatus } from 'src/interfaces';
+import { IComboBoxOption } from 'src/interfaces';
 import { IGetRepairWSResponse, IGridData, IRepairWSUpdateRequest } from 'src/api/CustomAPIModel';
 import { GetWSByWarehouse, RepairWSChangeStatus, RepairWSUpdate } from 'src/api/CustomAPI';
 import BackgroundPaper from '../layout/BackgroundPaper';
 import ComboBox from 'src/components/base/ComboBox';
+import { message } from 'antd';
 // import ComboBox from 'src/components/ComboBox';
 // import WSTable from 'src/components/WSTable';
 // import { Button } from '@mui/material';
 // import CheckIcon from '@mui/icons-material/Check';
-// import AlertBox from 'src/components/AlertBox';
 // import FromRepair from 'src/components/RepairAction_Form/FromRepair';
 
 
@@ -19,15 +19,12 @@ const RepairAction: React.FC = () => {
   const token = useSelector((state: IRootState) => state.token.data);
   const statuses = useSelector((state: IRootState) => state.allStatuses.data);
   const statusesList = statuses.map((item) =>({id: item.code, label: item.name}));
-  const [selectedStatus, selectStatus] = React.useState<IComboBoxOption | null>(null);
-  const [selectedWarehouse, selectWarehouse] = React.useState<IComboBoxOption | null>(null);
-  const [wheelsetArray, setWheelsetArray] = React.useState<IGetRepairWSResponse[]>([]);
-  const [selectedWheelset, selectWheelset] = React.useState<IRepairWSUpdateRequest | null>(null);
-  const [openAlert, setOpenAlert] = React.useState<boolean>(false);
-  const [alertText, setAlertText] = React.useState<string>('');
-  const [alertStatus, setAlertStatus] = React.useState<TAlertStatus>('error');
-  const [repairType, setRepairType] = React.useState<boolean>(false);
-  const [selectedItem, setSelectedItem] = React.useState<number | null>(null);
+  const [selectedStatus, selectStatus] = useState<IComboBoxOption | null>(null);
+  const [selectedWarehouse, selectWarehouse] = useState<IComboBoxOption | null>(null);
+  const [wheelsetArray, setWheelsetArray] = useState<IGetRepairWSResponse[]>([]);
+  const [selectedWheelset, selectWheelset] = useState<IRepairWSUpdateRequest | null>(null);
+  const [repairType, setRepairType] = useState<boolean>(false);
+  const [selectedItem, setSelectedItem] = useState<number | null>(null);
   const RepairTypeOption = [{
     id:0, label: 'На ремонт',
   },{
@@ -37,22 +34,16 @@ const RepairAction: React.FC = () => {
   const warehouseList = warehouse.map((item) =>({id: item.id, label: item.name}));
   const [ws, setWS] = useState<IGridData[]>([]);
   const addNewWS = () => {
-    if (!selectedWarehouse?.id){ 
-      setAlertText('Вы не выбрали Склад');
-      setAlertStatus('error');
-      setOpenAlert(true);
+    if (!selectedWarehouse?.id) { 
+      message.error('Вы не выбрали Склад');
       return null 
     }
-    if (!selectedStatus?.id){ 
-      setAlertText('Вы не выбрали Статус');
-      setAlertStatus('error');
-      setOpenAlert(true);
+    if (!selectedStatus?.id) { 
+      message.error('Вы не выбрали Статус');
       return null 
     }
-    if (!selectedItem){ 
-      setAlertText('Вы не выбрали КП');
-      setAlertStatus('error');
-      setOpenAlert(true);
+    if (!selectedItem) { 
+      message.error('Вы не выбрали КП');
       return null 
     }
     if (repairType){
@@ -60,9 +51,7 @@ const RepairAction: React.FC = () => {
       if (selectedWheelset) {
         RepairWSUpdate(token.access, selectedWheelset)
         .then((res)=>{
-          setAlertText('Вы успешно добавили КП');
-          setAlertStatus('success');
-          setOpenAlert(true);
+          message.success('Вы успешно добавили КП');
         });
       }
     } else {
@@ -73,21 +62,12 @@ const RepairAction: React.FC = () => {
         status_id: +selectedStatus?.id,
         wheelset_id: selectedItem
       }).then((res)=>{
-        setAlertText('Вы успешно добавили КП');
-        setAlertStatus('success');
-        setOpenAlert(true);
+        message.success('Вы успешно добавили КП');
       });
     }
   }
   return (
     <BackgroundPaper>
-      
-      {/* <AlertBox 
-        open={openAlert}
-        setOpen={setOpenAlert}
-        alertText={alertText}
-        status={alertStatus}
-      /> */}
       <div style={{display: 'flex'}}>
         <ComboBox 
           label={'Выберите вид ремонта'} 
@@ -143,7 +123,7 @@ const RepairAction: React.FC = () => {
       {/* <WSTable ws={ws} onSelect={(selectedItemsWSTable:number[])=>{
         if (!selectedStatus?.id){ 
           setAlertText('Вы не выбрали Статус');
-          setAlertStatus('error');
+          setAlertType('error');
           setOpenAlert(true);
           return null 
         }

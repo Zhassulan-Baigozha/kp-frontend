@@ -1,5 +1,5 @@
 import { SignUp } from 'src/api/CustomAPI';
-import React from 'react';
+import React, { useState } from 'react';
 import CustomTextField from '../base/CustomTextField';
 import { IComboBoxOption, ISignUpRequest } from 'src/interfaces';
 import { useSelector } from 'react-redux';
@@ -15,23 +15,21 @@ import ComboBox from '../base/ComboBox';
 interface ICreateNewEmployee {
   expanded: string | false;
   handlePanelChange: (value: string) => (event: React.SyntheticEvent, isExpanded: boolean) => void;
-  setAlertText: (value: string) => void;
   setOpen: (value: boolean) => void;
 }
 
 const CreateNewEmployee: React.FC<ICreateNewEmployee> = ({
   expanded,
   handlePanelChange,
-  setAlertText,
   setOpen,
 }) => {
   const { Panel } = Collapse;
   const token = useSelector((state: IRootState) => state.token.data);
   const offices = useSelector((state: IRootState) => state.offices.data);
   const roles = useSelector((state: IRootState) => state.roles.data);
-  const [value, setValue] = React.useState<IComboBoxOption | null>(null);
-  const [emailErrorStatus, setEmailErrorStatus] = React.useState<boolean>(false);
-  const [newUser, setNewUser] = React.useState<ISignUpRequest>({
+  const [value, setValue] = useState<IComboBoxOption | null>(null);
+  const [emailErrorStatus, setEmailErrorStatus] = useState<boolean>(false);
+  const [newUser, setNewUser] = useState<ISignUpRequest>({
     email: '',
     name: '',
     office: null,

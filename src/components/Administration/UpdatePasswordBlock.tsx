@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import CustomTextField from '../base/CustomTextField';
 import { IComboBoxOption } from '../../interfaces';
 import { IUpdatePassword } from '../../api/CustomAPIModel';
@@ -15,7 +15,6 @@ import ComboBox from '../base/ComboBox';
 interface IUpdatePasswordBlock {
   expanded: string | false;
   handlePanelChange: (value: string) => (event: React.SyntheticEvent, isExpanded: boolean) => void;
-  setAlertText: (value: string) => void;
   setOpen: (value: boolean) => void;
   users: IUser[];
 }
@@ -23,14 +22,13 @@ interface IUpdatePasswordBlock {
 const UpdatePasswordBlock: React.FC<IUpdatePasswordBlock> = ({
   expanded,
   handlePanelChange,
-  setAlertText,
   setOpen,
   users,
 }) => {
   const { Panel } = Collapse;
   const token = useSelector((state: IRootState) => state.token.data);
-  const [selectedUser, setSelectedUser] = React.useState<IComboBoxOption | null>(null);
-  const [passwords, setPasswords] = React.useState<IUpdatePassword>({
+  const [selectedUser, setSelectedUser] = useState<IComboBoxOption | null>(null);
+  const [passwords, setPasswords] = useState<IUpdatePassword>({
     new_password: '',
     repeat_password: '',
     uuid: ''

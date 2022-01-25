@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import CustomTextField from 'src/components/base/CustomTextField';
 import { ISignUpUser } from 'src/interfaces';
@@ -16,13 +16,13 @@ const ProfilePage: React.FC = () => {
   const userData = useSelector((state: IRootState) => state.user.data);
   const { Panel } = Collapse;
   
-  const [emailErrorStatus, setEmailErrorStatus] = React.useState<boolean>(false);
-  const [passwords, setPasswords] = React.useState<IUpdatePassword>({
+  const [emailErrorStatus, setEmailErrorStatus] = useState<boolean>(false);
+  const [passwords, setPasswords] = useState<IUpdatePassword>({
     new_password: '',
     repeat_password: '',
     uuid: userData.uuid
   });
-  const [user, setUser] = React.useState<ISignUpUser>(userData);
+  const [user, setUser] = useState<ISignUpUser>(userData);
 
   const updatePasswordClick = async () => {
     await UpdatePassword(token.access, passwords);

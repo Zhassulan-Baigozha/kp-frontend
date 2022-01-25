@@ -67,7 +67,6 @@ export interface IUpdateUserRole {
 }
 
 export type WagonExistanceType = 'find' | 'notFind' | null
-export type TAlertStatus= 'success' | 'error'
 
 export interface IWSListTable {
   axisNum: string,

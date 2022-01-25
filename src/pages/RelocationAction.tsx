@@ -21,17 +21,17 @@ const RelocationAction: React.FC = () => {
   const statuses = useSelector((state: IRootState) => state.allStatuses.data);
   const warehouse = useSelector((state: IRootState) => state.warehouse.data);
   const transportList = useSelector((state: IRootState) => state.transportList.data);
-  const [selectTransport, setSelectedTransport] = React.useState<IComboBoxOption | null>(null);
-  const [transportType, setTransportType] = React.useState<IComboBoxOption | null>(null);
-  const [transferList, setTransferList] = React.useState<IComboBoxOption[]>([]);
-  const [getTransfersByWhApi, setGetTransfersByWhApi] = React.useState<any[]>([]);
+  const [selectTransport, setSelectedTransport] = useState<IComboBoxOption | null>(null);
+  const [transportType, setTransportType] = useState<IComboBoxOption | null>(null);
+  const [transferList, setTransferList] = useState<IComboBoxOption[]>([]);
+  const [getTransfersByWhApi, setGetTransfersByWhApi] = useState<any[]>([]);
   const filteredTransportList = 
     transportList
     .filter((item) => (item.transport_type === transportType?.id))
     .map((item, idx) => ({id: idx, label: item.number}));
   const warehouseList = warehouse.map((item) =>({id: item.id, label: item.name}));
-  const [fromWarehouse, setFromWarehouse] = React.useState<IComboBoxOption | null>(null);
-  const [toWarehouse, setToWarehouse] = React.useState<IComboBoxOption | null>(null);
+  const [fromWarehouse, setFromWarehouse] = useState<IComboBoxOption | null>(null);
+  const [toWarehouse, setToWarehouse] = useState<IComboBoxOption | null>(null);
   const [ws, setWS] = useState<IGridData[]>([]);
   const [left, setLeft] = useState<string[]>([]);
   const [right, setRight] = useState<string[]>([]);

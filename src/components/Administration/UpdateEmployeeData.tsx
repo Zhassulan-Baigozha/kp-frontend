@@ -1,5 +1,5 @@
 import { GetAllUsr, UpdateUserData } from 'src/api/CustomAPI';
-import React from 'react';
+import React, { useState } from 'react';
 import { IUser } from 'src/store/user/types';
 import CustomTextField from '../base/CustomTextField';
 import { IRootState } from 'src/store';
@@ -16,7 +16,6 @@ import ComboBox from '../base/ComboBox';
 interface IUpdateEmployeeData {
   expanded: string | false;
   handlePanelChange: (value: string) => (event: React.SyntheticEvent, isExpanded: boolean) => void;
-  setAlertText: (value: string) => void;
   setOpen: (value: boolean) => void;
   users: IUser[];
 }
@@ -24,16 +23,14 @@ interface IUpdateEmployeeData {
 const UpdateEmployeeData: React.FC<IUpdateEmployeeData> = ({
   expanded,
   handlePanelChange,
-  setAlertText,
-  setOpen,
   users,
 }) => {
   const { Panel } = Collapse;
   const offices = useSelector((state: IRootState) => state.offices.data);
   const token = useSelector((state: IRootState) => state.token.data);
-  const [emailErrorStatus, setEmailErrorStatus] = React.useState<boolean>(false);
+  const [emailErrorStatus, setEmailErrorStatus] = useState<boolean>(false);
   const dispatch = useDispatch();
-  const [userFields, setUserFields] = React.useState<IUpdateUserFieldsRequest>({
+  const [userFields, setUserFields] = useState<IUpdateUserFieldsRequest>({
     email: '',
     name: '',
     office: null,

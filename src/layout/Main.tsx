@@ -38,7 +38,7 @@ import { primaryColor } from 'src/constants/primaryColor';
 const Main: React.FC = () => {
   const token = useSelector((state: IRootState) => state.token.data);
   const [currentPage, setCurrentPage] = useState<string>('');
-  const [openCustomDialog, setOpenCustomDialog] = React.useState<boolean>(false);
+  const [openCustomDialog, setOpenCustomDialog] = useState<boolean>(false);
   const dispatch = useDispatch();
   const compareNumbers = (a:IStatusesTable, b:IStatusesTable) => {
     if (a.code < b.code ) return -1;

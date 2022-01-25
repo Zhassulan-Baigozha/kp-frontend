@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { IComboBoxOption, IProps } from 'src/interfaces';
 // import { useTheme } from '@mui/material/styles';
 import { 
@@ -37,7 +37,7 @@ const CustomHeader: React.FC<ICustomHeader> = ({
   const warehouse = useSelector((state: IRootState) => state.warehouse.data);
   const warehouseList = warehouse.map((item) =>({id: item.id, label: item.name}));
   const dispatch = useDispatch();
-  const [selectedWarehouse, selectWarehouse] = React.useState<IComboBoxOption | null>(null);
+  const [selectedWarehouse, selectWarehouse] = useState<IComboBoxOption | null>(null);
   const menu = (
     <Menu>
       <Menu.Item key={'PROFILE'} onClick={()=>{
