@@ -11,14 +11,12 @@ const DashboardPage: React.FC<IPages> = () => {
   const statuses = useSelector((state: IRootState) => state.allStatuses.data);
   const { convertedWS } = useConvertWs();
 
-  const dataSource = statuses.map(s => {
-    return {
-      num: (+s.code) + 1,
-      name: s.name, 
-      commonState: s.type_status,
-      amount: convertedWS.filter(z => z.status === s.code).length
-    };
-  });
+  const dataSource = statuses.map(s => ({
+    num: (+s.code) + 1,
+    name: s.name, 
+    commonState: s.type_status,
+    amount: convertedWS.filter(z => z.status === s.code).length
+  }));
 
   
   return (

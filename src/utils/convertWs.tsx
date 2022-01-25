@@ -3,8 +3,7 @@ import { IWSListTable } from "src/interfaces";
 
 export const convertWs = (wsIn: IGetWSResponse[]):IWSListTable[] => {
   if (wsIn && wsIn.length > 0) {
-    return wsIn.map((item, idx) => { 
-      let sdf = {
+    return wsIn.map(item => ({
         ...item,
         status: item.status,
         key: item.id,
@@ -15,9 +14,7 @@ export const convertWs = (wsIn: IGetWSResponse[]):IWSListTable[] => {
         createdAt: item.created_at.substr(0,4),
         description: item.description,
         wheels: item.wheels,
-      };
-      return sdf;
-    })
+      }))
   } else {
     return []
   }
