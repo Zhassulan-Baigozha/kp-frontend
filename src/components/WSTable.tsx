@@ -54,25 +54,32 @@ const WSTable: React.FC<IWSTable> = ({ws}) => {
       width: 150,
     },
   ];
-
+  const rowSelection = {
+    onChange: (selectedRowKeys: React.Key[], selectedRows: IWSListTable[]) => {
+      console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+    },
+    getCheckboxProps: (record: IWSListTable) => ({
+      disabled: record.axisNum === 'Disabled User', // Column configuration not to be checked
+      name: record.axisNum,
+    }),
+  };
   return (
-    <div style={{
-      margin: '10px',
-      padding: '8px',
-    }}>
-      <Table
-        bordered
-        columns={columns2}
-        dataSource={ws}
-        size="small"
-        rowClassName={'rowClassName2'}
-        expandable={{ 
-          rowExpandable: record => !!(record?.wheels && record?.wheels?.length),
-          expandedRowRender: record => <NestedTable wheels={record.wheels}/>, 
-        }}
-        pagination={{ pageSize: 40, hideOnSinglePage: true }}
-      />
-    </div>
+    <Table
+      bordered
+      columns={columns2}
+      dataSource={ws}
+      size="small"
+      rowClassName={'rowClassName2'}
+      rowSelection={{
+        type: 'checkbox',
+        ...rowSelection,
+      }}
+      expandable={{ 
+        rowExpandable: record => !!(record?.wheels && record?.wheels?.length),
+        expandedRowRender: record => <NestedTable wheels={record.wheels}/>, 
+      }}
+      pagination={{ pageSize: 40, hideOnSinglePage: true }}
+    />
   );
 };
 

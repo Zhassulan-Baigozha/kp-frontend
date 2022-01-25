@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { IComboBoxOption, TAlertStatus, WagonExistanceType } from 'src/interfaces';
+import { IComboBoxOption, IWSListTable, TAlertStatus, WagonExistanceType } from 'src/interfaces';
 import { AddWSFromWagon, AppendPurchased, GetWagonById, GetWarehouseByStoreId } from 'src/api/CustomAPI';
 import { useSelector } from 'react-redux';
 import { IRootState } from 'src/store';
-import { IAppendPurchasedForm, IGridData } from 'src/api/CustomAPIModel';
+import { IAppendPurchasedForm } from 'src/api/CustomAPIModel';
 import { getCurrentDateString } from 'src/utils/getCurrentDateString';
 import { AddActionTypeNames } from 'src/constants/AddActionTypeNames';
 import BackgroundPaper from 'src/layout/BackgroundPaper';
@@ -12,8 +12,8 @@ import Purchased from 'src/components/AddAction_From/Purchased';
 import CustomTextField from 'src/components/base/CustomTextField';
 import { CustomCheckBtn } from 'src/components/base/CustomBtn';
 import { Input } from 'antd';
-// import WSTable from 'src/components/WSTable';
-// import Purchased from 'src/components/AddAction_From/Purchased';
+import WSTable from 'src/components/WSTable';
+import { convertWs } from 'src/utils/convertWs';
 // import CustomizedInputBase from 'src/components/CustomizedInputBase';
 // import AlertBox from 'src/components/AlertBox';
 const { Search } = Input;
@@ -56,15 +56,14 @@ const AddAction: React.FC = () => {
   const [typeOfAdding, setToggleTypeOfAdding] 
   = useState<IComboBoxOption>(AddActionTypeNames[1]);
   const [purchasedWSData, setPurchasedWSData] = useState<IAppendPurchasedForm>(initNewField);
-
-  const statuses = useSelector((state: IRootState) => state.allStatuses.data);
   const [wagonNum, setWagonNum] = useState<string>('21206958');
+
   const [wagonBtnDisabled, setWagonBtnDisabled] = useState<boolean>(false);
   const [openAlert, setOpenAlert] = useState<boolean>(false);
   const [alertText, setAlertText] = useState<string>('');
   const [alertStatus, setAlertStatus] = useState<TAlertStatus>('error');
   const [wagonExists, setWagonExists] = useState<WagonExistanceType>(null);
-  const [ws, setWS] = useState<IGridData[]>([]);
+  const [ws, setWS] = useState<IWSListTable[]>([]);
   const [selectedWS, selectWS] = useState<number | null>(null);
   const selectedWarehousePurchased = 
     warehouseList.filter((item)=>(item.id === purchasedWSData.warehouse_id)).length === 1
@@ -73,38 +72,35 @@ const AddAction: React.FC = () => {
   const onSearch = (value: string) => {
     setLoading(true);
     setWagonNum(value);
+    setWS([]);
     //   setWagonBtnDisabled(false);
     //   setWagonExists(null);
     if (typeOfAdding?.id === 1 && wagonNum?.length === 8){
       GetWagonById(token.access, value)
         .then((getWagonByIdResponse) => {
-          // const ConvertWSResponse = ConvertWS([
-          // getWagonByIdResponse.wheel_set_first,
-          // getWagonByIdResponse.wheel_set_second,
-          // getWagonByIdResponse.wheel_set_third,
-          // getWagonByIdResponse.wheel_set_fourth
-          // ]);
-          // setWS(ConvertWSResponse);
+          const buf = convertWs([
+            getWagonByIdResponse.wheel_set_first,
+            getWagonByIdResponse.wheel_set_second,
+            getWagonByIdResponse.wheel_set_third,
+            getWagonByIdResponse.wheel_set_fourth
+          ])
+          setWS(buf);
           // setWagonBtnDisabled(true);
           // setWagonExists('find');
         })
         .catch((err)=>{
-          // setWS([]);
           // setWagonBtnDisabled(true);
           // setWagonExists('notFind');
-          // console.log(err.response.code);
-          // console.log(err.response.status);
-          // console.log(err.response.message);
+          console.error(err.response.code);
+          console.error(err.response.status);
+          console.error(err.response.message);
         })
         .finally(()=>{
           setLoading(false);
         });
     }
   };
-  const handleClick = async () => {
-
-    
-  }
+  const handleClick = async () => {}
 
   const addNewWS1 = () => {
     if (!selectedWarehouse?.id){ 
@@ -186,7 +182,7 @@ const AddAction: React.FC = () => {
 
   return (
     <BackgroundPaper>
-      <div style={{display: 'flex'}}>
+      <div style={{display: 'flex', paddingBottom: '8px'}}>
         <ComboBox 
           fullWidth={false}
           label={'Выберите формат добавления'} 
@@ -243,10 +239,14 @@ const AddAction: React.FC = () => {
                 options={warehouseList}
                 value={selectedWarehouse}
                 onChange={(value) => {
+                  console.log('selectedWarehouse ', value);
                   if (value?.id && (warehouseList.filter(item => item.id === value.id).length === 1)){
                     selectWarehouse(warehouseList.filter(item => item.id === value.id)[0]);
+                    setWS([]);
                     GetWarehouseByStoreId(token.access, value.id.toString())
                       .then((response)=>{
+                        const buf = convertWs(response)
+                        setWS(buf);
                         // const ConvertWSResponse = ConvertWS(response);
                         // setWS(ConvertWSResponse);
                       })
@@ -277,8 +277,10 @@ const AddAction: React.FC = () => {
           </>
         )}
       </div>
-      { typeOfAdding?.id === 3 && (
+      { typeOfAdding?.id === 3 ? (
         <Purchased purchasedWSData={purchasedWSData} setPurchasedWSData={setPurchasedWSData} />
+        ): (
+        <WSTable ws={ws}/>
       )}
       {/* { typeOfAdding?.id !== 3 && ws.length > 0 && <WSTable ws={ws} 
         onSelect={(selectedItemsWSTable:number[])=>{
