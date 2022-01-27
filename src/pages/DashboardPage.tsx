@@ -1,5 +1,4 @@
 import React from 'react';
-import { IPages } from 'src/interfaces';
 import { IRootState } from 'src/store';
 import { useSelector } from 'react-redux';
 import BackgroundPaper from 'src/layout/BackgroundPaper';
@@ -7,7 +6,7 @@ import { Table } from 'antd';
 import { DashboardTableColumns } from 'src/constants/DashboardTableColumns';
 import useConvertWs from 'src/hooks/useConvertWs';
 
-const DashboardPage: React.FC<IPages> = () => {
+const DashboardPage: React.FC = () => {
     const statuses = useSelector((state: IRootState) => state.allStatuses.data);
     const { convertedWS } = useConvertWs();
 

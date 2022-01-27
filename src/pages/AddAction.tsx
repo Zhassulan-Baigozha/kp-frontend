@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { IComboBoxOption, IWSListTable, WagonExistanceType } from 'src/interfaces';
+import { IComboBoxOption, IWSListTable } from 'src/interfaces';
 import { AddWSFromWagon, AppendPurchased, GetWagonById, GetWarehouseByStoreId } from 'src/api/CustomAPI';
 import { useSelector } from 'react-redux';
 import { IRootState } from 'src/store';

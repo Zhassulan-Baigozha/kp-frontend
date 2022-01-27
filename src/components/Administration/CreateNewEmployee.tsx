@@ -12,17 +12,7 @@ import { CustomBlockBtn } from '../base/CustomBtn';
 import ComboBox from '../base/ComboBox';
 
 
-interface ICreateNewEmployee {
-  expanded: string | false;
-  handlePanelChange: (value: string) => (event: React.SyntheticEvent, isExpanded: boolean) => void;
-  setOpen: (value: boolean) => void;
-}
-
-const CreateNewEmployee: React.FC<ICreateNewEmployee> = ({
-    expanded,
-    handlePanelChange,
-    setOpen,
-}) => {
+const CreateNewEmployee: React.FC = () => {
     const { Panel } = Collapse;
     const token = useSelector((state: IRootState) => state.token.data);
     const offices = useSelector((state: IRootState) => state.offices.data);
@@ -43,13 +33,13 @@ const CreateNewEmployee: React.FC<ICreateNewEmployee> = ({
     const signUpOnClick = () => {
         if (
             newUser.email &&
-      newUser.name &&
-      ((typeof newUser.office) === 'number') &&
-      newUser.password &&
-      newUser.position &&
-      newUser.repeat_password &&
-      newUser.roles &&
-      newUser.surname
+            newUser.name &&
+            ((typeof newUser.office) === 'number') &&
+            newUser.password &&
+            newUser.position &&
+            newUser.repeat_password &&
+            newUser.roles &&
+            newUser.surname
         ) {
             SignUp(token.access, newUser)
                 .then((res) => {

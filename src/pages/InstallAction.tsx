@@ -17,7 +17,7 @@ import useWarehouseList from 'src/hooks/useWarehouseList';
 // import CustomizedInputBase from 'src/components/CustomizedInputBase';
 
 
-const InstallAction: React.FC<IPages> = ({switchPage}) => {
+const InstallAction: React.FC = () => {
     const [wagonBtnDisabled, setWagonBtnDisabled] = useState<boolean>(false);
     const { warehouseList } = useWarehouseList();
     const statuses = useSelector((state: IRootState) => state.allStatuses.data);
@@ -70,16 +70,16 @@ const InstallAction: React.FC<IPages> = ({switchPage}) => {
                     />
                 </div>
                 {/* <CustomizedInputBase 
-          value={wagonNum} 
-          placeholder={'Номер вагона'}
-          onIconClick={handleClick}
-          disabled={wagonBtnDisabled}
-          onTextChange={(value)=>{
-            setWagonNum(value);
-            setWagonBtnDisabled(false);
-            setWagonExists(null);
-          }}
-          validate={wagonExists}
+            value={wagonNum} 
+            placeholder={'Номер вагона'}
+            onIconClick={handleClick}
+            disabled={wagonBtnDisabled}
+            onTextChange={(value)=>{
+                setWagonNum(value);
+                setWagonBtnDisabled(false);
+                setWagonExists(null);
+            }}
+            validate={wagonExists}
         /> */}
                 <CustomCheckBtn onClick={()=>{}}/>
             </div>

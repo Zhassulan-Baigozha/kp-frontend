@@ -12,20 +12,11 @@ import CollapseElemLayout from 'src/layout/CollapseElemLayout';
 import { CustomBlockBtn } from 'src/components/base/CustomBtn';
 import ComboBox from '../base/ComboBox';
 
-interface IUpdatePasswordBlock {
-  expanded: string | false;
-  handlePanelChange: (value: string) => (event: React.SyntheticEvent, isExpanded: boolean) => void;
-  setOpen: (value: boolean) => void;
-  users: IUser[];
-}
 
-const UpdatePasswordBlock: React.FC<IUpdatePasswordBlock> = ({
-    expanded,
-    handlePanelChange,
-    setOpen,
-    users,
-}) => {
+
+const UpdatePasswordBlock: React.FC = () => {
     const { Panel } = Collapse;
+    const users = useSelector((state: IRootState) => state.allUsers.data);
     const token = useSelector((state: IRootState) => state.token.data);
     const [selectedUser, setSelectedUser] = useState<IComboBoxOption | null>(null);
     const [passwords, setPasswords] = useState<IUpdatePassword>({
@@ -36,9 +27,9 @@ const UpdatePasswordBlock: React.FC<IUpdatePasswordBlock> = ({
     const updatePasswordClick = async () => {
         if (
             selectedUser?.id && 
-      passwords.new_password &&
-      passwords.repeat_password && 
-      passwords.new_password === passwords.repeat_password
+            passwords.new_password &&
+            passwords.repeat_password && 
+            passwords.new_password === passwords.repeat_password
         ){
             UpdatePassword(token.access, {...passwords, uuid: users[+selectedUser.id].uuid});
             message.success('Пароль обновлен');

@@ -10,29 +10,20 @@ import CollapseLastElemLayout from 'src/layout/CollapseLastElemLayout';
 import { CustomBlockBtn } from 'src/components/base/CustomBtn';
 import ComboBox from '../base/ComboBox';
 
-interface IUpdateEmployeeData {
-  expanded: string | false;
-  handlePanelChange: (value: string) => (event: React.SyntheticEvent, isExpanded: boolean) => void;
-  setOpen: (value: boolean) => void;
-  users: IUser[];
-}
 
-const UpdateEmployeeRole: React.FC<IUpdateEmployeeData> = ({
-    expanded,
-    handlePanelChange,
-    setOpen,
-    users,
-}) => {
+
+const UpdateEmployeeRole: React.FC = () => {
     const { Panel } = Collapse;
     const [userFields, setUserFields] = useState<IUpdateUserRole>({
         role_name: '',
         user_id: ''
     });
     const roles = useSelector((state: IRootState) => state.roles.data);
+    const users = useSelector((state: IRootState) => state.allUsers.data);
     const token = useSelector((state: IRootState) => state.token.data);
     const updateRole = () => {
         UpdateUserRole(token.access, userFields)
-            .then((res)=>{
+            .then(() => {
                 message.success('Роль клиента обновлено');
             }).catch((err) => {
                 console.error(err);
@@ -47,8 +38,8 @@ const UpdateEmployeeRole: React.FC<IUpdateEmployeeData> = ({
                         options={users.map((item, idx)=>({id: idx, label: item.surname + ' ' + item.name}))}
                         value={
                             userFields.user_id &&
-              users
-                  .filter((item) => (item.uuid === userFields.user_id)).length === 1
+                            users
+                                .filter((item) => (item.uuid === userFields.user_id)).length === 1
                                 ? users
                                     .filter((item) => (item.uuid === userFields.user_id))
                                     .map((item, idx)=>({id: idx, label: item.surname + ' ' + item.name}))[0]

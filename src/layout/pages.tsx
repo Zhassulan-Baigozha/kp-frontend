@@ -45,14 +45,14 @@ export const Pagination:React.FC<IPagination> = ({
 }) => {
     switch (currentPage) {
     case WAREHOUSE_ACTION: return <WarehousePage switchPage={switchPage} />;
-    case DASHBOARD_ACTION: return <DashboardPage switchPage={switchPage} />;
-    case ADMINISTRATION: return <Administration switchPage={switchPage} />;
-    case SIGN_IN_ACTION: return <SignInPage />;
+    case DASHBOARD_ACTION: return <DashboardPage />;
+    case ADMINISTRATION: return <Administration />;
+    case SIGN_IN_ACTION: return <SignInPage switchPage={switchPage}/>;
     case PROFILE: return <ProfilePage />;
     case ADD_ACTION: return <AddAction />;
     case REPAIR_ACTION: return <RepairAction />;
-    case INSTALL_ACTION: return <InstallAction switchPage={switchPage} />;
+    case INSTALL_ACTION: return <InstallAction />;
     case RELOCATION_ACTION: return <RelocationAction />;
-    default: return <SignInPage />;
+    default: return <SignInPage  switchPage={switchPage}/>;
     }
 };

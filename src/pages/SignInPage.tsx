@@ -1,4 +1,4 @@
-import { SignIn } from 'src/api/CustomAPI';
+import { GetTransportList, GetWarehouse, SignIn } from 'src/api/CustomAPI';
 import React, { useState } from 'react';
 import CustomTextField from 'src/components/base/CustomTextField';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,13 +7,19 @@ import { IRootState } from 'src/store';
 import { primaryColor } from 'src/constants/primaryColor';
 import CustomPasswordField from 'src/components/CustomPasswordField';
 import { CustomBlockBtn } from 'src/components/base/CustomBtn';
+import { WAREHOUSE_ACTION } from 'src/layout/pages';
+import { setWarehouseList } from 'src/store/warehouse/actions';
+import { setTransportList } from 'src/store/transportList/actions';
 
 interface ILogin {
-  login: string,
-  password: string,
+    login: string,
+    password: string,
+}
+interface ISignInPage {
+    switchPage: (value: string) => void
 }
 
-const SignInPage: React.FC = () => {
+const SignInPage: React.FC<ISignInPage> = ({ switchPage }) => {
     const dispatch = useDispatch();
     const token = useSelector((state: IRootState) => state.token.data);
     const [user, setUser] = useState<ILogin>({
@@ -22,18 +28,41 @@ const SignInPage: React.FC = () => {
     });
 
     const SignInOnClick = () => {
-        console.log('SignInOnClick');
         SignIn(token.access,{ 
             email: user.login, 
             password: user.password, 
         })
-            .then((res) => {
-                if (res.access_token && res.refresh){
-                    dispatch(setTokenData({
-                        access: 'Bearer ' + res.access_token,
-                        refresh: res.refresh,
-                    }));
-                }
+            .then(async (res) => {
+                // if (!res.access_token) {
+                //     message.error('Обновите страницу и попробуйте перезайти, или обратитесь к администратору');
+                //     return;
+                // }
+                
+                const access_token = 'Bearer ' + res.access_token;
+                dispatch(setTokenData({
+                    access: access_token,
+                    refresh: res.refresh,
+                }));
+                const GetWarehouseResponse = await GetWarehouse(access_token);
+                switchPage(WAREHOUSE_ACTION);
+                const GetTransportListResponse = await GetTransportList(access_token);
+                dispatch(setWarehouseList(GetWarehouseResponse));
+                dispatch(setTransportList(GetTransportListResponse));
+
+                // const GetAllUsrResponse = await GetAllUsr(access_token);
+                // const GetOfficesResponse = await GetOffices(access_token);
+                // const GetStatusesResponse = await GetStatuses(access_token);
+                // console.log('GetRolesResponse', GetRolesResponse);
+                // console.log('GetAllUsrResponse', GetAllUsrResponse);
+                // console.log('GetOfficesResponse', GetOfficesResponse);
+                // console.log('GetStatusesResponse', GetStatusesResponse);
+                // console.log('GetTransportListResponse', GetTransportListResponse);
+
+                // dispatch(setAllStatusesList(GetStatusesResponse.sort(compareNumbers)));
+                // dispatch(setOfficesList(GetOfficesResponse));
+                // dispatch(setRolesList(GetRolesResponse.map((item) => ({ ...item, label: item.name }))));
+                // dispatch(setAllUsersList(GetAllUsrResponse));
+                
             });
     };
 

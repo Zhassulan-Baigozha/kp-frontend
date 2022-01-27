@@ -12,11 +12,10 @@ import { setRolesList } from 'src/store/roles/actions';
 import { setOfficesList } from 'src/store/offices/actions';
 import { setAllUsersList } from 'src/store/allUsers/actions';
 
-const Administration: React.FC<IPages> = () => {
+const Administration: React.FC = () => {
     const token = useSelector((state: IRootState) => state.token.data);
     const dispatch = useDispatch();
 
-    const [users, setUsers] = useState<IUser[]>([]);
     const [snackText, setSnackText] = useState<string>('Данные обновлены');
     const [dialogText, setDialogText] = useState<string>('');
     const [expanded, setExpanded] = useState<string | false>('');
@@ -35,7 +34,7 @@ const Administration: React.FC<IPages> = () => {
     };
 
     useEffect(() => {
-        GetRoles(token.access).then((GetRolesResponse )=>{
+        GetRoles(token.access).then((GetRolesResponse)=>{
             dispatch(setRolesList(GetRolesResponse.map((item) => ({ ...item, label: item.name }))));
         });
         GetOffices(token.access).then((GetOfficesResponse )=>{
@@ -54,29 +53,10 @@ const Administration: React.FC<IPages> = () => {
             position: 'relative',
             top: '80px',
         }}>
-            <CreateNewEmployee 
-                expanded={expanded}
-                handlePanelChange={handlePanelChange}
-                setOpen={setOpen}
-            />
-            <UpdateEmployeeData 
-                expanded={expanded}
-                handlePanelChange={handlePanelChange}
-                setOpen={setOpen}
-                users={users}
-            />
-            <UpdateEmployeeRole 
-                expanded={expanded}
-                handlePanelChange={handlePanelChange}
-                setOpen={setOpen}
-                users={users}
-            />
-            <UpdatePasswordBlock 
-                expanded={expanded}
-                handlePanelChange={handlePanelChange}
-                setOpen={setOpen}
-                users={users}
-            />
+            <CreateNewEmployee />
+            <UpdateEmployeeData />
+            <UpdateEmployeeRole />
+            <UpdatePasswordBlock />
         </div>
     );
 };

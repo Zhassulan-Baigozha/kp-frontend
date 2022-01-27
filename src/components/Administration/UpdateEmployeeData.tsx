@@ -13,20 +13,12 @@ import CollapseLastElemLayout from 'src/layout/CollapseLastElemLayout';
 import { CustomBlockBtn } from 'src/components/base/CustomBtn';
 import ComboBox from '../base/ComboBox';
 
-interface IUpdateEmployeeData {
-    expanded: string | false;
-    handlePanelChange: (value: string) => (event: React.SyntheticEvent, isExpanded: boolean) => void;
-    setOpen: (value: boolean) => void;
-    users: IUser[];
-}
 
-const UpdateEmployeeData: React.FC<IUpdateEmployeeData> = ({
-    expanded,
-    handlePanelChange,
-    users,
-}) => {
+
+const UpdateEmployeeData: React.FC = () => {
     const { Panel } = Collapse;
     const offices = useSelector((state: IRootState) => state.offices.data);
+    const users = useSelector((state: IRootState) => state.allUsers.data);
     const token = useSelector((state: IRootState) => state.token.data);
     const [emailErrorStatus, setEmailErrorStatus] = useState<boolean>(false);
     const dispatch = useDispatch();
