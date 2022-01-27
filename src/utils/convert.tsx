@@ -19,3 +19,11 @@ export const convertWs = (wsIn: IGetWSResponse[]):IWSListTable[] => {
         return [];
     }
 };
+
+export const convertKeyToNumber = (input: React.Key[]):number[] => {
+    try{
+        return input.map(value=> +value);
+    } catch(e) {
+        return [];
+    }
+};

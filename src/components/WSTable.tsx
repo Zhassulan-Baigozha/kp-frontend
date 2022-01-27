@@ -1,15 +1,14 @@
 import * as React from 'react';
 import { Table } from 'antd';
 import NestedTable from './NestedTable';
-import { IRootState } from 'src/store';
-import { useSelector } from 'react-redux';
 import { IWSListTable } from 'src/interfaces';
 
 interface IWSTable {
-  ws: IWSListTable[]
+    ws: IWSListTable[]
+    onChange?: (selectedRowKeys: React.Key[], selectedRows: IWSListTable[]) => void;
 }
 
-const WSTable: React.FC<IWSTable> = ({ws}) => {
+const WSTable: React.FC<IWSTable> = ({ws, onChange}) => {
     const columns2 = [
         {
             title: '№ Оси',
@@ -56,10 +55,12 @@ const WSTable: React.FC<IWSTable> = ({ws}) => {
     ];
     const rowSelection = {
         onChange: (selectedRowKeys: React.Key[], selectedRows: IWSListTable[]) => {
-            console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+            onChange?.(selectedRowKeys, selectedRows);
+            console.log('selectedRowKeys:', selectedRowKeys);
+            console.log('selectedRows:', selectedRows);
         },
         getCheckboxProps: (record: IWSListTable) => ({
-            disabled: record.axisNum === 'Disabled User', // Column configuration not to be checked
+            // disabled: record.axisNum === 'Disabled User',
             name: record.axisNum,
         }),
     };

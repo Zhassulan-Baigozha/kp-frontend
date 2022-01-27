@@ -13,8 +13,9 @@ import CustomTextField from 'src/components/base/CustomTextField';
 import { CustomCheckBtn } from 'src/components/base/CustomBtn';
 import { Input, message } from 'antd';
 import WSTable from 'src/components/WSTable';
-import { convertWs } from 'src/utils/convertWs';
+import { convertWs } from 'src/utils/convert';
 import useWarehouseList from 'src/hooks/useWarehouseList';
+import { convertKeyToNumber } from 'src/utils/convert';
 // import CustomizedInputBase from 'src/components/CustomizedInputBase';
 const { Search } = Input;
 
@@ -45,21 +46,18 @@ const initNewField: IAppendPurchasedForm = {
 };
 
 const AddAction: React.FC = () => {
+    const { warehouseList } = useWarehouseList();
     const token = useSelector((state: IRootState) => state.token.data);
     const [loading, setLoading] = useState<boolean>(false);
+    const [typeOfAdding, setToggleTypeOfAdding] = useState<IComboBoxOption>(AddActionTypeNames[2]);
+    const [selectedWS, selectWS] = useState<number[]>([]);
 
 
-    const { warehouseList } = useWarehouseList();
     const [selectedWarehouse, selectWarehouse] = useState<IComboBoxOption | null>(null);
-    const [typeOfAdding, setToggleTypeOfAdding] 
-  = useState<IComboBoxOption>(AddActionTypeNames[1]);
     const [purchasedWSData, setPurchasedWSData] = useState<IAppendPurchasedForm>(initNewField);
     const [wagonNum, setWagonNum] = useState<string>('21206958');
 
-    const [wagonBtnDisabled, setWagonBtnDisabled] = useState<boolean>(false);
-    const [wagonExists, setWagonExists] = useState<WagonExistanceType>(null);
     const [ws, setWS] = useState<IWSListTable[]>([]);
-    const [selectedWS, selectWS] = useState<number | null>(null);
     const selectedWarehousePurchased = 
     warehouseList.filter((item)=>(item.id === purchasedWSData.warehouse_id)).length === 1
         ? warehouseList.filter((item)=>(item.id === purchasedWSData.warehouse_id))[0]
@@ -68,8 +66,7 @@ const AddAction: React.FC = () => {
         setLoading(true);
         setWagonNum(value);
         setWS([]);
-        //   setWagonBtnDisabled(false);
-        //   setWagonExists(null);
+
         if (typeOfAdding?.id === 1 && wagonNum?.length === 8){
             GetWagonById(token.access, value)
                 .then((getWagonByIdResponse) => {
@@ -105,7 +102,7 @@ const AddAction: React.FC = () => {
             message.error('Вы не выбрали Вагон');
             return null; 
         }
-        if (selectedWS === null){ 
+        if (selectedWS.length <= 0){ 
             message.error('Вы не выбрали КП');
             return null; 
         }
@@ -113,8 +110,8 @@ const AddAction: React.FC = () => {
             wagon_id: +wagonNum, 
             description: '',
             warehouse_id: +selectedWarehouse.id,
-            ws_list: [selectedWS]
-        }).then((res)=>{
+            ws_list: selectedWS
+        }).then((_res)=>{
             message.success('Вы успешно добавили КП');
         }).catch((err) => {
             console.log(err);
@@ -126,6 +123,10 @@ const AddAction: React.FC = () => {
     };
 
     const addNewWSType3 = () => {
+        if (!purchasedWSData.warehouse_id){ 
+            message.error('Вы не выбрали Склад');
+            return null; 
+        }
         const temp = {
             date_survey: purchasedWSData.date_survey + 'T00:00:00Z',
             description: purchasedWSData.description,
@@ -153,7 +154,7 @@ const AddAction: React.FC = () => {
             }],
         };
         AppendPurchased(token.access, temp)
-            .then((res)=>{
+            .then(() => {
                 message.success('Вы успешно добавили КП');
             })
             .catch((err)=>{
@@ -194,8 +195,7 @@ const AddAction: React.FC = () => {
                         />
                         <Search 
                             placeholder={'Номер вагона'}
-                            value={wagonNum} 
-                            disabled={wagonBtnDisabled}
+                            value={wagonNum}
                             onSearch={onSearch} 
                             style={{ width: 300, marginRight: '16px' }} 
                             onChange={(value)=>{
@@ -204,41 +204,38 @@ const AddAction: React.FC = () => {
                             // validate={wagonExists}
                             loading={loading}
                         />
-            
                         <CustomCheckBtn onClick={addNewWS1} />
                     </>
                 )}
-                {typeOfAdding?.id === 2 &&
-          (
-              <>
-                  <CustomTextField 
-                      placeholder={'Номер транспорта'} 
-                      fullWidth={false}
-                  />
-                  <ComboBox 
-                      fullWidth={false}
-                      label={'Выберите Склад'} 
-                      options={warehouseList}
-                      value={selectedWarehouse}
-                      onChange={(value) => {
-                          console.log('selectedWarehouse ', value);
-                          if (value?.id && (warehouseList.filter(item => item.id === value.id).length === 1)){
-                              selectWarehouse(warehouseList.filter(item => item.id === value.id)[0]);
-                              setWS([]);
-                              GetWarehouseByStoreId(token.access, value.id.toString())
-                                  .then((response)=>{
-                                      const buf = convertWs(response);
-                                      setWS(buf);
-                                      // const ConvertWSResponse = ConvertWS(response);
-                                      // setWS(ConvertWSResponse);
-                                  });
-                          }
-                      }}
-                  />
-                  <CustomCheckBtn onClick={addNewWS2}/>
-              </>
-          )
-                }
+                {typeOfAdding?.id === 2 && (
+                    <>
+                        <CustomTextField 
+                            placeholder={'Номер транспорта'} 
+                            fullWidth={false}
+                        />
+                        <ComboBox 
+                            fullWidth={false}
+                            label={'Выберите Склад'} 
+                            options={warehouseList}
+                            value={selectedWarehouse}
+                            onChange={(value) => {
+                                console.log('selectedWarehouse ', value);
+                                if (value?.id && (warehouseList.filter(item => item.id === value.id).length === 1)){
+                                    selectWarehouse(warehouseList.filter(item => item.id === value.id)[0]);
+                                    setWS([]);
+                                    GetWarehouseByStoreId(token.access, value.id.toString())
+                                        .then((response)=>{
+                                            const buf = convertWs(response);
+                                            setWS(buf);
+                                            // const ConvertWSResponse = ConvertWS(response);
+                                            // setWS(ConvertWSResponse);
+                                        });
+                                }
+                            }}
+                        />
+                        <CustomCheckBtn onClick={addNewWS2}/>
+                    </>
+                )}
                 {(typeOfAdding?.id === 3) && (
                     <>
                         <ComboBox 
@@ -247,7 +244,6 @@ const AddAction: React.FC = () => {
                             options={warehouseList}
                             value={selectedWarehousePurchased}
                             onChange={(value) => {
-              
                                 if (value?.id && (warehouseList.filter(item => item.id === value.id).length === 1)){
                                     setPurchasedWSData({...purchasedWSData, warehouse_id: +value.id});
                                 } else if(value === null) {
@@ -262,19 +258,21 @@ const AddAction: React.FC = () => {
             { typeOfAdding?.id === 3 ? (
                 <Purchased purchasedWSData={purchasedWSData} setPurchasedWSData={setPurchasedWSData} />
             ): (
-                <WSTable ws={ws}/>
+                <WSTable ws={ws} onChange={(_a, _b)=>{
+                    selectWS(convertKeyToNumber(_a));
+                }}/>
             )}
             {/* { typeOfAdding?.id !== 3 && ws.length > 0 && <WSTable ws={ws} 
         onSelect={(selectedItemsWSTable:number[])=>{
-          if (selectedItemsWSTable?.length > 0){
-            selectWS(selectedItemsWSTable[0]);
-            console.log(
-              ws.map((item) =>{
-                console.log(item);
-                return item;
-              })
-            );
-          }
+            if (selectedItemsWSTable?.length > 0){
+                selectWS(selectedItemsWSTable[0]);
+                console.log(
+                ws.map((item) =>{
+                    console.log(item);
+                    return item;
+                })
+                );
+            }
         }}
         /> }  */}
         </BackgroundPaper>
