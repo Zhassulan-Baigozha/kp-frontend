@@ -1,9 +1,9 @@
 export interface IRoles {
-  id: number,
-  label: string,
+    id: number,
+    label: string,
 }
 
 export interface IRolesState {
-  isFetching: boolean,
-  data: IRoles[],
+    isFetching: boolean,
+    data: IRoles[],
 }

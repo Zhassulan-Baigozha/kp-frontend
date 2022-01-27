@@ -35,8 +35,6 @@ export interface IProps {}
 
 export interface IPages extends IProps {
     switchPage: (value: string) => void
-    openCustomDialog: boolean
-    setOpenCustomDialog: (value: boolean) => void
 }
 
 export interface IComboBoxOption {

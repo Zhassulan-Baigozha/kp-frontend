@@ -28,17 +28,16 @@ import { setTokenData } from 'src/store/token/actions';
 import { setWSList } from 'src/store/wsList/actions';
 
 import './Main.css';
-import { setSortedWSList } from 'src/store/sortedWS/actions';
 import { IStatusesTable } from 'src/store/allStatuses/types';
 // import CustomDialog from 'src/components/CustomDialog';
 import { setTransportList } from 'src/store/transportList/actions';
-import { Layout, Button } from 'antd';
-import { primaryColor } from 'src/constants/primaryColor';
+import { Layout } from 'antd';
+
 
 const Main: React.FC = () => {
     const token = useSelector((state: IRootState) => state.token.data);
     const [currentPage, setCurrentPage] = useState<string>('');
-    const [openCustomDialog, setOpenCustomDialog] = useState<boolean>(false);
+
     const dispatch = useDispatch();
     const compareNumbers = (a:IStatusesTable, b:IStatusesTable) => {
         if (a.code < b.code ) return -1;
@@ -48,25 +47,25 @@ const Main: React.FC = () => {
 
     useEffect(() => {
         if (token.access.length > 0 && token.refresh.length > 0 ) {
-            GetUsr(token.access)
-                .then(async (GetUsrResponse) => {
+            GetWarehouse(token.access)
+                .then(async (GetWarehouseResponse) => {
                     if (currentPage === SIGN_IN_ACTION) {
                         setCurrentPage(WAREHOUSE_ACTION);
-                        const GetRolesResponse = await GetRoles(token.access);
-                        const GetAllUsrResponse = await GetAllUsr(token.access);
-                        const GetOfficesResponse = await GetOffices(token.access);
-                        const GetStatusesResponse = await GetStatuses(token.access);
+
+
+                        // const GetAllUsrResponse = await GetAllUsr(token.access);
+                        // const GetOfficesResponse = await GetOffices(token.access);
+                        // const GetStatusesResponse = await GetStatuses(token.access);
                         const GetTransportListResponse = await GetTransportList(token.access);
-                        const GetWarehouseResponse = await GetWarehouse(token.access);
                         dispatch(setWarehouseList(GetWarehouseResponse));
-                        console.log('GetRolesResponse', GetRolesResponse);
-                        console.log('GetAllUsrResponse', GetAllUsrResponse);
-                        console.log('GetOfficesResponse', GetOfficesResponse);
-                        console.log('GetStatusesResponse', GetStatusesResponse);
-                        console.log('GetTransportListResponse', GetTransportListResponse);
+                        // console.log('GetRolesResponse', GetRolesResponse);
+                        // console.log('GetAllUsrResponse', GetAllUsrResponse);
+                        // console.log('GetOfficesResponse', GetOfficesResponse);
+                        // console.log('GetStatusesResponse', GetStatusesResponse);
+                        // console.log('GetTransportListResponse', GetTransportListResponse);
                         dispatch(setTransportList(GetTransportListResponse));
-                        dispatch(setUserData(GetUsrResponse));
-                        dispatch(setAllStatusesList(GetStatusesResponse.sort(compareNumbers)));
+
+                        // dispatch(setAllStatusesList(GetStatusesResponse.sort(compareNumbers)));
                         // dispatch(setOfficesList(GetOfficesResponse));
                         // dispatch(setRolesList(GetRolesResponse.map((item) => ({ ...item, label: item.name }))));
                         // dispatch(setAllUsersList(GetAllUsrResponse));
@@ -97,29 +96,28 @@ const Main: React.FC = () => {
             <Layout>
                 <CustomHeader currentPage={currentPage} switchPage={setCurrentPage}/>
                 {/* <Content className="site-layout" style={{ 
-          padding: '0 50px', 
-          marginTop: '100px',
-          
-        }}>
-          <div className="site-layout-background" style={{ padding: '24px', borderRadius: '16px',}}>
-            asd
-          </div>
-        </Content>
-        <Footer style={{ textAlign: 'center' }}></Footer> */}
+                    padding: '0 50px', 
+                    marginTop: '100px',
+                    
+                    }}>
+                    <div className="site-layout-background" style={{ padding: '24px', borderRadius: '16px',}}>
+                        asd
+                    </div>
+                </Content>
+                <Footer style={{ textAlign: 'center' }}></Footer> */}
             </Layout>
             {/* <CustomDialog 
-        openCustomDialog={openCustomDialog} 
-        setOpenCustomDialog={setOpenCustomDialog}
-        switchPage={setCurrentPage}
-      />
-      <CustomHeader currentPage={currentPage} switchPage={setCurrentPage}/> */}
+                openCustomDialog={openCustomDialog} 
+                setOpenCustomDialog={setOpenCustomDialog}
+                switchPage={setCurrentPage}
+                />
+                <CustomHeader currentPage={currentPage} switchPage={setCurrentPage}/> 
+            */}
             <Pagination 
                 currentPage={currentPage} 
                 switchPage={setCurrentPage}
-                openCustomDialog={openCustomDialog} 
-                setOpenCustomDialog={setOpenCustomDialog}
             />
-      
+
         </>
     );
 };

@@ -36,40 +36,22 @@ export const getPageTitle = (value: string):string => {
 };
 
 interface IPagination extends IPages {
-  currentPage: string
+    currentPage: string
 }
 
 export const Pagination:React.FC<IPagination> = ({ 
     currentPage, 
     switchPage, 
-    openCustomDialog,
-    setOpenCustomDialog,
 }) => {
     switch (currentPage) {
-    case WAREHOUSE_ACTION: return <WarehousePage 
-        switchPage={switchPage} 
-        openCustomDialog={openCustomDialog}
-        setOpenCustomDialog={setOpenCustomDialog}
-    />;
-    case DASHBOARD_ACTION: return <DashboardPage 
-        switchPage={switchPage} 
-        openCustomDialog={openCustomDialog}
-        setOpenCustomDialog={setOpenCustomDialog}
-    />;
-    case ADMINISTRATION: return <Administration 
-        switchPage={switchPage} 
-        openCustomDialog={openCustomDialog}
-        setOpenCustomDialog={setOpenCustomDialog}
-    />;
+    case WAREHOUSE_ACTION: return <WarehousePage switchPage={switchPage} />;
+    case DASHBOARD_ACTION: return <DashboardPage switchPage={switchPage} />;
+    case ADMINISTRATION: return <Administration switchPage={switchPage} />;
     case SIGN_IN_ACTION: return <SignInPage />;
     case PROFILE: return <ProfilePage />;
     case ADD_ACTION: return <AddAction />;
     case REPAIR_ACTION: return <RepairAction />;
-    case INSTALL_ACTION: return <InstallAction 
-        switchPage={switchPage} 
-        openCustomDialog={openCustomDialog}
-        setOpenCustomDialog={setOpenCustomDialog}
-    />;
+    case INSTALL_ACTION: return <InstallAction switchPage={switchPage} />;
     case RELOCATION_ACTION: return <RelocationAction />;
     default: return <SignInPage />;
     }

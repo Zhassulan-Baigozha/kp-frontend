@@ -14,10 +14,10 @@ import { CustomBlockBtn } from 'src/components/base/CustomBtn';
 import ComboBox from '../base/ComboBox';
 
 interface IUpdateEmployeeData {
-  expanded: string | false;
-  handlePanelChange: (value: string) => (event: React.SyntheticEvent, isExpanded: boolean) => void;
-  setOpen: (value: boolean) => void;
-  users: IUser[];
+    expanded: string | false;
+    handlePanelChange: (value: string) => (event: React.SyntheticEvent, isExpanded: boolean) => void;
+    setOpen: (value: boolean) => void;
+    users: IUser[];
 }
 
 const UpdateEmployeeData: React.FC<IUpdateEmployeeData> = ({

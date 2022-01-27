@@ -1,4 +1,4 @@
-import { GetAllUsr } from 'src/api/CustomAPI';
+import { GetAllUsr, GetOffices, GetRoles } from 'src/api/CustomAPI';
 import React, { useEffect, useState } from 'react';
 import { IPages } from 'src/interfaces';
 import { IUser } from 'src/store/user/types';
@@ -6,14 +6,16 @@ import CreateNewEmployee from 'src/components/Administration/CreateNewEmployee';
 import UpdatePasswordBlock from 'src/components/Administration/UpdatePasswordBlock';
 import UpdateEmployeeData from 'src/components/Administration/UpdateEmployeeData';
 import UpdateEmployeeRole from 'src/components/Administration/UpdateEmployeeRole';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from 'src/store';
-import { Collapse } from 'antd';
+import { setRolesList } from 'src/store/roles/actions';
+import { setOfficesList } from 'src/store/offices/actions';
+import { setAllUsersList } from 'src/store/allUsers/actions';
 
-const Administration: React.FC<IPages> = ({
-    setOpenCustomDialog,
-}) => {
+const Administration: React.FC<IPages> = () => {
     const token = useSelector((state: IRootState) => state.token.data);
+    const dispatch = useDispatch();
+
     const [users, setUsers] = useState<IUser[]>([]);
     const [snackText, setSnackText] = useState<string>('Данные обновлены');
     const [dialogText, setDialogText] = useState<string>('');
@@ -32,16 +34,17 @@ const Administration: React.FC<IPages> = ({
         setOpen(false);
     };
 
-    // useEffect(() => {
-    //   GetAllUsr(token.access).then((res: IUser[]) => {
-    //     setUsers(res);
-    //   }).catch((err)=>{
-    //     console.log(err.response);
-    //     if (err.response.status === 400){
-    //       setOpenCustomDialog(true);
-    //     }
-    //   });
-    // });
+    useEffect(() => {
+        GetRoles(token.access).then((GetRolesResponse )=>{
+            dispatch(setRolesList(GetRolesResponse.map((item) => ({ ...item, label: item.name }))));
+        });
+        GetOffices(token.access).then((GetOfficesResponse )=>{
+            dispatch(setOfficesList(GetOfficesResponse));
+        });
+        GetAllUsr(token.access).then((GetAllUsrResponse )=>{
+            dispatch(setAllUsersList(GetAllUsrResponse));
+        });
+    });
 
     return (
         <div style={{
