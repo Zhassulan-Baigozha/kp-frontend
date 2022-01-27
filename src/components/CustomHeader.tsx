@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { IComboBoxOption, IProps } from 'src/interfaces';
-// import { useTheme } from '@mui/material/styles';
 import { 
     getPageTitle, 
     ADMINISTRATION, 
@@ -9,27 +8,22 @@ import {
     SIGN_IN_ACTION, 
     PROFILE 
 } from 'src/layout/pages';
-// import PersonIcon from '@mui/icons-material/Person';
-// import { GetUsr } from 'src/api/CustomAPI';
-// import HomeIcon from '@mui/icons-material/Home';
-// import HomeMaxIcon from '@mui/icons-material/HomeMax';
-// import { Button, Menu, MenuItem } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from 'src/store';
 import { primaryColor } from 'src/constants/primaryColor';
 import { Header } from 'antd/lib/layout/layout';
 import { Menu, Dropdown, Button } from 'antd';
 import { FileTextFilled, HomeFilled, UserOutlined } from '@ant-design/icons';
-import { GetUsr, GetWarehouseByStoreId } from 'src/api/CustomAPI';
+import { GetWarehouseByStoreId } from 'src/api/CustomAPI';
 import ComboBox from './base/ComboBox';
 import { setWSList } from 'src/store/wsList/actions';
 import useWarehouseList from 'src/hooks/useWarehouseList';
 
 interface ICustomHeader extends IProps {
-  currentPage: string
-  switchPage: (value: string) => void
-  
+    currentPage: string
+    switchPage: (value: string) => void
 }
+
 const CustomHeader: React.FC<ICustomHeader> = ({
     currentPage,
     switchPage,
@@ -42,11 +36,6 @@ const CustomHeader: React.FC<ICustomHeader> = ({
         <Menu>
             <Menu.Item key={'PROFILE'} onClick={()=>{
                 switchPage(PROFILE);
-                GetUsr(token.access).then((res) => {
-                    console.log('GetUsr res   = ', res);
-                }).catch((err) => {
-                    console.error('GetUsr error = ', err);
-                });
             }}>
         Личный кабинет
             </Menu.Item>
@@ -86,7 +75,7 @@ const CustomHeader: React.FC<ICustomHeader> = ({
                         <td style={{textAlign: 'left', width: '33%', padding: 0}} onClick={()=>{
                             switchPage(WAREHOUSE_ACTION);
                         }}>
-                logo
+                    logo
                         </td>
                         <td style={{
                             textAlign: 'center',
@@ -140,37 +129,37 @@ const CustomHeader: React.FC<ICustomHeader> = ({
                                         />
                                     </Dropdown>
                                     {/* 
-                    <Menu
-                      id="basic-menu"
-                      anchorEl={anchorEl}
-                      open={open}
-                      onClose={handleClose}
-                      MenuListProps={{
-                        'aria-labelledby': 'basic-button',
-                      }}
-                    >
-                      <MenuItem onClick={()=>{
-                        handleClose();
-                        switchPage(PROFILE);
+                                    <Menu
+                                    id="basic-menu"
+                                    anchorEl={anchorEl}
+                                    open={open}
+                                    onClose={handleClose}
+                                    MenuListProps={{
+                                        'aria-labelledby': 'basic-button',
+                                    }}
+                                    >
+                                    <MenuItem onClick={()=>{
+                                        handleClose();
+                                        switchPage(PROFILE);
 
-                        GetUsr(token.access).then((res) => {
-                          console.log('GetUsr res   = ', res);
-                        }).catch((err) => {
-                          console.error('GetUsr error = ', err);
-                        });
+                                        GetUsr(token.access).then((res) => {
+                                            console.log('GetUsr res   = ', res);
+                                        }).catch((err) => {
+                                            console.error('GetUsr error = ', err);
+                                        });
 
-                      }}>Личный кабинет</MenuItem>
+                                        }}>Личный кабинет</MenuItem>
 
-                      <MenuItem onClick={()=>{
-                        handleClose();
-                        switchPage(ADMINISTRATION);
-                      }}>Администрирование</MenuItem>
-                      <MenuItem onClick={()=>{
-                        handleClose();
-                        localStorage.removeItem('auth_user_token');
-                        switchPage(SIGN_IN_ACTION);
-                      }}>Выход</MenuItem>
-                    </Menu> */}
+                                        <MenuItem onClick={()=>{
+                                                handleClose();
+                                                switchPage(ADMINISTRATION);
+                                        }}>Администрирование</MenuItem>
+                                        <MenuItem onClick={()=>{
+                                            handleClose();
+                                            localStorage.removeItem('auth_user_token');
+                                            switchPage(SIGN_IN_ACTION);
+                                            }}>Выход</MenuItem>
+                                        </Menu> */}
                                 </div>
                             </div>
                         </td>

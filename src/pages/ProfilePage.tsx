@@ -15,7 +15,7 @@ const ProfilePage: React.FC = () => {
     const token = useSelector((state: IRootState) => state.token.data);
     const userData = useSelector((state: IRootState) => state.user.data);
     const { Panel } = Collapse;
-  
+
     const [emailErrorStatus, setEmailErrorStatus] = useState<boolean>(false);
     const [passwords, setPasswords] = useState<IUpdatePassword>({
         new_password: '',

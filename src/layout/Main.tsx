@@ -65,7 +65,7 @@ const Main: React.FC = () => {
                         console.log('GetStatusesResponse', GetStatusesResponse);
                         console.log('GetTransportListResponse', GetTransportListResponse);
                         dispatch(setTransportList(GetTransportListResponse));
-                        // dispatch(setUserData(GetUsrResponse));
+                        dispatch(setUserData(GetUsrResponse));
                         dispatch(setAllStatusesList(GetStatusesResponse.sort(compareNumbers)));
                         // dispatch(setOfficesList(GetOfficesResponse));
                         // dispatch(setRolesList(GetRolesResponse.map((item) => ({ ...item, label: item.name }))));
