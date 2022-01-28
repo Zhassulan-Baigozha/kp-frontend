@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { IComboBoxOption, IProps } from 'src/interfaces';
+import React from 'react';
+import { IComboBoxOption } from 'src/interfaces';
 import { 
     getPageTitle, 
     ADMINISTRATION, 
@@ -21,7 +21,7 @@ import { setSelectedWS } from 'src/store/selectedWS/actions';
 import { IStatusesTable } from 'src/store/allStatuses/types';
 import { setAllStatusesList } from 'src/store/allStatuses/actions';
 
-interface ICustomHeader extends IProps {
+interface ICustomHeader {
     currentPage: string
     switchPage: (value: string) => void
 }

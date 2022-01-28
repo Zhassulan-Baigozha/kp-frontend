@@ -1,6 +1,5 @@
 import React from 'react';
 import { ADD_ACTION, INSTALL_ACTION, RELOCATION_ACTION, REPAIR_ACTION } from 'src/layout/pages';
-import { IPages } from 'src/interfaces';
 import { Button } from 'antd';
 import { ApartmentOutlined, DownloadOutlined, NodeExpandOutlined, PlusSquareOutlined } from '@ant-design/icons';
 import WSTable from 'src/components/WSTable';
@@ -8,8 +7,11 @@ import useConvertWs from 'src/hooks/useConvertWs';
 import BackgroundPaper from 'src/layout/BackgroundPaper';
 // import { OutlinedButton } from 'src/components/CustomButtons';
 // import { AddIco, InstallIco, RelocationIco, RepairIco } from '../assets/svg';
+interface IWarehousePage {
+    switchPage: (value: string) => void
+}
 
-const WarehousePage: React.FC<IPages> = ({
+const WarehousePage: React.FC<IWarehousePage> = ({
     switchPage,
 }) => {
     const { convertedWS } = useConvertWs();

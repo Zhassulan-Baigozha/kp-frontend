@@ -1,11 +1,5 @@
-import react from 'react';
 import { IWheel } from './api/CustomAPIModel';
 import { IUser } from './store/user/types';
-
-export interface ITablePagination {
-    pageNo: number;
-    pageSize: number;
-}
 
 export type TKeyValuePair<T> = {
     [key in string]: T;
@@ -14,35 +8,12 @@ export type TKeyValuePairString = {
     [key in string]: string;
 };
 
-export type TNavigationBlock = {
-    [key in string]: {
-        component: React.ReactNode,
-        statusText: string,
-        stepText: string,
-    };
-};
-
-export interface IMocks1 {
-    name: string,
-    calories: number,
-    fat: number,
-    carbs: number,
-    protein: number,
-}
-
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface IProps {}
-
-export interface IPages extends IProps {
-    switchPage: (value: string) => void
-}
-
 export interface IComboBoxOption {
     label: string
     id: number | string
 }
 
-export interface ISignUpUser extends IUser{
+export interface ISignUpUser extends IUser {
     password?: string,
     new_password?: string,
     repeat_password?: string,

@@ -1,7 +1,5 @@
 import { GetAllUsr, GetOffices, GetRoles } from 'src/api/CustomAPI';
 import React, { useEffect, useState } from 'react';
-import { IPages } from 'src/interfaces';
-import { IUser } from 'src/store/user/types';
 import CreateNewEmployee from 'src/components/Administration/CreateNewEmployee';
 import UpdatePasswordBlock from 'src/components/Administration/UpdatePasswordBlock';
 import UpdateEmployeeData from 'src/components/Administration/UpdateEmployeeData';

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import React, { useState } from 'react';
-import { IComboBoxOption, IPages, WagonExistanceType } from 'src/interfaces';
+import { IComboBoxOption, WagonExistanceType } from 'src/interfaces';
 import { useSelector } from 'react-redux';
 import { IRootState } from 'src/store';
 import { IGridData } from 'src/api/CustomAPIModel';

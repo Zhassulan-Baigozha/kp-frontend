@@ -8,7 +8,6 @@ import InstallAction from '../pages/InstallAction';
 import DashboardPage from '../pages/DashboardPage';
 import ProfilePage from '../pages/ProfilePage';
 import Administration from '../pages/Administration';
-import { IPages } from 'src/interfaces';
 
 export const DASHBOARD_ACTION = 'Dashboard';
 export const WAREHOUSE_ACTION = 'Warehouse';
@@ -35,8 +34,9 @@ export const getPageTitle = (value: string):string => {
     }
 };
 
-interface IPagination extends IPages {
+interface IPagination {
     currentPage: string
+    switchPage: (value: string) => void
 }
 
 export const Pagination:React.FC<IPagination> = ({ 
