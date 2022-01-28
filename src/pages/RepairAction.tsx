@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from 'src/store';
 import { IComboBoxOption } from 'src/interfaces';
 import { IGetRepairWSResponse, IGridData, IRepairWSUpdateRequest } from 'src/api/CustomAPIModel';
-import { GetWSByWarehouse, RepairWSChangeStatus, RepairWSUpdate } from 'src/api/CustomAPI';
+import { GetWarehouseByStoreId, RepairWSChangeStatus, RepairWSUpdate } from 'src/api/CustomAPI';
 import BackgroundPaper from '../layout/BackgroundPaper';
 import ComboBox from 'src/components/base/ComboBox';
 import { message } from 'antd';
+import { setSelectedWS } from 'src/store/selectedWS/actions';
+import { setWSList } from 'src/store/wsList/actions';
+import { RepairTypeOptions } from 'src/constants/RepairTypeOptions';
 // import ComboBox from 'src/components/ComboBox';
 // import WSTable from 'src/components/WSTable';
 // import { Button } from '@mui/material';
@@ -20,17 +23,14 @@ const RepairAction: React.FC = () => {
     const statuses = useSelector((state: IRootState) => state.allStatuses.data);
     const statusesList = statuses.map((item) =>({id: item.code, label: item.name}));
     const [selectedStatus, selectStatus] = useState<IComboBoxOption | null>(null);
-    const [selectedWarehouse, selectWarehouse] = useState<IComboBoxOption | null>(null);
+    const selectedWarehouse = useSelector((state: IRootState) => state.selectedWS.data);
+    const dispatch = useDispatch();
+
+
     const [wheelsetArray, setWheelsetArray] = useState<IGetRepairWSResponse[]>([]);
     const [selectedWheelset, selectWheelset] = useState<IRepairWSUpdateRequest | null>(null);
     const [repairType, setRepairType] = useState<boolean>(false);
     const [selectedItem, setSelectedItem] = useState<number | null>(null);
-    const RepairTypeOption = [{
-        id:0, label: 'На ремонт',
-    },{
-        id:1, label: 'Из ремонта',
-    }];
-
     const [ws, setWS] = useState<IGridData[]>([]);
     const addNewWS = () => {
         if (!selectedWarehouse?.id) { 
@@ -70,9 +70,9 @@ const RepairAction: React.FC = () => {
             <div style={{display: 'flex'}}>
                 <ComboBox 
                     label={'Выберите вид ремонта'} 
-                    options={RepairTypeOption}
+                    options={RepairTypeOptions}
                     value={
-                        repairType ? RepairTypeOption[1] : RepairTypeOption[0]
+                        repairType ? RepairTypeOptions[1] : RepairTypeOptions[0]
                     }
                     onChange={(value) => {
                         setRepairType(!!value?.id);
@@ -83,18 +83,11 @@ const RepairAction: React.FC = () => {
                     options={warehouseList}
                     value={selectedWarehouse}
                     onChange={(value) => {
-                        if (
-                            value?.id && 
-                (warehouseList.filter(item => item.id === value.id).length === 1) &&
-                typeof (value?.id) === 'number'
-                        ){
-                            selectWarehouse(warehouseList.filter(item => item.id === value.id)[0]);
-                            GetWSByWarehouse(token.access, value.id)
-                                .then((response)=>{
-                                    setWheelsetArray(response);
-                                    // const ConvertWSResponse = ConvertWS(response.map(item=> item.wheelset));
-                                    // setWS(ConvertWSResponse);
-                                });
+                        dispatch(setSelectedWS(value));
+                        if (value?.id){
+                            GetWarehouseByStoreId(token.access, value.id.toString()).then((res)=>{
+                                dispatch(setWSList(res));
+                            });
                         }
                     }}
                 />
@@ -109,57 +102,59 @@ const RepairAction: React.FC = () => {
                     }}
                 />
                 {/* <Button 
-          variant="outlined" 
-          style={{height: '40px'}} 
-          onClick={addNewWS}>
-          <CheckIcon color="success"/> 
-        </Button> */}
+                    variant="outlined" 
+                    style={{height: '40px'}} 
+                    onClick={addNewWS}>
+                    <CheckIcon color="success"/> 
+                    </Button> 
+                */}
             </div>
             {/* {selectedWheelset && <FromRepair 
-        wheelSetData={selectedWheelset} 
-        setWheelSetData={selectWheelset} 
-      />} */}
+                wheelSetData={selectedWheelset} 
+                setWheelSetData={selectWheelset} 
+            />} */}
             {/* <WSTable ws={ws} onSelect={(selectedItemsWSTable:number[])=>{
-        if (!selectedStatus?.id){ 
-          setAlertText('Вы не выбрали Статус');
-          setAlertType('error');
-          setOpenAlert(true);
-          return null 
-        }
-        if (selectedItemsWSTable.length === 1){
-          setSelectedItem(selectedItemsWSTable[0]);
-          const temp = wheelsetArray.filter((item: IGetRepairWSResponse) => (
-            selectedItemsWSTable[0] === item?.wheelset?.id));
-          if (temp?.length === 1) {
-            selectWheelset({
-              description: temp[0].wheelset.description,
-              id: temp[0].wheelset.id,
-              status_id: selectedStatus?.id, 
-              updated_at: temp[0].wheelset.updated_at,
-              wagon: temp[0].wheelset.wagon,
-              wheels: temp[0].wheelset.wheels.map((item)=>({
-                date_survey: item.date_survey!,
-                flange: item.flange!,
-                id: item.id!,
-                rim: item.rim!,
-                status: item.status!,
-                wheelset_id: temp[0].wheelset.id!,
-              }))?.length > 0 
-              ? temp[0].wheelset.wheels.map((item)=>({
-                date_survey: item.date_survey!,
-                flange: item.flange!,
-                id: item.id!,
-                rim: item.rim!,
-                status: item.status!,
-                wheelset_id: temp[0].wheelset.id!,
-              }))
-              : []
-            });
-          } else {
-            selectWheelset(null);
-          }
-        }
-      }}/> */}
+                if (!selectedStatus?.id){ 
+                    setAlertText('Вы не выбрали Статус');
+                    setAlertType('error');
+                    setOpenAlert(true);
+                    return null 
+                }
+            if (selectedItemsWSTable.length === 1){
+                setSelectedItem(selectedItemsWSTable[0]);
+                const temp = wheelsetArray.filter((item: IGetRepairWSResponse) => (
+                selectedItemsWSTable[0] === item?.wheelset?.id));
+                if (temp?.length === 1) {
+                selectWheelset({
+                    description: temp[0].wheelset.description,
+                    id: temp[0].wheelset.id,
+                    status_id: selectedStatus?.id, 
+                    updated_at: temp[0].wheelset.updated_at,
+                    wagon: temp[0].wheelset.wagon,
+                    wheels: temp[0].wheelset.wheels.map((item)=>({
+                        date_survey: item.date_survey!,
+                        flange: item.flange!,
+                        id: item.id!,
+                        rim: item.rim!,
+                        status: item.status!,
+                        wheelset_id: temp[0].wheelset.id!,
+                    }))?.length > 0 
+                    ? temp[0].wheelset.wheels.map((item)=>({
+                        date_survey: item.date_survey!,
+                        flange: item.flange!,
+                        id: item.id!,
+                        rim: item.rim!,
+                        status: item.status!,
+                        wheelset_id: temp[0].wheelset.id!,
+                    }))
+                    : []
+                    });
+                } else {
+                    selectWheelset(null);
+                }
+            }
+            }}/> 
+        */}
         </BackgroundPaper>
     );
 };

@@ -18,12 +18,12 @@ import { GetAllUsr, GetOffices, GetRoles, GetStatuses, GetUsr, GetWarehouseBySto
 import ComboBox from './base/ComboBox';
 import { setWSList } from 'src/store/wsList/actions';
 import { setSelectedWS } from 'src/store/selectedWS/actions';
-import { IStatusesTable } from 'src/store/allStatuses/types';
 import { setAllStatusesList } from 'src/store/allStatuses/actions';
 import { setUserData } from 'src/store/user/actions';
 import { setAllUsersList } from 'src/store/allUsers/actions';
 import { setOfficesList } from 'src/store/offices/actions';
 import { setRolesList } from 'src/store/roles/actions';
+import { sortStatuses } from 'src/utils/sortStatuses';
 
 interface ICustomHeader {
     currentPage: string
@@ -38,11 +38,7 @@ const CustomHeader: React.FC<ICustomHeader> = ({
     const selectedWarehouse = useSelector((state: IRootState) => state.selectedWS.data);
     const warehouseList = useSelector((state: IRootState) => state.warehouse.data);
     const dispatch = useDispatch();
-    const compareNumbers = (a:IStatusesTable, b:IStatusesTable) => {
-        if (a.code < b.code ) return -1;
-        if (a.code > b.code ) return 1;
-        return 0;
-    };
+
     const menu = (
         <Menu>
             <Menu.Item key={'PROFILE'} onClick={()=>{
@@ -68,7 +64,6 @@ const CustomHeader: React.FC<ICustomHeader> = ({
                 Администрирование
             </Menu.Item>
             <Menu.Item key={'SIGN_IN_ACTION'} onClick={()=>{
-                localStorage.removeItem('auth_user_token');
                 switchPage(SIGN_IN_ACTION);
             }}>
                 Выход
@@ -100,7 +95,7 @@ const CustomHeader: React.FC<ICustomHeader> = ({
                         <td style={{textAlign: 'left', width: '33%', padding: 0}} onClick={()=>{
                             switchPage(WAREHOUSE_ACTION);
                         }}>
-                    logo
+                            logo
                         </td>
                         <td style={{
                             textAlign: 'center',
@@ -126,28 +121,22 @@ const CustomHeader: React.FC<ICustomHeader> = ({
                                     <Button 
                                         shape="circle" 
                                         icon={<HomeFilled />} 
+                                        style={{ marginRight: '16px' }}
                                         onClick={()=>{
                                             switchPage(WAREHOUSE_ACTION);
-                                        }}
-                                        style={{
-                                            marginRight: '16px',
                                         }}
                                     />
                                     <Button 
                                         shape="circle" 
                                         icon={<FileTextFilled />}  
+                                        style={{ marginRight: '16px' }}
                                         onClick={async ()=>{
                                             const GetStatusesResponse = await GetStatuses(token.access);
-                                            dispatch(setAllStatusesList(GetStatusesResponse.sort(compareNumbers)));
+                                            dispatch(setAllStatusesList(GetStatusesResponse.sort(sortStatuses)));
                                             switchPage(DASHBOARD_ACTION);
                                         }}
-                                        style={{
-                                            marginRight: '16px',
-                                        }}
                                     />
-                                    <div style={{
-                                        display: 'inline',
-                                    }}>
+                                    <div style={{ display: 'inline' }}>
                                         <Dropdown overlay={menu} placement="bottomRight">
                                             <Button 
                                                 shape="circle" 

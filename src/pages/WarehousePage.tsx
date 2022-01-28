@@ -5,6 +5,12 @@ import { ApartmentOutlined, DownloadOutlined, NodeExpandOutlined, PlusSquareOutl
 import WSTable from 'src/components/WSTable';
 import useConvertWs from 'src/hooks/useConvertWs';
 import BackgroundPaper from 'src/layout/BackgroundPaper';
+import { GetStatuses, GetTransportList } from 'src/api/CustomAPI';
+import { setAllStatusesList } from 'src/store/allStatuses/actions';
+import { useDispatch, useSelector } from 'react-redux';
+import { IRootState } from 'src/store';
+import { sortStatuses } from 'src/utils/sortStatuses';
+import { setTransportList } from 'src/store/transportList/actions';
 // import { OutlinedButton } from 'src/components/CustomButtons';
 // import { AddIco, InstallIco, RelocationIco, RepairIco } from '../assets/svg';
 interface IWarehousePage {
@@ -15,6 +21,8 @@ const WarehousePage: React.FC<IWarehousePage> = ({
     switchPage,
 }) => {
     const { convertedWS } = useConvertWs();
+    const token = useSelector((state: IRootState) => state.token.data);
+    const dispatch = useDispatch();
 
     return (
         <BackgroundPaper>
@@ -34,7 +42,11 @@ const WarehousePage: React.FC<IWarehousePage> = ({
                     <Button 
                         className={'OutlinedBtn'} 
                         icon={<ApartmentOutlined style={{fontSize: '20px', paddingTop: '0px'}}/>} 
-                        onClick={()=>{switchPage(REPAIR_ACTION);}}
+                        onClick={async ()=>{
+                            const GetStatusesResponse = await GetStatuses(token.access);
+                            dispatch(setAllStatusesList(GetStatusesResponse.sort(sortStatuses)));
+                            switchPage(REPAIR_ACTION);
+                        }}
                         style={{ height: '40px'}}
                     >
                         <span className={'WarehouseBtnText'}>Ремонт</span>
@@ -56,8 +68,12 @@ const WarehousePage: React.FC<IWarehousePage> = ({
                     <Button 
                         className={'OutlinedBtn'} 
                         icon={<NodeExpandOutlined style={{fontSize: '20px', paddingTop: '0px'}}/>} 
-                        onClick={()=>{switchPage(RELOCATION_ACTION);}}
                         style={{ height: '40px'}}
+                        onClick={async ()=>{
+                            const GetTransportListResponse = await GetTransportList(token.access);
+                            dispatch(setTransportList(GetTransportListResponse));
+                            switchPage(RELOCATION_ACTION);
+                        }}
                     >
                         <span className={'WarehouseBtnText'}>Перемещение</span>
                     </Button>

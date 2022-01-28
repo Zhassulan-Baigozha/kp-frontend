@@ -1,9 +1,8 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
 import React, { useState } from 'react';
 import { IComboBoxOption, IWSListTable } from 'src/interfaces';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from 'src/store';
-import { GetTransfersByWh_id } from 'src/api/CustomAPI';
+import { GetTransfersByWh_id, GetWarehouseByStoreId } from 'src/api/CustomAPI';
 import BackgroundPaper from '../layout/BackgroundPaper';
 import ComboBox from 'src/components/base/ComboBox';
 // import WSTable from 'src/components/WSTable';
@@ -14,6 +13,7 @@ import { transportTypes } from 'src/constants/transportTypes';
 import { CustomCheckBtn } from 'src/components/base/CustomBtn';
 import WSTable from 'src/components/WSTable';
 import { setSelectedWS } from 'src/store/selectedWS/actions';
+import { setWSList } from 'src/store/wsList/actions';
 // import TransferList from 'src/components/Relocation_Form/TransferList';
 // import WSTransfer from 'src/components/Relocation_Form/WSTransfer';
 
@@ -52,6 +52,7 @@ const RelocationAction: React.FC = () => {
         if (a.id > b.id ) return 1;
         return 0;
     };
+
     return (
         <BackgroundPaper>
             <div style={{ display: 'flex'}}>
@@ -60,10 +61,11 @@ const RelocationAction: React.FC = () => {
                     options={warehouseList}
                     value={fromWarehouse}
                     onChange={async (value: IComboBoxOption | null) => {
-
                         dispatch(setSelectedWS(value));
-
                         if (value?.id){
+                            GetWarehouseByStoreId(token.access, value.id.toString()).then((res)=>{
+                                dispatch(setWSList(res));
+                            });
 
                             // await GetWarehouseByStoreId(token.access, value.id.toString())
                             //   .then((response)=>{
@@ -121,7 +123,9 @@ const RelocationAction: React.FC = () => {
                     onChange={setSelectedTransport}
                 />
                 <div style={{display: 'inline-block'}}>
-                    <CustomCheckBtn onClick={()=>{}}/>
+                    <CustomCheckBtn onClick={()=>{
+                        console.log('Отправить на перемещение');
+                    }}/>
                 </div>
             </div>
             {/* <WSTransfer 

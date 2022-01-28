@@ -1,29 +1,32 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import React, { useState } from 'react';
-import { IComboBoxOption, WagonExistanceType } from 'src/interfaces';
-import { useSelector } from 'react-redux';
+import { WagonExistanceType } from 'src/interfaces';
+import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from 'src/store';
 import { IGridData } from 'src/api/CustomAPIModel';
 import { GetWagonById, GetWarehouseByStoreId } from 'src/api/CustomAPI';
 import BackgroundPaper from 'src/layout/BackgroundPaper';
 import { primaryColor } from 'src/constants/primaryColor';
 import ComboBox from 'src/components/base/ComboBox';
-import { CheckCircleOutlined } from '@ant-design/icons';
-import { Button } from 'antd';
 import { CustomCheckBtn } from 'src/components/base/CustomBtn';
+import { setSelectedWS } from 'src/store/selectedWS/actions';
+import { setWSList } from 'src/store/wsList/actions';
 // import CheckIcon from '@mui/icons-material/Check';
 // import WSTable from 'src/components/WSTable';
 // import CustomizedInputBase from 'src/components/CustomizedInputBase';
 
 
 const InstallAction: React.FC = () => {
+    const selectedWarehouse = useSelector((state: IRootState) => state.selectedWS.data);
+    const token = useSelector((state: IRootState) => state.token.data);
+    const dispatch = useDispatch();
+
     const [wagonBtnDisabled, setWagonBtnDisabled] = useState<boolean>(false);
     const warehouseList = useSelector((state: IRootState) => state.warehouse.data);
     const statuses = useSelector((state: IRootState) => state.allStatuses.data);
-    const token = useSelector((state: IRootState) => state.token.data);
     const [wsWarehouse, setWSWarehouse] = useState<IGridData[]>([]);
     const [wsWagon, setWSWagon] = useState<IGridData[]>([]);
-    const [selectedWarehouse, selectWarehouse] = useState<IComboBoxOption | null>(null);
+    // const [selectedWarehouse, selectWarehouse] = useState<IComboBoxOption | null>(null);
     const [wagonNum, setWagonNum] = useState<string>('21206958');
     const [wagonExists, setWagonExists] = useState<WagonExistanceType>(null);
     const handleClick = async () => {
@@ -57,13 +60,11 @@ const InstallAction: React.FC = () => {
                         options={warehouseList}
                         value={selectedWarehouse}
                         onChange={(value) => {
-                            if (value?.id && (warehouseList.filter(item => item.id === value.id).length === 1)){
-                                selectWarehouse(warehouseList.filter(item => item.id === value.id)[0]);
-                                GetWarehouseByStoreId(token.access, value.id.toString())
-                                    .then((response)=>{
-                                        // const ConvertWSResponse = ConvertWS(response);
-                                        // setWSWarehouse(ConvertWSResponse);
-                                    });
+                            dispatch(setSelectedWS(value));
+                            if (value?.id) {
+                                GetWarehouseByStoreId(token.access, value.id.toString()).then((res)=>{
+                                    dispatch(setWSList(res));
+                                });
                             }
                         }}
                     />
