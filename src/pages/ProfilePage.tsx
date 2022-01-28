@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import CustomTextField from 'src/components/base/CustomTextField';
-import { ISignUpUser } from 'src/interfaces';
 import { IRootState } from 'src/store';
 import { Collapse, message } from 'antd';
 import { IUpdatePassword } from 'src/api/CustomAPIModel';
@@ -10,29 +9,27 @@ import { UpdatePassword, UpdateUserData } from 'src/api/CustomAPI';
 import CollapseElemLayout from 'src/layout/CollapseElemLayout';
 import CollapseLastElemLayout from 'src/layout/CollapseLastElemLayout';
 import { CustomBlockBtn } from 'src/components/base/CustomBtn';
+import { setUserData } from 'src/store/user/actions';
 
 const ProfilePage: React.FC = () => {
+    const { Panel } = Collapse;
     const token = useSelector((state: IRootState) => state.token.data);
     const userData = useSelector((state: IRootState) => state.user.data);
     const dispatch = useDispatch();
-
-    const { Panel } = Collapse;
-
     const [emailErrorStatus, setEmailErrorStatus] = useState<boolean>(false);
     const [passwords, setPasswords] = useState<IUpdatePassword>({
         new_password: '',
         repeat_password: '',
-        uuid: userData.uuid
+        uuid: '',
     });
-    const [user, setUser] = useState<ISignUpUser>(userData);
 
     const updatePasswordClick = async () => {
-        await UpdatePassword(token.access, passwords);
+        await UpdatePassword(token.access, {...passwords, uuid: userData.uuid});
         message.success('Данные успешно обновлены');
     };
 
     const updateUserClick = async () => {
-        await UpdateUserData(token.access, user);
+        await UpdateUserData(token.access, userData);
         message.success('Данные успешно обновлены');
     };
 
@@ -50,20 +47,20 @@ const ProfilePage: React.FC = () => {
                         <CollapseElemLayout>
                             <CustomTextField 
                                 placeholder={'Имя'}
-                                onChange={(value) => {
-                                    setUser({...user, name: value.target.value});
-                                }}
-                                value={user.name}
+                                value={userData.name}
                                 fullWidth={true}
+                                onChange={(value) => {
+                                    dispatch(setUserData({...userData, name: value.target.value}));
+                                }}
                             />
                         </CollapseElemLayout>
                         <CollapseElemLayout>
                             <CustomTextField 
                                 placeholder={'Фамилия'}
                                 onChange={(value) => {
-                                    setUser({...user, surname: value.target.value});
+                                    dispatch(setUserData({...userData, surname: value.target.value}));
                                 }}
-                                value={user.surname}
+                                value={userData.surname}
                                 fullWidth={true}
                             />
                         </CollapseElemLayout>
@@ -74,21 +71,21 @@ const ProfilePage: React.FC = () => {
                                 style={{width: '100%'}}
                                 error={emailErrorStatus}
                                 onChange={(value) => {
-                                    setUser({...user, email: value.target.value});
-                                    setEmailErrorStatus(!validateEmail(user.email));
+                                    dispatch(setUserData({...userData, email: value.target.value}));
+                                    setEmailErrorStatus(!validateEmail(userData.email));
                                 }}
-                                value={user.email}
+                                value={userData.email}
                                 fullWidth={true}
                             />
                         </CollapseElemLayout>
                         <CollapseLastElemLayout>
                             <CustomBlockBtn onClick={updateUserClick} disabled={
-                                !(user.name.length > 0) ||
-                  !(user.email.length > 0) ||
-                  !(user.surname.length > 0) ||
-                  emailErrorStatus
+                                !(userData.name.length > 0) ||
+                                !(userData.email.length > 0) ||
+                                !(userData.surname.length > 0) ||
+                                emailErrorStatus
                             }>
-                Обновить 
+                                Обновить 
                             </CustomBlockBtn>
                         </CollapseLastElemLayout>
                     </Panel>
@@ -118,10 +115,10 @@ const ProfilePage: React.FC = () => {
                         <CollapseLastElemLayout>
                             <CustomBlockBtn onClick={updatePasswordClick} disabled={
                                 !(passwords.new_password.length > 0) ||
-                !(passwords.repeat_password.length > 0) ||
-                !(passwords.repeat_password === passwords.new_password)
+                                !(passwords.repeat_password.length > 0) ||
+                                !(passwords.repeat_password === passwords.new_password)
                             }>
-                Подтвердить 
+                                Подтвердить 
                             </CustomBlockBtn>
                         </CollapseLastElemLayout>
                     </Panel>

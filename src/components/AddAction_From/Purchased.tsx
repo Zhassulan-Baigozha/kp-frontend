@@ -7,8 +7,8 @@ import CustomTextArea from '../base/CustomTextArea';
 import CustomTextField from '../base/CustomTextField';
 
 interface IPurchased {
-  purchasedWSData: IAppendPurchasedForm
-  setPurchasedWSData: (value: IAppendPurchasedForm)=> void
+    purchasedWSData: IAppendPurchasedForm
+    setPurchasedWSData: (value: IAppendPurchasedForm)=> void
 }
 
 const Purchased: React.FC<IPurchased> = ({
@@ -210,7 +210,7 @@ const Purchased: React.FC<IPurchased> = ({
             <Col span={8} className="gutter-row">
                 <InnerBlock>
                     <Title level={5} style={{ paddingBottom: '16px' }}>
-            Данные левого колеса
+                        Данные левого колеса
                     </Title>
                     {wheelPair1Fields()}
                 </InnerBlock>
@@ -218,7 +218,7 @@ const Purchased: React.FC<IPurchased> = ({
             <Col span={8} className="gutter-row">
                 <InnerBlock>
                     <Title level={5} style={{ paddingBottom: '16px' }}>
-            Данные правого колеса
+                        Данные правого колеса
                     </Title>
                     {wheelPair2Fields()}
                 </InnerBlock>
@@ -226,7 +226,7 @@ const Purchased: React.FC<IPurchased> = ({
             <Col span={8} className="gutter-row">
                 <InnerBlock>
                     <Title level={5}  style={{ paddingBottom: '16px' }}>
-            Данные оси
+                        Данные оси
                     </Title>
                     <div style={{display: 'block', paddingBottom: '16px'}}>
                         <CustomTextField 
@@ -243,9 +243,9 @@ const Purchased: React.FC<IPurchased> = ({
                             onChange={(value) => {
                                 if (
                                     typeof (+value.target.value) === 'number' 
-                  && !isNaN(+value.target.value)
-                  && value.target.value.length <= 4
-                  && (+value.target.value) <= 3000
+                                    && !isNaN(+value.target.value)
+                                    && value.target.value.length <= 4
+                                    && (+value.target.value) <= 3000
                                 ){
                                     setPurchasedWSData({...purchasedWSData, year_issue: +value.target.value});
                                 }

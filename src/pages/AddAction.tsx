@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { IComboBoxOption, IWSListTable } from 'src/interfaces';
 import { AddWSFromWagon, AppendPurchased, GetWagonById, GetWarehouseByStoreId } from 'src/api/CustomAPI';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from 'src/store';
 import { IAppendPurchasedForm } from 'src/api/CustomAPIModel';
 import { getCurrentDateString } from 'src/utils/getCurrentDateString';
@@ -15,6 +15,8 @@ import { Input, message } from 'antd';
 import WSTable from 'src/components/WSTable';
 import { convertWs } from 'src/utils/convert';
 import { convertKeyToNumber } from 'src/utils/convert';
+import { setSelectedWS } from 'src/store/selectedWS/actions';
+import { setWSList } from 'src/store/wsList/actions';
 // import CustomizedInputBase from 'src/components/CustomizedInputBase';
 const { Search } = Input;
 
@@ -46,13 +48,15 @@ const initNewField: IAppendPurchasedForm = {
 
 const AddAction: React.FC = () => {
     const warehouseList = useSelector((state: IRootState) => state.warehouse.data);
+    const selectedWarehouse = useSelector((state: IRootState) => state.selectedWS.data);
     const token = useSelector((state: IRootState) => state.token.data);
     const [loading, setLoading] = useState<boolean>(false);
     const [typeOfAdding, setToggleTypeOfAdding] = useState<IComboBoxOption>(AddActionTypeNames[2]);
     const [selectedWS, selectWS] = useState<number[]>([]);
+    const dispatch = useDispatch();
 
 
-    const [selectedWarehouse, selectWarehouse] = useState<IComboBoxOption | null>(null);
+    // const [selectedWarehouse, selectWarehouse] = useState<IComboBoxOption | null>(null);
     const [purchasedWSData, setPurchasedWSData] = useState<IAppendPurchasedForm>(initNewField);
     const [wagonNum, setWagonNum] = useState<string>('21206958');
 
@@ -113,6 +117,8 @@ const AddAction: React.FC = () => {
         }).then((_res)=>{
             message.success('Вы успешно добавили КП');
         }).catch((err) => {
+            message.error(err.response.data.message);
+            message.error(err.response.data.system_message);
             console.log(err);
         });
     };
@@ -122,7 +128,7 @@ const AddAction: React.FC = () => {
     };
 
     const addNewWSType3 = () => {
-        if (!purchasedWSData.warehouse_id){ 
+        if (!selectedWarehouse?.id){ 
             message.error('Вы не выбрали Склад');
             return null; 
         }
@@ -132,7 +138,7 @@ const AddAction: React.FC = () => {
             manufacturer_code: purchasedWSData.manufacturer_code ? purchasedWSData.manufacturer_code : 0,
             number: purchasedWSData.number,
             status: 1,
-            warehouse_id: purchasedWSData.warehouse_id,
+            warehouse_id: +selectedWarehouse.id,
             year_issue: purchasedWSData.year_issue? purchasedWSData.year_issue: 0,
             wheels: [{
                 date_survey: purchasedWSData.wheel_left_date_survey + 'T00:00:00Z',
@@ -158,6 +164,8 @@ const AddAction: React.FC = () => {
             })
             .catch((err)=>{
                 message.error('Произошла ошибка. Попробуйте перезагрузить страницу и попробуйте снова.');
+                message.error(err.response.data.message);
+                message.error(err.response.data.system_message);
                 console.error(err);
             });
     };
@@ -187,8 +195,11 @@ const AddAction: React.FC = () => {
                             value={selectedWarehouse}
                             verticalAlign={true}
                             onChange={(value) => {
-                                if (value?.id && (warehouseList.filter(item => item.id === value.id).length === 1)){
-                                    selectWarehouse(warehouseList.filter(item => item.id === value.id)[0]);
+                                dispatch(setSelectedWS(value));
+                                if (value?.id) {
+                                    GetWarehouseByStoreId(token.access, value.id.toString()).then((res)=>{
+                                        dispatch(setWSList(res));
+                                    });
                                 }
                             }}
                         />
@@ -218,16 +229,11 @@ const AddAction: React.FC = () => {
                             options={warehouseList}
                             value={selectedWarehouse}
                             onChange={(value) => {
-                                if (value?.id && (warehouseList.filter(item => item.id === value.id).length === 1)){
-                                    selectWarehouse(warehouseList.filter(item => item.id === value.id)[0]);
-                                    setWS([]);
-                                    GetWarehouseByStoreId(token.access, value.id.toString())
-                                        .then((response)=>{
-                                            const buf = convertWs(response);
-                                            setWS(buf);
-                                            // const ConvertWSResponse = ConvertWS(response);
-                                            // setWS(ConvertWSResponse);
-                                        });
+                                dispatch(setSelectedWS(value));
+                                if (value?.id) {
+                                    GetWarehouseByStoreId(token.access, value.id.toString()).then((res)=>{
+                                        dispatch(setWSList(res));
+                                    });
                                 }
                             }}
                         />
@@ -240,8 +246,14 @@ const AddAction: React.FC = () => {
                             fullWidth={false}
                             label={'Выберите Склад'} 
                             options={warehouseList}
-                            value={selectedWarehousePurchased}
+                            value={selectedWarehouse}
                             onChange={(value) => {
+                                dispatch(setSelectedWS(value));
+                                if (value?.id) {
+                                    GetWarehouseByStoreId(token.access, value.id.toString()).then((res)=>{
+                                        dispatch(setWSList(res));
+                                    });
+                                }
                                 if (value?.id && (warehouseList.filter(item => item.id === value.id).length === 1)){
                                     setPurchasedWSData({...purchasedWSData, warehouse_id: +value.id});
                                 } else if(value === null) {

@@ -69,18 +69,20 @@ const InstallAction: React.FC = () => {
                         }}
                     />
                 </div>
-                {/* <CustomizedInputBase 
-            value={wagonNum} 
-            placeholder={'Номер вагона'}
-            onIconClick={handleClick}
-            disabled={wagonBtnDisabled}
-            onTextChange={(value)=>{
-                setWagonNum(value);
-                setWagonBtnDisabled(false);
-                setWagonExists(null);
-            }}
-            validate={wagonExists}
-        /> */}
+                {/*
+                <CustomizedInputBase
+                    value={wagonNum}
+                    placeholder={'Номер вагона'}
+                    onIconClick={handleClick}
+                    disabled={wagonBtnDisabled}
+                    onTextChange={(value) => {
+                        setWagonNum(value);
+                        setWagonBtnDisabled(false);
+                        setWagonExists(null);
+                    }}
+                    validate={wagonExists}
+                />
+                */}
                 <CustomCheckBtn onClick={()=>{}}/>
             </div>
             <div style={{
