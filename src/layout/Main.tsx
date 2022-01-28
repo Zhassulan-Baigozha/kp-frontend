@@ -4,7 +4,6 @@ import CustomHeader from 'src/components/CustomHeader';
 import { useSelector } from 'react-redux';
 import { IRootState } from 'src/store';
 import './Main.css';
-import { IStatusesTable } from 'src/store/allStatuses/types';
 // import CustomDialog from 'src/components/CustomDialog';
 import { Layout } from 'antd';
 

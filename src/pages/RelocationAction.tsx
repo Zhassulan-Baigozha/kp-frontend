@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { IComboBoxOption, IWSListTable } from 'src/interfaces';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from 'src/store';
-import { GetTransfersByWh_id, GetWarehouseByStoreId } from 'src/api/CustomAPI';
-import { IGridData } from 'src/api/CustomAPIModel';
+import { GetTransfersByWh_id } from 'src/api/CustomAPI';
 import BackgroundPaper from '../layout/BackgroundPaper';
 import ComboBox from 'src/components/base/ComboBox';
 // import WSTable from 'src/components/WSTable';

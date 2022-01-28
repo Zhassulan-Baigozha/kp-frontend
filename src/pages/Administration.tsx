@@ -1,14 +1,10 @@
-import { GetAllUsr, GetOffices, GetRoles } from 'src/api/CustomAPI';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import CreateNewEmployee from 'src/components/Administration/CreateNewEmployee';
 import UpdatePasswordBlock from 'src/components/Administration/UpdatePasswordBlock';
 import UpdateEmployeeData from 'src/components/Administration/UpdateEmployeeData';
 import UpdateEmployeeRole from 'src/components/Administration/UpdateEmployeeRole';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from 'src/store';
-import { setRolesList } from 'src/store/roles/actions';
-import { setOfficesList } from 'src/store/offices/actions';
-import { setAllUsersList } from 'src/store/allUsers/actions';
 
 const Administration: React.FC = () => {
     const token = useSelector((state: IRootState) => state.token.data);
@@ -30,18 +26,6 @@ const Administration: React.FC = () => {
         }
         setOpen(false);
     };
-
-    useEffect(() => {
-        GetRoles(token.access).then((GetRolesResponse)=>{
-            dispatch(setRolesList(GetRolesResponse.map((item) => ({ ...item, label: item.name }))));
-        });
-        GetOffices(token.access).then((GetOfficesResponse )=>{
-            dispatch(setOfficesList(GetOfficesResponse));
-        });
-        GetAllUsr(token.access).then((GetAllUsrResponse )=>{
-            dispatch(setAllUsersList(GetAllUsrResponse));
-        });
-    });
 
     return (
         <div style={{

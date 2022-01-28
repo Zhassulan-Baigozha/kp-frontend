@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import CustomTextField from 'src/components/base/CustomTextField';
 import { ISignUpUser } from 'src/interfaces';
@@ -6,11 +6,10 @@ import { IRootState } from 'src/store';
 import { Collapse, message } from 'antd';
 import { IUpdatePassword } from 'src/api/CustomAPIModel';
 import { validateEmail } from 'src/utils/validateEmail';
-import { GetUsr, UpdatePassword, UpdateUserData } from 'src/api/CustomAPI';
+import { UpdatePassword, UpdateUserData } from 'src/api/CustomAPI';
 import CollapseElemLayout from 'src/layout/CollapseElemLayout';
 import CollapseLastElemLayout from 'src/layout/CollapseLastElemLayout';
 import { CustomBlockBtn } from 'src/components/base/CustomBtn';
-import { setUserData } from 'src/store/user/actions';
 
 const ProfilePage: React.FC = () => {
     const token = useSelector((state: IRootState) => state.token.data);
@@ -37,11 +36,6 @@ const ProfilePage: React.FC = () => {
         message.success('Данные успешно обновлены');
     };
 
-    useEffect(() => {
-        GetUsr(token.access).then((GetUsrResponse )=>{
-            dispatch(setUserData(GetUsrResponse));
-        });
-    });
     return (
         <>
             <div style={{

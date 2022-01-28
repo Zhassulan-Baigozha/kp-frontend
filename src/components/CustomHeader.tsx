@@ -14,12 +14,16 @@ import { primaryColor } from 'src/constants/primaryColor';
 import { Header } from 'antd/lib/layout/layout';
 import { Menu, Dropdown, Button } from 'antd';
 import { FileTextFilled, HomeFilled, UserOutlined } from '@ant-design/icons';
-import { GetStatuses, GetWarehouseByStoreId } from 'src/api/CustomAPI';
+import { GetAllUsr, GetOffices, GetRoles, GetStatuses, GetUsr, GetWarehouseByStoreId } from 'src/api/CustomAPI';
 import ComboBox from './base/ComboBox';
 import { setWSList } from 'src/store/wsList/actions';
 import { setSelectedWS } from 'src/store/selectedWS/actions';
 import { IStatusesTable } from 'src/store/allStatuses/types';
 import { setAllStatusesList } from 'src/store/allStatuses/actions';
+import { setUserData } from 'src/store/user/actions';
+import { setAllUsersList } from 'src/store/allUsers/actions';
+import { setOfficesList } from 'src/store/offices/actions';
+import { setRolesList } from 'src/store/roles/actions';
 
 interface ICustomHeader {
     currentPage: string
@@ -42,20 +46,32 @@ const CustomHeader: React.FC<ICustomHeader> = ({
     const menu = (
         <Menu>
             <Menu.Item key={'PROFILE'} onClick={()=>{
+                GetUsr(token.access).then((GetUsrResponse )=>{
+                    dispatch(setUserData(GetUsrResponse));
+                });
                 switchPage(PROFILE);
             }}>
-        Личный кабинет
+                Личный кабинет
             </Menu.Item>
             <Menu.Item key={'ADMINISTRATION'} onClick={()=>{
+                GetRoles(token.access).then((GetRolesResponse)=>{
+                    dispatch(setRolesList(GetRolesResponse.map((item) => ({ ...item, label: item.name }))));
+                });
+                GetOffices(token.access).then((GetOfficesResponse )=>{
+                    dispatch(setOfficesList(GetOfficesResponse));
+                });
+                GetAllUsr(token.access).then((GetAllUsrResponse )=>{
+                    dispatch(setAllUsersList(GetAllUsrResponse));
+                });
                 switchPage(ADMINISTRATION);
             }}>
-        Администрирование
+                Администрирование
             </Menu.Item>
             <Menu.Item key={'SIGN_IN_ACTION'} onClick={()=>{
                 localStorage.removeItem('auth_user_token');
                 switchPage(SIGN_IN_ACTION);
             }}>
-        Выход
+                Выход
             </Menu.Item>
         </Menu>
     );

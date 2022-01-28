@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { IRootState } from 'src/store';
 import { useDispatch, useSelector } from 'react-redux';
 import BackgroundPaper from 'src/layout/BackgroundPaper';
 import { Table } from 'antd';
 import { DashboardTableColumns } from 'src/constants/DashboardTableColumns';
 import useConvertWs from 'src/hooks/useConvertWs';
-import { GetWarehouseByStoreId } from 'src/api/CustomAPI';
-import { setWSList } from 'src/store/wsList/actions';
 
 const DashboardPage: React.FC = () => {
     const dispatch = useDispatch();
