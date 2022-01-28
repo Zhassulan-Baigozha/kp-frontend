@@ -98,8 +98,8 @@ const CustomHeader: React.FC<ICustomHeader> = ({
                             width: '33%',
                         }}>{getPageTitle(currentPage)}</td>
                         <td style={{textAlign: 'right', width: '34%'}}>
-                            <div style={{display: '-webkit-inline-box'}}>
-                                {SIGN_IN_ACTION !== currentPage && (
+                            {SIGN_IN_ACTION !== currentPage && (
+                                <div style={{display: '-webkit-inline-box'}}>
                                     <ComboBox 
                                         fullWidth={false}
                                         label={'Выберите Склад'} 
@@ -107,72 +107,40 @@ const CustomHeader: React.FC<ICustomHeader> = ({
                                         value={selectedWarehouse}
                                         onChange={hangleWSSelect}
                                     />
-                                )}
-                                <Button 
-                                    shape="circle" 
-                                    icon={<HomeFilled />} 
-                                    onClick={()=>{
-                                        switchPage(WAREHOUSE_ACTION);
-                                    }}
-                                    style={{
-                                        marginRight: '16px',
-                                    }}
-                                />
-                                <Button 
-                                    shape="circle" 
-                                    icon={<FileTextFilled />}  
-                                    onClick={async ()=>{
-                                        const GetStatusesResponse = await GetStatuses(token.access);
-                                        dispatch(setAllStatusesList(GetStatusesResponse.sort(compareNumbers)));
-                                        switchPage(DASHBOARD_ACTION);
-                                    }}
-                                    style={{
-                                        marginRight: '16px',
-                                    }}
-                                />
-                                <div style={{
-                                    display: 'inline',
-                                }}>
-                                    <Dropdown overlay={menu} placement="bottomRight">
-                                        <Button 
-                                            shape="circle" 
-                                            icon={<UserOutlined />}  
-                                        />
-                                    </Dropdown>
-                                    {/* 
-                                    <Menu
-                                    id="basic-menu"
-                                    anchorEl={anchorEl}
-                                    open={open}
-                                    onClose={handleClose}
-                                    MenuListProps={{
-                                        'aria-labelledby': 'basic-button',
-                                    }}
-                                    >
-                                    <MenuItem onClick={()=>{
-                                        handleClose();
-                                        switchPage(PROFILE);
-
-                                        GetUsr(token.access).then((res) => {
-                                            console.log('GetUsr res   = ', res);
-                                        }).catch((err) => {
-                                            console.error('GetUsr error = ', err);
-                                        });
-
-                                        }}>Личный кабинет</MenuItem>
-
-                                        <MenuItem onClick={()=>{
-                                                handleClose();
-                                                switchPage(ADMINISTRATION);
-                                        }}>Администрирование</MenuItem>
-                                        <MenuItem onClick={()=>{
-                                            handleClose();
-                                            localStorage.removeItem('auth_user_token');
-                                            switchPage(SIGN_IN_ACTION);
-                                            }}>Выход</MenuItem>
-                                        </Menu> */}
+                                    <Button 
+                                        shape="circle" 
+                                        icon={<HomeFilled />} 
+                                        onClick={()=>{
+                                            switchPage(WAREHOUSE_ACTION);
+                                        }}
+                                        style={{
+                                            marginRight: '16px',
+                                        }}
+                                    />
+                                    <Button 
+                                        shape="circle" 
+                                        icon={<FileTextFilled />}  
+                                        onClick={async ()=>{
+                                            const GetStatusesResponse = await GetStatuses(token.access);
+                                            dispatch(setAllStatusesList(GetStatusesResponse.sort(compareNumbers)));
+                                            switchPage(DASHBOARD_ACTION);
+                                        }}
+                                        style={{
+                                            marginRight: '16px',
+                                        }}
+                                    />
+                                    <div style={{
+                                        display: 'inline',
+                                    }}>
+                                        <Dropdown overlay={menu} placement="bottomRight">
+                                            <Button 
+                                                shape="circle" 
+                                                icon={<UserOutlined />}  
+                                            />
+                                        </Dropdown>
+                                    </div>
                                 </div>
-                            </div>
+                            )}
                         </td>
                     </tr>
                 </tbody>
