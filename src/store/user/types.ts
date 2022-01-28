@@ -9,6 +9,5 @@ export interface IUser {
     uuid: string,
 }
 export interface IUserState {
-    isFetching: boolean,
     data: IUser,
 }

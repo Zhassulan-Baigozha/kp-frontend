@@ -1,14 +1,12 @@
-import { Action } from './actions';
+import { ISetAction } from './actions';
 import { ISortedWSState } from './types';
 
-const sortedWSReducer = (state: ISortedWSState = { isFetching: false, data: []  }, action: Action): ISortedWSState => {
+const sortedWSReducer = (state: ISortedWSState = { data: []  }, action: ISetAction): ISortedWSState => {
     switch (action.type) {
     case 'sortedWS/SET':
         return {
             ...state, data: action.data
         };
-    case 'sortedWS/SET_FETCHING':
-        return { ...state, isFetching: action.isFetching };
     default: return { ...state };
     }
 };

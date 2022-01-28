@@ -4,6 +4,5 @@ export interface IRoles {
 }
 
 export interface IRolesState {
-    isFetching: boolean,
     data: IRoles[],
 }

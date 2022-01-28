@@ -1,14 +1,12 @@
-import { Action } from './actions';
+import { ISetAction } from './actions';
 import { IWarehouseState } from './types';
 
-const warehouseReducer = (state: IWarehouseState = { isFetching: false, data: []  }, action: Action): IWarehouseState => {
+const warehouseReducer = (state: IWarehouseState = { data: [] }, action: ISetAction): IWarehouseState => {
     switch (action.type) {
     case 'warehouse/SET':
         return {
             ...state, data: action.data
         };
-    case 'warehouse/SET_FETCHING':
-        return { ...state, isFetching: action.isFetching };
     default: return { ...state };
     }
 };

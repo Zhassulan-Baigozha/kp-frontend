@@ -10,6 +10,8 @@ import { message } from 'antd';
 import { setSelectedWS } from 'src/store/selectedWS/actions';
 import { setWSList } from 'src/store/wsList/actions';
 import { RepairTypeOptions } from 'src/constants/RepairTypeOptions';
+import WSTable from 'src/components/WSTable';
+import useConvertWs from 'src/hooks/useConvertWs';
 // import ComboBox from 'src/components/ComboBox';
 // import WSTable from 'src/components/WSTable';
 // import { Button } from '@mui/material';
@@ -25,6 +27,7 @@ const RepairAction: React.FC = () => {
     const [selectedStatus, selectStatus] = useState<IComboBoxOption | null>(null);
     const selectedWarehouse = useSelector((state: IRootState) => state.selectedWS.data);
     const dispatch = useDispatch();
+    const { convertedWS } = useConvertWs();
 
 
     const [wheelsetArray, setWheelsetArray] = useState<IGetRepairWSResponse[]>([]);
@@ -155,6 +158,7 @@ const RepairAction: React.FC = () => {
             }
             }}/> 
         */}
+            <WSTable ws={convertedWS}/>
         </BackgroundPaper>
     );
 };

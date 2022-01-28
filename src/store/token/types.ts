@@ -3,6 +3,5 @@ export interface IToken {
     refresh: string;
 }
 export interface ITokenState {
-    isFetching: boolean,
     data: IToken,
 }

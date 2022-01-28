@@ -5,6 +5,5 @@ export interface ITransport {
 }
 
 export interface ITransportListState {
-    isFetching: boolean,
     data: ITransport[],
 }

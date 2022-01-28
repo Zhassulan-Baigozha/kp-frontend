@@ -1,14 +1,12 @@
-import { Action } from './actions';
+import { ISetAction } from './actions';
 import { ITokenState } from './types';
 
-const tokenReducer = (state: ITokenState = { isFetching: false, data: {access: '', refresh: ''}  }, action: Action): ITokenState => {
+const tokenReducer = (state: ITokenState = { data: {access: '', refresh: ''}  }, action: ISetAction): ITokenState => {
     switch (action.type) {
     case 'token/SET':
         return {
             ...state, data: action.data
         };
-    case 'token/SET_FETCHING':
-        return { ...state, isFetching: action.isFetching };
     default: return { ...state };
     }
 };

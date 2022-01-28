@@ -1,4 +1,4 @@
-import { Action } from './actions';
+import { ISetAction } from './actions';
 import { IUserState } from './types';
 
 const initialUserFields = {
@@ -12,14 +12,12 @@ const initialUserFields = {
     uuid: '',
 };
 
-const userReducer = (state: IUserState = { isFetching: false, data: initialUserFields  }, action: Action): IUserState => {
+const userReducer = (state: IUserState = { data: initialUserFields  }, action: ISetAction): IUserState => {
     switch (action.type) {
     case 'user/SET':
         return {
             ...state, data: action.data
         };
-    case 'user/SET_FETCHING':
-        return { ...state, isFetching: action.isFetching };
     default: return { ...state };
     }
 };

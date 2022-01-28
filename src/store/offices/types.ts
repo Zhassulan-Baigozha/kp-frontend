@@ -8,6 +8,5 @@ export interface IOffice {
     warehouses: null
 }
 export interface IOfficeState {
-    isFetching: boolean,
     data: IOffice[],
 }

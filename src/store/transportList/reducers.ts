@@ -1,14 +1,12 @@
-import { Action } from './actions';
+import { ISetAction } from './actions';
 import { ITransportListState } from './types';
 
-const transportListReducer = (state: ITransportListState = { isFetching: false, data: []  }, action: Action): ITransportListState => {
+const transportListReducer = (state: ITransportListState = { data: [] }, action: ISetAction): ITransportListState => {
     switch (action.type) {
     case 'transportList/SET':
         return {
             ...state, data: action.data
         };
-    case 'transportList/SET_FETCHING':
-        return { ...state, isFetching: action.isFetching };
     default: return { ...state };
     }
 };

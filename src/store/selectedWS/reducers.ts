@@ -1,14 +1,12 @@
-import { Action } from './actions';
+import { ISetAction } from './actions';
 import { ISelectedWSState } from './types';
 
-const selectedWSReducer = (state: ISelectedWSState = { isFetching: false, data: null  }, action: Action): ISelectedWSState => {
+const selectedWSReducer = (state: ISelectedWSState = { data: null  }, action: ISetAction): ISelectedWSState => {
     switch (action.type) {
     case 'selectedWS/SET':
         return {
             ...state, data: action.data
         };
-    case 'selectedWS/SET_FETCHING':
-        return { ...state, isFetching: action.isFetching };
     default: return { ...state };
     }
 };

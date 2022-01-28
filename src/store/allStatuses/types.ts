@@ -6,6 +6,5 @@ export interface IStatusesTable {
 }
 
 export interface IAllStatusesState {
-    isFetching: boolean,
     data: IStatusesTable[],
 }
