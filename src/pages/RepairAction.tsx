@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from 'src/store';
-import { IComboBoxOption } from 'src/interfaces';
-import { IGetRepairWSResponse, IGridData, IRepairWSUpdateRequest } from 'src/api/CustomAPIModel';
+import { IComboBoxOption, IWSListTable } from 'src/interfaces';
+import { IGridData, IRepairWSUpdateRequest } from 'src/api/CustomAPIModel';
 import { GetWarehouseByStoreId, RepairWSChangeStatus, RepairWSUpdate } from 'src/api/CustomAPI';
 import BackgroundPaper from '../layout/BackgroundPaper';
 import ComboBox from 'src/components/base/ComboBox';
@@ -12,6 +12,7 @@ import { setWSList } from 'src/store/wsList/actions';
 import { RepairTypeOptions } from 'src/constants/RepairTypeOptions';
 import WSTable from 'src/components/WSTable';
 import useConvertWs from 'src/hooks/useConvertWs';
+import { CustomCheckBtn } from 'src/components/base/CustomBtn';
 // import ComboBox from 'src/components/ComboBox';
 // import WSTable from 'src/components/WSTable';
 // import { Button } from '@mui/material';
@@ -28,14 +29,16 @@ const RepairAction: React.FC = () => {
     const selectedWarehouse = useSelector((state: IRootState) => state.selectedWS.data);
     const dispatch = useDispatch();
     const { convertedWS } = useConvertWs();
+    const [wheelsetArray, setWheelsetArray] = useState<IWSListTable[]>([]);
+
+    const successStatus:boolean[] = [];
 
 
-    const [wheelsetArray, setWheelsetArray] = useState<IGetRepairWSResponse[]>([]);
     const [selectedWheelset, selectWheelset] = useState<IRepairWSUpdateRequest | null>(null);
     const [repairType, setRepairType] = useState<boolean>(false);
     const [selectedItem, setSelectedItem] = useState<number | null>(null);
     const [ws, setWS] = useState<IGridData[]>([]);
-    const addNewWS = () => {
+    const sendRepair = () => {
         if (!selectedWarehouse?.id) { 
             message.error('Вы не выбрали Склад');
             return null; 
@@ -44,27 +47,34 @@ const RepairAction: React.FC = () => {
             message.error('Вы не выбрали Статус');
             return null; 
         }
-        if (!selectedItem) { 
+        if (wheelsetArray.length !== 1) { 
             message.error('Вы не выбрали КП');
             return null; 
         }
+        
         if (repairType){
+            message.success('Из ремонта');
+            console.log('Из ремонта = ', selectedWheelset);
             // Из ремонта
-            if (selectedWheelset) {
-                RepairWSUpdate(token.access, selectedWheelset)
-                    .then((res)=>{
-                        message.success('Вы успешно добавили КП');
-                    });
-            }
+            // if (selectedWheelset) {
+            // RepairWSUpdate(token.access, selectedWheelset)
+            //     .then((res)=>{
+            //         message.success('Вы успешно добавили КП');
+            //     });
+            // }
         } else {
             // На ремонт
             RepairWSChangeStatus(token.access, {
                 description: '',
                 state_id: 1,
                 status_id: +selectedStatus?.id,
-                wheelset_id: selectedItem
-            }).then((res)=>{
+                wheelset_id: wheelsetArray[0].key
+            }).then(()=>{
                 message.success('Вы успешно добавили КП');
+            }).catch((err)=>{
+                successStatus.push(false);
+                message.error(err.response.data.message);
+                message.error(err.response.data.system_message);
             });
         }
     };
@@ -104,13 +114,7 @@ const RepairAction: React.FC = () => {
                         }
                     }}
                 />
-                {/* <Button 
-                    variant="outlined" 
-                    style={{height: '40px'}} 
-                    onClick={addNewWS}>
-                    <CheckIcon color="success"/> 
-                    </Button> 
-                */}
+                <CustomCheckBtn onClick={sendRepair} />
             </div>
             {/* {selectedWheelset && <FromRepair 
                 wheelSetData={selectedWheelset} 
@@ -158,7 +162,9 @@ const RepairAction: React.FC = () => {
             }
             }}/> 
         */}
-            <WSTable ws={convertedWS}/>
+            <WSTable ws={convertedWS} selectionType={'radio'} onChange={(_a, _b) => {
+                setWheelsetArray(_b);
+            }}/>
         </BackgroundPaper>
     );
 };

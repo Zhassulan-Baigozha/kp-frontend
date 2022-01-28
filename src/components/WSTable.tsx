@@ -2,13 +2,19 @@ import * as React from 'react';
 import { Table } from 'antd';
 import NestedTable from './NestedTable';
 import { IWSListTable } from 'src/interfaces';
+import { RowSelectionType } from 'antd/lib/table/interface';
 
 interface IWSTable {
     ws: IWSListTable[]
     onChange?: (selectedRowKeys: React.Key[], selectedRows: IWSListTable[]) => void;
+    selectionType?: RowSelectionType
 }
 
-const WSTable: React.FC<IWSTable> = ({ws, onChange}) => {
+const WSTable: React.FC<IWSTable> = ({
+    onChange,
+    selectionType = 'checkbox',
+    ws, 
+}) => {
     const columns2 = [
         {
             title: '№ Оси',
@@ -72,7 +78,7 @@ const WSTable: React.FC<IWSTable> = ({ws, onChange}) => {
             size="small"
             rowClassName={'rowClassName2'}
             rowSelection={{
-                type: 'checkbox',
+                type: selectionType,
                 ...rowSelection,
             }}
             expandable={{ 
