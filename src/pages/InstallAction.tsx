@@ -81,21 +81,20 @@ const InstallAction: React.FC = () => {
     return (
         <BackgroundPaper>
             <div style={{ display: 'flex'}}>
-                <div style={{ paddingRight: '16px'}}>
-                    <ComboBox 
-                        label={'Выберите Склад'} 
-                        options={warehouseList}
-                        value={selectedWarehouse}
-                        onChange={(value) => {
-                            dispatch(setSelectedWS(value));
-                            if (value?.id) {
-                                GetWarehouseByStoreId(token.access, value.id.toString()).then((res)=>{
-                                    dispatch(setWSList(res));
-                                });
-                            }
-                        }}
-                    />
-                </div>
+                <ComboBox 
+                    fullWidth={false}
+                    label={'Выберите Склад'} 
+                    options={warehouseList}
+                    value={selectedWarehouse}
+                    onChange={(value) => {
+                        dispatch(setSelectedWS(value));
+                        if (value?.id) {
+                            GetWarehouseByStoreId(token.access, value.id.toString()).then((res)=>{
+                                dispatch(setWSList(res));
+                            });
+                        }
+                    }}
+                />
                 <Search 
                     placeholder={'Номер вагона'}
                     value={wagonNum}
