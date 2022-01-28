@@ -79,7 +79,7 @@ const WSTable: React.FC<IWSTable> = ({ws, onChange}) => {
                 rowExpandable: record => !!(record?.wheels && record?.wheels?.length),
                 expandedRowRender: record => <NestedTable wheels={record.wheels}/>, 
             }}
-            pagination={{ pageSize: 40, hideOnSinglePage: true }}
+            pagination={{ pageSize: 10, hideOnSinglePage: true }}
         />
     );
 };

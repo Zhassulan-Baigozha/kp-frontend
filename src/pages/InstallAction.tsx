@@ -56,28 +56,7 @@ const InstallAction: React.FC = () => {
     // const [selectedWarehouse, selectWarehouse] = useState<IComboBoxOption | null>(null);
     const [wagonNum, setWagonNum] = useState<string>('21206958');
     const [wagonExists, setWagonExists] = useState<WagonExistanceType>(null);
-    const handleClick = async () => {
-        GetWagonById(token.access, wagonNum)
-            .then((getWagonByIdResponse) => {
-                // const ConvertWSResponse = ConvertWS([
-                //   getWagonByIdResponse.wheel_set_first,
-                //   getWagonByIdResponse.wheel_set_second,
-                //   getWagonByIdResponse.wheel_set_third,
-                //   getWagonByIdResponse.wheel_set_fourth
-                // ]);
-                // setWSWagon(ConvertWSResponse);
-                setWagonBtnDisabled(true);
-                setWagonExists('find');
-            })
-            .catch((err)=>{
-                setWSWagon([]);
-                setWagonBtnDisabled(true);
-                setWagonExists('notFind');
-                console.log(err.response.code);
-                console.log(err.response.status);
-                console.log(err.response.message);
-            });
-    };
+
     return (
         <BackgroundPaper>
             <div style={{ display: 'flex'}}>
