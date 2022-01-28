@@ -89,7 +89,7 @@ const SignInPage: React.FC<ISignInPage> = ({ switchPage }) => {
                     color: primaryColor,
                     opacity: 0.5,
                 }}>
-          Для изменения пароля без авторизации обратитесь к администратору
+                    Для изменения пароля без авторизации обратитесь к администратору
                 </div>
                 <CustomTextField 
                     placeholder={'Логин'} 
@@ -107,7 +107,7 @@ const SignInPage: React.FC<ISignInPage> = ({ switchPage }) => {
                 />
                 <div style={{ width: '100%' }}>
                     <CustomBlockBtn onClick={SignInOnClick} >
-            Войти 
+                        Войти 
                     </CustomBlockBtn>
                 </div> 
                 <div style={{ 
@@ -117,7 +117,7 @@ const SignInPage: React.FC<ISignInPage> = ({ switchPage }) => {
                     color: primaryColor,
                     opacity: 0.5,
                 }}>
-          v 2.006
+                    v 2.35
                 </div>
             </div>
         </div>

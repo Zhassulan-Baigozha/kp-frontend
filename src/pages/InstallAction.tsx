@@ -1,6 +1,5 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
 import React, { useState } from 'react';
-import { WagonExistanceType } from 'src/interfaces';
+import { IWSListTable, WagonExistanceType } from 'src/interfaces';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from 'src/store';
 import { IGridData } from 'src/api/CustomAPIModel';
@@ -11,21 +10,49 @@ import ComboBox from 'src/components/base/ComboBox';
 import { CustomCheckBtn } from 'src/components/base/CustomBtn';
 import { setSelectedWS } from 'src/store/selectedWS/actions';
 import { setWSList } from 'src/store/wsList/actions';
+import { Input, message } from 'antd';
+import { convertWs } from 'src/utils/convert';
+import WSTable from 'src/components/WSTable';
+import useConvertWs from 'src/hooks/useConvertWs';
 // import CheckIcon from '@mui/icons-material/Check';
 // import WSTable from 'src/components/WSTable';
 // import CustomizedInputBase from 'src/components/CustomizedInputBase';
-
+const { Search } = Input;
 
 const InstallAction: React.FC = () => {
     const selectedWarehouse = useSelector((state: IRootState) => state.selectedWS.data);
     const token = useSelector((state: IRootState) => state.token.data);
     const dispatch = useDispatch();
+    const [wsWagon, setWSWagon] = useState<IWSListTable[]>([]);
+    const { convertedWS } = useConvertWs();
+    const onSearch = (value: string) => {
+        setWagonNum(value);
+        setWSWagon([]);
+
+        if (wagonNum?.length === 8){
+            GetWagonById(token.access, value)
+                .then((getWagonByIdResponse) => {
+                    const buf = convertWs([
+                        getWagonByIdResponse.wheel_set_first,
+                        getWagonByIdResponse.wheel_set_second,
+                        getWagonByIdResponse.wheel_set_third,
+                        getWagonByIdResponse.wheel_set_fourth
+                    ]);
+                    setWSWagon(buf);
+                })
+                .catch((err)=>{
+                    console.error(err);
+                    message.error(err.response.message);
+                    message.error(err.response.system_message);
+                });
+        }
+    };
+
 
     const [wagonBtnDisabled, setWagonBtnDisabled] = useState<boolean>(false);
     const warehouseList = useSelector((state: IRootState) => state.warehouse.data);
     const statuses = useSelector((state: IRootState) => state.allStatuses.data);
     const [wsWarehouse, setWSWarehouse] = useState<IGridData[]>([]);
-    const [wsWagon, setWSWagon] = useState<IGridData[]>([]);
     // const [selectedWarehouse, selectWarehouse] = useState<IComboBoxOption | null>(null);
     const [wagonNum, setWagonNum] = useState<string>('21206958');
     const [wagonExists, setWagonExists] = useState<WagonExistanceType>(null);
@@ -69,21 +96,19 @@ const InstallAction: React.FC = () => {
                         }}
                     />
                 </div>
-                {/*
-                <CustomizedInputBase
-                    value={wagonNum}
+                <Search 
                     placeholder={'Номер вагона'}
-                    onIconClick={handleClick}
-                    disabled={wagonBtnDisabled}
-                    onTextChange={(value) => {
-                        setWagonNum(value);
-                        setWagonBtnDisabled(false);
-                        setWagonExists(null);
+                    value={wagonNum}
+                    onSearch={onSearch} 
+                    style={{ width: 300, marginRight: '16px' }} 
+                    onChange={(value)=>{
+                        setWagonNum(value.target.value);
                     }}
-                    validate={wagonExists}
+                    // validate={wagonExists}
                 />
-                */}
-                <CustomCheckBtn onClick={()=>{}}/>
+                <CustomCheckBtn onClick={()=>{
+                    console.log('Подтвердить');
+                }}/>
             </div>
             <div style={{
                 fontFamily: 'Roboto',
@@ -93,9 +118,12 @@ const InstallAction: React.FC = () => {
                 lineHeight: '42px',
                 color: primaryColor,
             }}>
-        Колесные пары на вагоне
+                Колесные пары на вагоне
             </div>
-            {/* <WSTable ws={wsWagon} customHeight={227}/> */}
+            <WSTable ws={wsWagon} onChange={(_a, _b) => {
+                console.log('_a = ', _a);
+                console.log('_b = ', _b);
+            }}/>
             <div style={{
                 paddingTop: '16px',
                 fontFamily: 'Roboto',
@@ -105,9 +133,9 @@ const InstallAction: React.FC = () => {
                 lineHeight: '42px',
                 color: primaryColor,
             }}>
-        Колесные пары на складе
+                Колесные пары на складе
             </div>
-            {/* <WSTable ws={wsWarehouse}/> */}
+            <WSTable ws={convertedWS}/>
         </BackgroundPaper>
     );
 };

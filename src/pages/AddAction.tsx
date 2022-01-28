@@ -50,7 +50,6 @@ const AddAction: React.FC = () => {
     const warehouseList = useSelector((state: IRootState) => state.warehouse.data);
     const selectedWarehouse = useSelector((state: IRootState) => state.selectedWS.data);
     const token = useSelector((state: IRootState) => state.token.data);
-    const [loading, setLoading] = useState<boolean>(false);
     const [typeOfAdding, setToggleTypeOfAdding] = useState<IComboBoxOption>(AddActionTypeNames[2]);
     const [selectedWS, selectWS] = useState<number[]>([]);
     const dispatch = useDispatch();
@@ -66,7 +65,6 @@ const AddAction: React.FC = () => {
         ? warehouseList.filter((item)=>(item.id === purchasedWSData.warehouse_id))[0]
         : null;
     const onSearch = (value: string) => {
-        setLoading(true);
         setWagonNum(value);
         setWS([]);
 
@@ -89,9 +87,6 @@ const AddAction: React.FC = () => {
                     console.error(err.response.code);
                     console.error(err.response.status);
                     console.error(err.response.message);
-                })
-                .finally(()=>{
-                    setLoading(false);
                 });
         }
     };
@@ -212,7 +207,6 @@ const AddAction: React.FC = () => {
                                 setWagonNum(value.target.value);
                             }}
                             // validate={wagonExists}
-                            loading={loading}
                         />
                         <CustomCheckBtn onClick={addNewWS1} />
                     </>
