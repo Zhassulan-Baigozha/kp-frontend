@@ -14,7 +14,6 @@ import { CustomCheckBtn } from 'src/components/base/CustomBtn';
 import { Input, message } from 'antd';
 import WSTable from 'src/components/WSTable';
 import { convertWs } from 'src/utils/convert';
-import useWarehouseList from 'src/hooks/useWarehouseList';
 import { convertKeyToNumber } from 'src/utils/convert';
 // import CustomizedInputBase from 'src/components/CustomizedInputBase';
 const { Search } = Input;
@@ -46,7 +45,7 @@ const initNewField: IAppendPurchasedForm = {
 };
 
 const AddAction: React.FC = () => {
-    const { warehouseList } = useWarehouseList();
+    const warehouseList = useSelector((state: IRootState) => state.warehouse.data);
     const token = useSelector((state: IRootState) => state.token.data);
     const [loading, setLoading] = useState<boolean>(false);
     const [typeOfAdding, setToggleTypeOfAdding] = useState<IComboBoxOption>(AddActionTypeNames[2]);
@@ -219,7 +218,6 @@ const AddAction: React.FC = () => {
                             options={warehouseList}
                             value={selectedWarehouse}
                             onChange={(value) => {
-                                console.log('selectedWarehouse ', value);
                                 if (value?.id && (warehouseList.filter(item => item.id === value.id).length === 1)){
                                     selectWarehouse(warehouseList.filter(item => item.id === value.id)[0]);
                                     setWS([]);

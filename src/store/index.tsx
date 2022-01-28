@@ -32,17 +32,21 @@ import { ISortedWSState } from './sortedWS/types';
 import wsList from './wsList/reducers';
 import { IWSListState } from './wsList/types';
 
+import selectedWS from './selectedWS/reducers';
+import { ISelectedWSState } from './selectedWS/types';
+
 export interface IRootState {
-  user: IUserState,
-  allUsers: IAllUsersState,
-  roles: IRolesState,
-  offices: IOfficeState,
-  token: ITokenState,
-  warehouse: IWarehouseState,
-  allStatuses: IAllStatusesState,
-  sortedWS: ISortedWSState, 
-  transportList: ITransportListState,
-  wsList: IWSListState,
+    user: IUserState,
+    allUsers: IAllUsersState,
+    roles: IRolesState,
+    offices: IOfficeState,
+    token: ITokenState,
+    warehouse: IWarehouseState,
+    allStatuses: IAllStatusesState,
+    sortedWS: ISortedWSState, 
+    transportList: ITransportListState,
+    wsList: IWSListState,
+    selectedWS: ISelectedWSState,
 }
 
 export default createStore(
@@ -57,6 +61,7 @@ export default createStore(
         sortedWS,
         transportList,
         wsList,
+        selectedWS,
     }),
     composeWithDevTools(
         applyMiddleware(thunk),

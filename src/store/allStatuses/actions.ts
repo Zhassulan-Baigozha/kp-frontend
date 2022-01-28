@@ -1,12 +1,12 @@
 import { IStatusesTable } from './types';
 
 export interface ISetAction {
-  type: 'allStatuses/SET'
-  data: IStatusesTable[],
+    type: 'allStatuses/SET'
+    data: IStatusesTable[],
 }
 export interface ISetFetcing {
-  type: 'allStatuses/SET_FETCHING'
-  isFetching: boolean
+    type: 'allStatuses/SET_FETCHING'
+    isFetching: boolean
 }
 export type Action = ISetAction | ISetFetcing 
 

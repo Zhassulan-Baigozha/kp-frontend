@@ -14,12 +14,12 @@ import {
     ISignInRequest, 
     ISignInResponse, 
     IUpdatePassword, 
-    IUpdateUserFieldsRequest 
+    IUpdateUserFieldsRequest, 
+    IWarehouse
 } from './CustomAPIModel';
 import { IStatusesTable } from 'src/store/allStatuses/types';
 import { ISignUpRequest, ISignUpUser, IUpdateUserRole } from 'src/interfaces';
 import { IOffice } from 'src/store/offices/types';
-import { IWarehouse } from 'src/store/warehouse/types';
 import { ITransport } from 'src/store/transportList/types';
 
 export const CustomAxios2 = (auth_user_token: string) =>{
@@ -32,7 +32,6 @@ export const CustomAxios2 = (auth_user_token: string) =>{
             Authorization: auth_user_token,
         }
     });
-  
     return instance;
 };
 

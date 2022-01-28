@@ -1,12 +1,12 @@
 import { IGetWSResponse } from 'src/api/CustomAPIModel';
 
 export interface ISetAction {
-  type: 'wsList/SET'
-  data: IGetWSResponse[],
+    type: 'wsList/SET'
+    data: IGetWSResponse[],
 }
 export interface ISetFetcing {
-  type: 'wsList/SET_FETCHING'
-  isFetching: boolean
+    type: 'wsList/SET_FETCHING'
+    isFetching: boolean
 }
 export type Action = ISetAction | ISetFetcing 
 

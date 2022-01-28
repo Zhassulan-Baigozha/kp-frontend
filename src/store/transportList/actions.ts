@@ -1,12 +1,12 @@
 import { ITransport } from './types';
 
 export interface ISetAction {
-  type: 'transportList/SET'
-  data: ITransport[],
+    type: 'transportList/SET'
+    data: ITransport[],
 }
 export interface ISetFetcing {
-  type: 'transportList/SET_FETCHING'
-  isFetching: boolean
+    type: 'transportList/SET_FETCHING'
+    isFetching: boolean
 }
 export type Action = ISetAction | ISetFetcing 
 

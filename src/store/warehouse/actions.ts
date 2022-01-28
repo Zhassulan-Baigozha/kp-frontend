@@ -1,17 +1,17 @@
-import { IWarehouse } from './types';
+import { IComboBoxOption } from 'src/interfaces';
 
 export interface ISetAction {
-  type: 'warehouse/SET'
-  data: IWarehouse[],
+    type: 'warehouse/SET'
+    data: IComboBoxOption[],
 }
 export interface ISetFetcing {
-  type: 'warehouse/SET_FETCHING'
-  isFetching: boolean
+    type: 'warehouse/SET_FETCHING'
+    isFetching: boolean
 }
 
 export type Action = ISetAction | ISetFetcing
 
-export const setWarehouseList = (data: IWarehouse[]): ISetAction => {
+export const setWarehouseList = (data: IComboBoxOption[]): ISetAction => {
     return { type: 'warehouse/SET', data };
 };
 export const isFetching = (isFetching: boolean): ISetFetcing => {

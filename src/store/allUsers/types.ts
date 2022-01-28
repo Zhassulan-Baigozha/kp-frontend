@@ -1,6 +1,6 @@
-import { IUser } from "../user/types";
+import { IUser } from '../user/types';
 
 export interface IAllUsersState {
-  isFetching: boolean,
-  data: IUser[],
+    isFetching: boolean,
+    data: IUser[],
 }

@@ -7,7 +7,6 @@ import { GetWSByWarehouse, RepairWSChangeStatus, RepairWSUpdate } from 'src/api/
 import BackgroundPaper from '../layout/BackgroundPaper';
 import ComboBox from 'src/components/base/ComboBox';
 import { message } from 'antd';
-import useWarehouseList from 'src/hooks/useWarehouseList';
 // import ComboBox from 'src/components/ComboBox';
 // import WSTable from 'src/components/WSTable';
 // import { Button } from '@mui/material';
@@ -16,7 +15,7 @@ import useWarehouseList from 'src/hooks/useWarehouseList';
 
 
 const RepairAction: React.FC = () => {
-    const { warehouseList } = useWarehouseList();
+    const warehouseList = useSelector((state: IRootState) => state.warehouse.data);
     const token = useSelector((state: IRootState) => state.token.data);
     const statuses = useSelector((state: IRootState) => state.allStatuses.data);
     const statusesList = statuses.map((item) =>({id: item.code, label: item.name}));
@@ -86,8 +85,8 @@ const RepairAction: React.FC = () => {
                     onChange={(value) => {
                         if (
                             value?.id && 
-              (warehouseList.filter(item => item.id === value.id).length === 1) &&
-              typeof (value?.id) === 'number'
+                (warehouseList.filter(item => item.id === value.id).length === 1) &&
+                typeof (value?.id) === 'number'
                         ){
                             selectWarehouse(warehouseList.filter(item => item.id === value.id)[0]);
                             GetWSByWarehouse(token.access, value.id)

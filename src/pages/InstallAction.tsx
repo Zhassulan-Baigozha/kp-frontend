@@ -11,7 +11,6 @@ import ComboBox from 'src/components/base/ComboBox';
 import { CheckCircleOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import { CustomCheckBtn } from 'src/components/base/CustomBtn';
-import useWarehouseList from 'src/hooks/useWarehouseList';
 // import CheckIcon from '@mui/icons-material/Check';
 // import WSTable from 'src/components/WSTable';
 // import CustomizedInputBase from 'src/components/CustomizedInputBase';
@@ -19,7 +18,7 @@ import useWarehouseList from 'src/hooks/useWarehouseList';
 
 const InstallAction: React.FC = () => {
     const [wagonBtnDisabled, setWagonBtnDisabled] = useState<boolean>(false);
-    const { warehouseList } = useWarehouseList();
+    const warehouseList = useSelector((state: IRootState) => state.warehouse.data);
     const statuses = useSelector((state: IRootState) => state.allStatuses.data);
     const token = useSelector((state: IRootState) => state.token.data);
     const [wsWarehouse, setWSWarehouse] = useState<IGridData[]>([]);

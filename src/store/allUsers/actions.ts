@@ -1,12 +1,12 @@
 import { IUser } from '../user/types';
 
 export interface ISetAction {
-  type: 'allUsers/SET'
-  data: IUser[],
+    type: 'allUsers/SET'
+    data: IUser[],
 }
 export interface ISetFetcing {
-  type: 'allUsers/SET_FETCHING'
-  isFetching: boolean
+    type: 'allUsers/SET_FETCHING'
+    isFetching: boolean
 }
 export type Action = ISetAction | ISetFetcing 
 

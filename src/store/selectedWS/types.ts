@@ -1,6 +1,6 @@
 import { IComboBoxOption } from 'src/interfaces';
 
-export interface IWarehouseState {
+export interface ISelectedWSState {
     isFetching: boolean,
-    data: IComboBoxOption[],
+    data: IComboBoxOption | null,
 }

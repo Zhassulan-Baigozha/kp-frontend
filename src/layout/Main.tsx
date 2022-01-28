@@ -12,11 +12,6 @@ const Main: React.FC = () => {
     const token = useSelector((state: IRootState) => state.token.data);
     const [currentPage, switchPage] = useState<string>('');
 
-    const compareNumbers = (a:IStatusesTable, b:IStatusesTable) => {
-        if (a.code < b.code ) return -1;
-        if (a.code > b.code ) return 1;
-        return 0;
-    };
 
     useEffect(() => {
         if (currentPage!== SIGN_IN_ACTION && !(token.access.length > 0)) {

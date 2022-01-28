@@ -1,12 +1,12 @@
 import { IToken } from './types';
 
 export interface ISetAction {
-  type: 'token/SET'
-  data: IToken,
+    type: 'token/SET'
+    data: IToken,
 }
 export interface ISetFetcing {
-  type: 'token/SET_FETCHING'
-  isFetching: boolean
+    type: 'token/SET_FETCHING'
+    isFetching: boolean
 }
 
 

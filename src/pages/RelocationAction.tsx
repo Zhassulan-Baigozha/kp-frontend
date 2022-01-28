@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import React, { useEffect, useState } from 'react';
-import { IComboBoxOption } from 'src/interfaces';
-import { useSelector } from 'react-redux';
+import { IComboBoxOption, IWSListTable } from 'src/interfaces';
+import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from 'src/store';
 import { GetTransfersByWh_id, GetWarehouseByStoreId } from 'src/api/CustomAPI';
 import { IGridData } from 'src/api/CustomAPIModel';
@@ -13,27 +13,39 @@ import ComboBox from 'src/components/base/ComboBox';
 // import ComboBox from 'src/components/ComboBox';
 import { transportTypes } from 'src/constants/transportTypes';
 import { CustomCheckBtn } from 'src/components/base/CustomBtn';
-import useWarehouseList from 'src/hooks/useWarehouseList';
+import WSTable from 'src/components/WSTable';
+import { setSelectedWS } from 'src/store/selectedWS/actions';
 // import TransferList from 'src/components/Relocation_Form/TransferList';
 // import WSTransfer from 'src/components/Relocation_Form/WSTransfer';
 
 
 const RelocationAction: React.FC = () => {
     const token = useSelector((state: IRootState) => state.token.data);
-    const statuses = useSelector((state: IRootState) => state.allStatuses.data);
-    const { warehouseList } = useWarehouseList();
+    const fromWarehouse = useSelector((state: IRootState) => state.selectedWS.data);
+    const warehouseList = useSelector((state: IRootState) => state.warehouse.data);
+    const dispatch = useDispatch();
+
+    const [ws, setWS] = useState<IWSListTable[]>([]);
+    const [toWarehouse, setToWarehouse] = useState<IComboBoxOption | null>(null);
     const transportList = useSelector((state: IRootState) => state.transportList.data);
     const [selectTransport, setSelectedTransport] = useState<IComboBoxOption | null>(null);
     const [transportType, setTransportType] = useState<IComboBoxOption | null>(null);
+
+
+    console.log('transportType = ', transportType);
+    // console.log('fromWarehouse = ', fromWarehouse);
+    // console.log('toWarehouse = ', toWarehouse);
+    // console.log('transportList = ', transportList);
+    // console.log('selectTransport = ', selectTransport);
+
+
+
     const [transferList, setTransferList] = useState<IComboBoxOption[]>([]);
     const [getTransfersByWhApi, setGetTransfersByWhApi] = useState<any[]>([]);
     const filteredTransportList = 
     transportList
         .filter((item) => (item.transport_type === transportType?.id))
         .map((item, idx) => ({id: idx, label: item.number}));
-    const [fromWarehouse, setFromWarehouse] = useState<IComboBoxOption | null>(null);
-    const [toWarehouse, setToWarehouse] = useState<IComboBoxOption | null>(null);
-    const [ws, setWS] = useState<IGridData[]>([]);
     const [left, setLeft] = useState<string[]>([]);
     const [right, setRight] = useState<string[]>([]);
     const compare = (a:any, b:any) => {
@@ -41,8 +53,6 @@ const RelocationAction: React.FC = () => {
         if (a.id > b.id ) return 1;
         return 0;
     };
-    console.log('transportList = ', transportList);
-    console.log('selectTransport = ', selectTransport);
     return (
         <BackgroundPaper>
             <div style={{ display: 'flex'}}>
@@ -51,9 +61,11 @@ const RelocationAction: React.FC = () => {
                     options={warehouseList}
                     value={fromWarehouse}
                     onChange={async (value: IComboBoxOption | null) => {
-                        console.log('value = ', value);
+
+                        dispatch(setSelectedWS(value));
+
                         if (value?.id){
-                            setFromWarehouse(value);
+
                             // await GetWarehouseByStoreId(token.access, value.id.toString())
                             //   .then((response)=>{
                             //     const ConvertWSResponse = ConvertWS(response);
@@ -72,8 +84,8 @@ const RelocationAction: React.FC = () => {
                                     GetTransfersByWh_idResponse.map(item => ({
                                         id: item.id,
                                         label: item.departure.name + ' - ' 
-                    + item.destination.name + ' - ' 
-                    + item.transport.number
+                                        + item.destination.name + ' - ' 
+                                        + item.transport.number
                                     })).sort(compare)
                                 );
                             } else {
@@ -114,12 +126,13 @@ const RelocationAction: React.FC = () => {
                 </div>
             </div>
             {/* <WSTransfer 
-        left={left}
-        setLeft={setLeft}
-        right={right}
-        setRight={setRight}
-      />
-      { ws.length > 0 && <WSTable ws={ws}/> } */}
+                left={left}
+                setLeft={setLeft}
+                right={right}
+                setRight={setRight}
+                />
+            */}
+            { ws.length > 0 && <WSTable ws={ws}/> } 
         </BackgroundPaper>
     );
 };

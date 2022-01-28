@@ -1,4 +1,4 @@
-import { GetTransportList, GetWarehouse, SignIn } from 'src/api/CustomAPI';
+import { GetStatuses, GetTransportList, GetWarehouse, SignIn } from 'src/api/CustomAPI';
 import React, { useState } from 'react';
 import CustomTextField from 'src/components/base/CustomTextField';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,6 +10,9 @@ import { CustomBlockBtn } from 'src/components/base/CustomBtn';
 import { WAREHOUSE_ACTION } from 'src/layout/pages';
 import { setWarehouseList } from 'src/store/warehouse/actions';
 import { setTransportList } from 'src/store/transportList/actions';
+import { setAllStatusesList } from 'src/store/allStatuses/actions';
+import { IStatusesTable } from 'src/store/allStatuses/types';
+import { convertWs } from 'src/utils/convert';
 
 interface ILogin {
     login: string,
@@ -45,20 +48,18 @@ const SignInPage: React.FC<ISignInPage> = ({ switchPage }) => {
                 }));
                 const GetWarehouseResponse = await GetWarehouse(access_token);
                 switchPage(WAREHOUSE_ACTION);
-                const GetTransportListResponse = await GetTransportList(access_token);
-                dispatch(setWarehouseList(GetWarehouseResponse));
-                dispatch(setTransportList(GetTransportListResponse));
+                dispatch(setWarehouseList(GetWarehouseResponse.map((item) =>({id: item.id, label: item.name}))));
+                console.log('GetWarehouseResponse', );
+                // const GetTransportListResponse = await GetTransportList(access_token);
+                // dispatch(setTransportList(GetTransportListResponse));
 
                 // const GetAllUsrResponse = await GetAllUsr(access_token);
                 // const GetOfficesResponse = await GetOffices(access_token);
-                // const GetStatusesResponse = await GetStatuses(access_token);
                 // console.log('GetRolesResponse', GetRolesResponse);
                 // console.log('GetAllUsrResponse', GetAllUsrResponse);
                 // console.log('GetOfficesResponse', GetOfficesResponse);
                 // console.log('GetStatusesResponse', GetStatusesResponse);
                 // console.log('GetTransportListResponse', GetTransportListResponse);
-
-                // dispatch(setAllStatusesList(GetStatusesResponse.sort(compareNumbers)));
                 // dispatch(setOfficesList(GetOfficesResponse));
                 // dispatch(setRolesList(GetRolesResponse.map((item) => ({ ...item, label: item.name }))));
                 // dispatch(setAllUsersList(GetAllUsrResponse));

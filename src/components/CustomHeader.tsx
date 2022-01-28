@@ -14,10 +14,12 @@ import { primaryColor } from 'src/constants/primaryColor';
 import { Header } from 'antd/lib/layout/layout';
 import { Menu, Dropdown, Button } from 'antd';
 import { FileTextFilled, HomeFilled, UserOutlined } from '@ant-design/icons';
-import { GetWarehouseByStoreId } from 'src/api/CustomAPI';
+import { GetStatuses, GetWarehouseByStoreId } from 'src/api/CustomAPI';
 import ComboBox from './base/ComboBox';
 import { setWSList } from 'src/store/wsList/actions';
-import useWarehouseList from 'src/hooks/useWarehouseList';
+import { setSelectedWS } from 'src/store/selectedWS/actions';
+import { IStatusesTable } from 'src/store/allStatuses/types';
+import { setAllStatusesList } from 'src/store/allStatuses/actions';
 
 interface ICustomHeader extends IProps {
     currentPage: string
@@ -29,9 +31,14 @@ const CustomHeader: React.FC<ICustomHeader> = ({
     switchPage,
 }) => {
     const token = useSelector((state: IRootState) => state.token.data);
-    const { warehouseList } = useWarehouseList();
+    const selectedWarehouse = useSelector((state: IRootState) => state.selectedWS.data);
+    const warehouseList = useSelector((state: IRootState) => state.warehouse.data);
     const dispatch = useDispatch();
-    const [selectedWarehouse, selectWarehouse] = useState<IComboBoxOption | null>(null);
+    const compareNumbers = (a:IStatusesTable, b:IStatusesTable) => {
+        if (a.code < b.code ) return -1;
+        if (a.code > b.code ) return 1;
+        return 0;
+    };
     const menu = (
         <Menu>
             <Menu.Item key={'PROFILE'} onClick={()=>{
@@ -52,14 +59,16 @@ const CustomHeader: React.FC<ICustomHeader> = ({
             </Menu.Item>
         </Menu>
     );
+
     const hangleWSSelect = (value: IComboBoxOption | null) => {
+        dispatch(setSelectedWS(value));
         if (value?.id) {
-            selectWarehouse(value);
             GetWarehouseByStoreId(token.access, value.id.toString()).then((res)=>{
                 dispatch(setWSList(res));
             });
         }
     };
+
     return (
         <Header style={{ 
             backgroundColor: '#fff',
@@ -112,7 +121,9 @@ const CustomHeader: React.FC<ICustomHeader> = ({
                                 <Button 
                                     shape="circle" 
                                     icon={<FileTextFilled />}  
-                                    onClick={()=>{
+                                    onClick={async ()=>{
+                                        const GetStatusesResponse = await GetStatuses(token.access);
+                                        dispatch(setAllStatusesList(GetStatusesResponse.sort(compareNumbers)));
                                         switchPage(DASHBOARD_ACTION);
                                     }}
                                     style={{
