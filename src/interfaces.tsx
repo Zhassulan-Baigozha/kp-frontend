@@ -1,5 +1,5 @@
 import { IWheel } from './api/CustomAPIModel';
-import { IUser } from './store/user/types';
+import { IUser } from './store/data/types';
 
 export type TKeyValuePair<T> = {
     [key in string]: T;

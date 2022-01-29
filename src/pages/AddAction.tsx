@@ -47,7 +47,7 @@ const initNewField: IAppendPurchasedForm = {
 };
 
 const AddAction: React.FC = () => {
-    const warehouseList = useSelector((state: IRootState) => state.warehouse.data);
+    const warehouseList = useSelector((state: IRootState) => state.data.warehouse);
     const selectedWarehouse = useSelector((state: IRootState) => state.selectedWS.data);
     const token = useSelector((state: IRootState) => state.token.data);
     const [typeOfAdding, setToggleTypeOfAdding] = useState<IComboBoxOption>(AddActionTypeNames[2]);

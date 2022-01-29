@@ -14,15 +14,24 @@ import { primaryColor } from 'src/constants/primaryColor';
 import { Header } from 'antd/lib/layout/layout';
 import { Menu, Dropdown, Button } from 'antd';
 import { FileTextFilled, HomeFilled, UserOutlined } from '@ant-design/icons';
-import { GetAllUsr, GetOffices, GetRoles, GetStatuses, GetUsr, GetWarehouseByStoreId } from 'src/api/CustomAPI';
+import { 
+    GetAllUsr, 
+    GetOffices, 
+    GetRoles, 
+    GetStatuses, 
+    GetUsr, 
+    GetWarehouseByStoreId 
+} from 'src/api/CustomAPI';
 import ComboBox from './base/ComboBox';
 import { setWSList } from 'src/store/wsList/actions';
 import { setSelectedWS } from 'src/store/selectedWS/actions';
-import { setAllStatusesList } from 'src/store/allStatuses/actions';
-import { setUserData } from 'src/store/user/actions';
-import { setAllUsersList } from 'src/store/allUsers/actions';
-import { setOfficesList } from 'src/store/offices/actions';
-import { setRolesList } from 'src/store/roles/actions';
+import { 
+    setUserData, 
+    setOfficesList, 
+    setAllUsersList, 
+    setAllStatusesList, 
+    setRolesList 
+} from 'src/store/data/actions';
 import { sortStatuses } from 'src/utils/sortStatuses';
 
 interface ICustomHeader {
@@ -36,7 +45,7 @@ const CustomHeader: React.FC<ICustomHeader> = ({
 }) => {
     const token = useSelector((state: IRootState) => state.token.data);
     const selectedWarehouse = useSelector((state: IRootState) => state.selectedWS.data);
-    const warehouseList = useSelector((state: IRootState) => state.warehouse.data);
+    const warehouseList = useSelector((state: IRootState) => state.data.warehouse);
     const dispatch = useDispatch();
 
     const menu = (

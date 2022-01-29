@@ -50,8 +50,8 @@ const InstallAction: React.FC = () => {
 
 
     const [wagonBtnDisabled, setWagonBtnDisabled] = useState<boolean>(false);
-    const warehouseList = useSelector((state: IRootState) => state.warehouse.data);
-    const statuses = useSelector((state: IRootState) => state.allStatuses.data);
+    const warehouseList = useSelector((state: IRootState) => state.data.warehouse);
+    const statuses = useSelector((state: IRootState) => state.data.allStatuses);
     const [wsWarehouse, setWSWarehouse] = useState<IGridData[]>([]);
     // const [selectedWarehouse, selectWarehouse] = useState<IComboBoxOption | null>(null);
     const [wagonNum, setWagonNum] = useState<string>('21206958');

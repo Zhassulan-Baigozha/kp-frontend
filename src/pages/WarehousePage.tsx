@@ -6,11 +6,10 @@ import WSTable from 'src/components/WSTable';
 import useConvertWs from 'src/hooks/useConvertWs';
 import BackgroundPaper from 'src/layout/BackgroundPaper';
 import { GetStatuses, GetTransportList } from 'src/api/CustomAPI';
-import { setAllStatusesList } from 'src/store/allStatuses/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from 'src/store';
 import { sortStatuses } from 'src/utils/sortStatuses';
-import { setTransportList } from 'src/store/transportList/actions';
+import { setAllStatusesList, setTransportList } from 'src/store/data/actions';
 // import { OutlinedButton } from 'src/components/CustomButtons';
 // import { AddIco, InstallIco, RelocationIco, RepairIco } from '../assets/svg';
 interface IWarehousePage {

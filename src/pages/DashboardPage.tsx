@@ -8,7 +8,7 @@ import useConvertWs from 'src/hooks/useConvertWs';
 
 const DashboardPage: React.FC = () => {
     const dispatch = useDispatch();
-    const statuses = useSelector((state: IRootState) => state.allStatuses.data);
+    const statuses = useSelector((state: IRootState) => state.data.allStatuses);
     const { convertedWS } = useConvertWs();
 
     const dataSource = statuses.map(s => ({

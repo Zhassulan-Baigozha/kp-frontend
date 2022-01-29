@@ -15,8 +15,8 @@ import ComboBox from '../base/ComboBox';
 const CreateNewEmployee: React.FC = () => {
     const { Panel } = Collapse;
     const token = useSelector((state: IRootState) => state.token.data);
-    const offices = useSelector((state: IRootState) => state.offices.data);
-    const roles = useSelector((state: IRootState) => state.roles.data);
+    const offices = useSelector((state: IRootState) => state.data.allOffices);
+    const roles = useSelector((state: IRootState) => state.data.roles);
     const [value, setValue] = useState<IComboBoxOption | null>(null);
     const [emailErrorStatus, setEmailErrorStatus] = useState<boolean>(false);
     const [newUser, setNewUser] = useState<ISignUpRequest>({

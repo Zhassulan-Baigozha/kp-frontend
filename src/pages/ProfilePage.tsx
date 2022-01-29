@@ -9,12 +9,12 @@ import { UpdatePassword, UpdateUserData } from 'src/api/CustomAPI';
 import CollapseElemLayout from 'src/layout/CollapseElemLayout';
 import CollapseLastElemLayout from 'src/layout/CollapseLastElemLayout';
 import { CustomBlockBtn } from 'src/components/base/CustomBtn';
-import { setUserData } from 'src/store/user/actions';
+import { setUserData } from 'src/store/data/actions';
 
 const ProfilePage: React.FC = () => {
     const { Panel } = Collapse;
     const token = useSelector((state: IRootState) => state.token.data);
-    const userData = useSelector((state: IRootState) => state.user.data);
+    const userData = useSelector((state: IRootState) => state.data.user);
     const dispatch = useDispatch();
     const [emailErrorStatus, setEmailErrorStatus] = useState<boolean>(false);
     const [passwords, setPasswords] = useState<IUpdatePassword>({

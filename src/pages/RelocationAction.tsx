@@ -21,12 +21,12 @@ import { setWSList } from 'src/store/wsList/actions';
 const RelocationAction: React.FC = () => {
     const token = useSelector((state: IRootState) => state.token.data);
     const fromWarehouse = useSelector((state: IRootState) => state.selectedWS.data);
-    const warehouseList = useSelector((state: IRootState) => state.warehouse.data);
+    const warehouseList = useSelector((state: IRootState) => state.data.warehouse);
     const dispatch = useDispatch();
 
     const [ws, setWS] = useState<IWSListTable[]>([]);
     const [toWarehouse, setToWarehouse] = useState<IComboBoxOption | null>(null);
-    const transportList = useSelector((state: IRootState) => state.transportList.data);
+    const transportList = useSelector((state: IRootState) => state.data.transportList);
     const [selectTransport, setSelectedTransport] = useState<IComboBoxOption | null>(null);
     const [transportType, setTransportType] = useState<IComboBoxOption | null>(null);
 

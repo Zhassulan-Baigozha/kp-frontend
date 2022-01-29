@@ -13,6 +13,7 @@ import { RepairTypeOptions } from 'src/constants/RepairTypeOptions';
 import WSTable from 'src/components/WSTable';
 import useConvertWs from 'src/hooks/useConvertWs';
 import { CustomCheckBtn } from 'src/components/base/CustomBtn';
+import FromRepair from 'src/components/RepairAction_Form/FromRepair';
 // import ComboBox from 'src/components/ComboBox';
 // import WSTable from 'src/components/WSTable';
 // import { Button } from '@mui/material';
@@ -21,17 +22,15 @@ import { CustomCheckBtn } from 'src/components/base/CustomBtn';
 
 
 const RepairAction: React.FC = () => {
-    const warehouseList = useSelector((state: IRootState) => state.warehouse.data);
+    const warehouseList = useSelector((state: IRootState) => state.data.warehouse);
     const token = useSelector((state: IRootState) => state.token.data);
-    const statuses = useSelector((state: IRootState) => state.allStatuses.data);
+    const statuses = useSelector((state: IRootState) => state.data.allStatuses);
     const statusesList = statuses.map((item) =>({id: item.code, label: item.name}));
     const [selectedStatus, selectStatus] = useState<IComboBoxOption | null>(null);
     const selectedWarehouse = useSelector((state: IRootState) => state.selectedWS.data);
     const dispatch = useDispatch();
     const { convertedWS } = useConvertWs();
     const [wheelsetArray, setWheelsetArray] = useState<IWSListTable[]>([]);
-
-    const successStatus:boolean[] = [];
 
 
     const [selectedWheelset, selectWheelset] = useState<IRepairWSUpdateRequest | null>(null);
@@ -72,7 +71,6 @@ const RepairAction: React.FC = () => {
             }).then(()=>{
                 message.success('Вы успешно добавили КП');
             }).catch((err)=>{
-                successStatus.push(false);
                 message.error(err.response.data.message);
                 message.error(err.response.data.system_message);
             });
@@ -116,10 +114,10 @@ const RepairAction: React.FC = () => {
                 />
                 <CustomCheckBtn onClick={sendRepair} />
             </div>
-            {/* {selectedWheelset && <FromRepair 
+            {selectedWheelset && <FromRepair 
                 wheelSetData={selectedWheelset} 
                 setWheelSetData={selectWheelset} 
-            />} */}
+            />}
             {/* <WSTable ws={ws} onSelect={(selectedItemsWSTable:number[])=>{
                 if (!selectedStatus?.id){ 
                     setAlertText('Вы не выбрали Статус');

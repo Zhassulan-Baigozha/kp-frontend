@@ -1,4 +1,4 @@
-import { IStatusesTable } from 'src/store/allStatuses/types';
+import { IStatusesTable } from 'src/store/data/types';
 
 export const sortStatuses = (a:IStatusesTable, b:IStatusesTable) => {
     if (a.code < b.code ) return -1;

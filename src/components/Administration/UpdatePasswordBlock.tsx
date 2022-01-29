@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import CustomTextField from '../base/CustomTextField';
 import { IComboBoxOption } from '../../interfaces';
 import { IUpdatePassword } from '../../api/CustomAPIModel';
-import { IUser } from '../../store/user/types';
+import { IUser } from '../../store/data/types';
 import { useSelector } from 'react-redux';
 import { IRootState } from 'src/store';
 import { UpdatePassword } from 'src/api/CustomAPI';
@@ -16,7 +16,7 @@ import ComboBox from '../base/ComboBox';
 
 const UpdatePasswordBlock: React.FC = () => {
     const { Panel } = Collapse;
-    const users = useSelector((state: IRootState) => state.allUsers.data);
+    const users = useSelector((state: IRootState) => state.data.allUsers);
     const token = useSelector((state: IRootState) => state.token.data);
     const [selectedUser, setSelectedUser] = useState<IComboBoxOption | null>(null);
     const [passwords, setPasswords] = useState<IUpdatePassword>({

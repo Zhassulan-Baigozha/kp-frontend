@@ -8,10 +8,8 @@ import { primaryColor } from 'src/constants/primaryColor';
 import CustomPasswordField from 'src/components/CustomPasswordField';
 import { CustomBlockBtn } from 'src/components/base/CustomBtn';
 import { WAREHOUSE_ACTION } from 'src/layout/pages';
-import { setWarehouseList } from 'src/store/warehouse/actions';
-import { setTransportList } from 'src/store/transportList/actions';
-import { setAllStatusesList } from 'src/store/allStatuses/actions';
-import { IStatusesTable } from 'src/store/allStatuses/types';
+import { setWarehouseList, setAllStatusesList, setTransportList } from 'src/store/data/actions';
+import { IStatusesTable } from 'src/store/data/types';
 import { convertWs } from 'src/utils/convert';
 
 interface ILogin {

@@ -1,7 +1,7 @@
 import { UpdateUserRole } from 'src/api/CustomAPI';
 import React, { useState } from 'react';
 import { IUpdateUserRole } from '../../interfaces';
-import { IUser } from '../../store/user/types';
+import { IUser } from '../../store/data/types';
 import { IRootState } from '../../store';
 import { useSelector } from 'react-redux';
 import { Collapse, message } from 'antd';
@@ -18,8 +18,8 @@ const UpdateEmployeeRole: React.FC = () => {
         role_name: '',
         user_id: ''
     });
-    const roles = useSelector((state: IRootState) => state.roles.data);
-    const users = useSelector((state: IRootState) => state.allUsers.data);
+    const roles = useSelector((state: IRootState) => state.data.roles);
+    const users = useSelector((state: IRootState) => state.data.allUsers);
     const token = useSelector((state: IRootState) => state.token.data);
     const updateRole = () => {
         UpdateUserRole(token.access, userFields)
@@ -66,8 +66,8 @@ const UpdateEmployeeRole: React.FC = () => {
                         options={roles}
                         value={
                             userFields.role_name &&
-              roles
-                  .filter((item) => (item.label === userFields.role_name)).length === 1
+                            roles
+                                .filter((item) => (item.label === userFields.role_name)).length === 1
                                 ? roles
                                     .filter((item) => (item.label === userFields.role_name))
                                     .map((item, idx)=>({id: idx, label: item.label}))[0]

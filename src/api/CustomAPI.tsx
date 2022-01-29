@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
-import { IUser } from 'src/store/user/types';
+import { IOffice, IUser } from 'src/store/data/types';
 import { 
     IAddWSFromWagonRequest,
     IAppendPurchasedRequest, 
@@ -17,10 +17,9 @@ import {
     IUpdateUserFieldsRequest, 
     IWarehouse
 } from './CustomAPIModel';
-import { IStatusesTable } from 'src/store/allStatuses/types';
+import { ITransport, IStatusesTable } from 'src/store/data/types';
 import { ISignUpRequest, ISignUpUser, IUpdateUserRole } from 'src/interfaces';
-import { IOffice } from 'src/store/offices/types';
-import { ITransport } from 'src/store/transportList/types';
+
 
 export const CustomAxios2 = (auth_user_token: string) =>{
     const instance = axios.create({

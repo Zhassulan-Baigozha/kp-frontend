@@ -1,12 +1,11 @@
 import { GetAllUsr, UpdateUserData } from 'src/api/CustomAPI';
 import React, { useState } from 'react';
-import { IUser } from 'src/store/user/types';
 import CustomTextField from '../base/CustomTextField';
 import { IRootState } from 'src/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { validateEmail } from 'src/utils/validateEmail';
 import { IUpdateUserFieldsRequest } from 'src/api/CustomAPIModel';
-import { setAllUsersList } from 'src/store/allUsers/actions';
+import { setAllUsersList } from 'src/store/data/actions';
 import { Collapse, message } from 'antd';
 import CollapseElemLayout from 'src/layout/CollapseElemLayout';
 import CollapseLastElemLayout from 'src/layout/CollapseLastElemLayout';
@@ -17,8 +16,8 @@ import ComboBox from '../base/ComboBox';
 
 const UpdateEmployeeData: React.FC = () => {
     const { Panel } = Collapse;
-    const offices = useSelector((state: IRootState) => state.offices.data);
-    const users = useSelector((state: IRootState) => state.allUsers.data);
+    const offices = useSelector((state: IRootState) => state.data.allOffices);
+    const users = useSelector((state: IRootState) => state.data.allUsers);
     const token = useSelector((state: IRootState) => state.token.data);
     const [emailErrorStatus, setEmailErrorStatus] = useState<boolean>(false);
     const dispatch = useDispatch();
@@ -94,8 +93,8 @@ const UpdateEmployeeData: React.FC = () => {
                         options={users.map((item, idx)=>({id: idx, label: item.surname + ' ' + item.name}))}
                         value={
                             userFields.uuid &&
-              users
-                  .filter((item) => (item.uuid === userFields.uuid)).length === 1
+                            users
+                                .filter((item) => (item.uuid === userFields.uuid)).length === 1
                                 ? users
                                     .filter((item) => (item.uuid === userFields.uuid))
                                     .map((item, idx)=>({id: idx, label: item.surname + ' ' + item.name}))[0]
