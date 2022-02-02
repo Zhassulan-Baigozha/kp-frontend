@@ -10,7 +10,7 @@ import { message } from 'antd';
 import { setSelectedWS } from 'src/store/selectedWS/actions';
 import { setWSList } from 'src/store/wsList/actions';
 import { RepairTypeOptions } from 'src/constants/RepairTypeOptions';
-import WSTable from 'src/components/WSTable';
+import WSTable from 'src/components/tables/WSTable';
 import useConvertWs from 'src/hooks/useConvertWs';
 import { CustomCheckBtn } from 'src/components/base/CustomBtn';
 import FromRepair from 'src/components/RepairAction_Form/FromRepair';

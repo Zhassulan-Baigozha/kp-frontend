@@ -1,3 +1,4 @@
+import { TTransportTypesId } from 'src/constants/transportTypes';
 import { ITransport } from 'src/store/data/types';
 
 
@@ -185,4 +186,22 @@ export interface IGetTransfersByWh_id {
     transport: ITransport,
     user_id: string,
     wheelsets: IRepairWSUpdateRequestWheels[],
+}
+
+export interface IGetTransferByDestResponse {
+    departure: {
+        name: string
+    }, 
+    destination: {
+        name: string
+    }, 
+    id: number,
+    transport: {
+        transport_type: TTransportTypesId,
+        number: string,
+    },
+    state:{
+        name: string,
+    },
+    product: {wheel_set: IGetWSResponse}[]
 }

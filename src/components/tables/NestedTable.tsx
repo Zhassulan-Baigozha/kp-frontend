@@ -4,7 +4,7 @@ import { IWSListTable } from 'src/interfaces';
 import { IWheel } from 'src/api/CustomAPIModel';
 
 interface INestedTable {
-  wheels: IWheel[] | null
+    wheels: IWheel[] | null
 }
 
 const NestedTable: React.FC<INestedTable> = ({wheels}) => {

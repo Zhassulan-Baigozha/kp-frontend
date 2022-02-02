@@ -71,22 +71,24 @@ const WSTable: React.FC<IWSTable> = ({
         }),
     };
     return (
-        <Table
-            bordered
-            columns={columns2}
-            dataSource={ws}
-            size="small"
-            rowClassName={'rowClassName2'}
-            rowSelection={{
-                type: selectionType,
-                ...rowSelection,
-            }}
-            expandable={{ 
-                rowExpandable: record => !!(record?.wheels && record?.wheels?.length),
-                expandedRowRender: record => <NestedTable wheels={record.wheels}/>, 
-            }}
-            pagination={{ pageSize: 10, hideOnSinglePage: true }}
-        />
+        <div style={{marginBottom: '16px'}}>
+            <Table
+                bordered
+                columns={columns2}
+                dataSource={ws}
+                size="small"
+                rowClassName={'rowClassName2'}
+                rowSelection={{
+                    type: selectionType,
+                    ...rowSelection,
+                }}
+                expandable={{ 
+                    rowExpandable: record => !!(record?.wheels && record?.wheels?.length),
+                    expandedRowRender: record => <NestedTable wheels={record.wheels}/>, 
+                }}
+                pagination={{ pageSize: 10, hideOnSinglePage: true }}
+            />
+        </div>
     );
 };
 

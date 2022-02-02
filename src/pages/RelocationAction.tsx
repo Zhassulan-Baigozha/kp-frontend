@@ -11,7 +11,7 @@ import ComboBox from 'src/components/base/ComboBox';
 // import ComboBox from 'src/components/ComboBox';
 import { transportTypes } from 'src/constants/transportTypes';
 import { CustomCheckBtn } from 'src/components/base/CustomBtn';
-import WSTable from 'src/components/WSTable';
+import WSTable from 'src/components/tables/WSTable';
 import { setSelectedWS } from 'src/store/selectedWS/actions';
 import { setWSList } from 'src/store/wsList/actions';
 // import TransferList from 'src/components/Relocation_Form/TransferList';

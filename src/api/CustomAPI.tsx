@@ -15,7 +15,8 @@ import {
     ISignInResponse, 
     IUpdatePassword, 
     IUpdateUserFieldsRequest, 
-    IWarehouse
+    IWarehouse,
+    IGetTransferByDestResponse
 } from './CustomAPIModel';
 import { ITransport, IStatusesTable } from 'src/store/data/types';
 import { ISignUpRequest, ISignUpUser, IUpdateUserRole } from 'src/interfaces';
@@ -60,3 +61,5 @@ export const AddWSFromWagon = (token: string, data: IAddWSFromWagonRequest) => C
 export const GetTransportList = (token: string) => CustomAxios2(token).get<ITransport[]>('api/v1/transfer-transport').then((r)=>r.data);
 export const GetTransfersByWh_id = (token: string, wh_id: string) => CustomAxios2(token).get<IGetTransfersByWh_id[]>(`api/v1/transfer-stock/${wh_id}`).then((r)=>r.data);
 
+
+export const GetTransferByDestination = (token: string, wh_id: number | string) => CustomAxios2(token).get<IGetTransferByDestResponse[]>(`api/v1/transfer-delivery/${wh_id}`).then((r)=>r.data);

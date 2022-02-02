@@ -12,7 +12,7 @@ import { setSelectedWS } from 'src/store/selectedWS/actions';
 import { setWSList } from 'src/store/wsList/actions';
 import { Input, message } from 'antd';
 import { convertWs } from 'src/utils/convert';
-import WSTable from 'src/components/WSTable';
+import WSTable from 'src/components/tables/WSTable';
 import useConvertWs from 'src/hooks/useConvertWs';
 // import CheckIcon from '@mui/icons-material/Check';
 // import WSTable from 'src/components/WSTable';

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { IComboBoxOption, IWSListTable } from 'src/interfaces';
-import { AddWSFromWagon, AppendPurchased, GetWagonById, GetWarehouseByStoreId } from 'src/api/CustomAPI';
+import { IComboBoxOption, ITransferList, IWSListTable } from 'src/interfaces';
+import { AddWSFromWagon, AppendPurchased, GetTransferByDestination, GetWagonById, GetWarehouseByStoreId } from 'src/api/CustomAPI';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from 'src/store';
 import { IAppendPurchasedForm } from 'src/api/CustomAPIModel';
@@ -12,11 +12,12 @@ import Purchased from 'src/components/AddAction_From/Purchased';
 import CustomTextField from 'src/components/base/CustomTextField';
 import { CustomCheckBtn } from 'src/components/base/CustomBtn';
 import { Input, message } from 'antd';
-import WSTable from 'src/components/WSTable';
+import WSTable from 'src/components/tables/WSTable';
 import { convertWs } from 'src/utils/convert';
 import { convertKeyToNumber } from 'src/utils/convert';
 import { setSelectedWS } from 'src/store/selectedWS/actions';
 import { setWSList } from 'src/store/wsList/actions';
+import TransferTable from 'src/components/tables/TransferTable';
 // import CustomizedInputBase from 'src/components/CustomizedInputBase';
 const { Search } = Input;
 
@@ -50,7 +51,7 @@ const AddAction: React.FC = () => {
     const warehouseList = useSelector((state: IRootState) => state.data.warehouse);
     const selectedWarehouse = useSelector((state: IRootState) => state.selectedWS.data);
     const token = useSelector((state: IRootState) => state.token.data);
-    const [typeOfAdding, setToggleTypeOfAdding] = useState<IComboBoxOption>(AddActionTypeNames[2]);
+    const [typeOfAdding, setToggleTypeOfAdding] = useState<IComboBoxOption>(AddActionTypeNames[1]);
     const [selectedWS, selectWS] = useState<number[]>([]);
     const dispatch = useDispatch();
 
@@ -58,12 +59,10 @@ const AddAction: React.FC = () => {
     // const [selectedWarehouse, selectWarehouse] = useState<IComboBoxOption | null>(null);
     const [purchasedWSData, setPurchasedWSData] = useState<IAppendPurchasedForm>(initNewField);
     const [wagonNum, setWagonNum] = useState<string>('21206958');
+    const [transferList, setTransferList] = useState<ITransferList[]>([]);
 
     const [ws, setWS] = useState<IWSListTable[]>([]);
-    const selectedWarehousePurchased = 
-    warehouseList.filter((item)=>(item.id === purchasedWSData.warehouse_id)).length === 1
-        ? warehouseList.filter((item)=>(item.id === purchasedWSData.warehouse_id))[0]
-        : null;
+
     const onSearch = (value: string) => {
         setWagonNum(value);
         setWS([]);
@@ -213,18 +212,30 @@ const AddAction: React.FC = () => {
                 )}
                 {typeOfAdding?.id === 2 && (
                     <>
-                        <CustomTextField 
-                            placeholder={'Номер транспорта'} 
-                            fullWidth={false}
-                        />
                         <ComboBox 
                             fullWidth={false}
                             label={'Выберите Склад'} 
                             options={warehouseList}
                             value={selectedWarehouse}
                             onChange={(value) => {
+                                // GetTransferByDestination
                                 dispatch(setSelectedWS(value));
                                 if (value?.id) {
+                                    console.log('value = ', value);
+                                    GetTransferByDestination(token.access, value.id).then((res) => {
+                                        if (res?.length > 0) {
+                                            setTransferList(res.map((item) => ({
+                                                key: item.id.toString(),
+                                                departure: item.departure.name,
+                                                destination: item.destination.name,
+                                                transport: item.transport.number,
+                                                transportType: item.transport.transport_type === 'TRUCK' ? 'Машина':'Поезд',
+                                                wheelSet: item.product.map(productItem => productItem.wheel_set),
+                                            })));
+                                        } else {
+                                            setTransferList([]);
+                                        }
+                                    });
                                     GetWarehouseByStoreId(token.access, value.id.toString()).then((res)=>{
                                         dispatch(setWSList(res));
                                     });
@@ -259,26 +270,22 @@ const AddAction: React.FC = () => {
                     </>
                 )}
             </div>
+            { typeOfAdding?.id === 2 && transferList.length > 0 &&
+                <TransferTable selectionType={'radio'} transferList={transferList} onChange={(_a, _b) => {
+                    console.log('_a', _a);
+                    console.log('_b', _b);
+                    if (_b.length === 1 && _b[0].wheelSet.length > 0) {
+                        setWS(convertWs(_b[0].wheelSet));
+                    }
+                }}/>
+            }
             { typeOfAdding?.id === 3 ? (
                 <Purchased purchasedWSData={purchasedWSData} setPurchasedWSData={setPurchasedWSData} />
-            ): (
-                <WSTable ws={ws} onChange={(_a, _b)=>{
+            ): ws.length > 0 ? (
+                <WSTable ws={ws} onChange={(_a, _b) => {
                     selectWS(convertKeyToNumber(_a));
                 }}/>
-            )}
-            {/* { typeOfAdding?.id !== 3 && ws.length > 0 && <WSTable ws={ws} 
-        onSelect={(selectedItemsWSTable:number[])=>{
-            if (selectedItemsWSTable?.length > 0){
-                selectWS(selectedItemsWSTable[0]);
-                console.log(
-                ws.map((item) =>{
-                    console.log(item);
-                    return item;
-                })
-                );
-            }
-        }}
-        /> }  */}
+            ): null}
         </BackgroundPaper>
     );
 };

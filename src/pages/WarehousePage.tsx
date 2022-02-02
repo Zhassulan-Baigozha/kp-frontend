@@ -2,7 +2,7 @@ import React from 'react';
 import { ADD_ACTION, INSTALL_ACTION, RELOCATION_ACTION, REPAIR_ACTION } from 'src/layout/pages';
 import { Button } from 'antd';
 import { ApartmentOutlined, DownloadOutlined, NodeExpandOutlined, PlusSquareOutlined } from '@ant-design/icons';
-import WSTable from 'src/components/WSTable';
+import WSTable from 'src/components/tables/WSTable';
 import useConvertWs from 'src/hooks/useConvertWs';
 import BackgroundPaper from 'src/layout/BackgroundPaper';
 import { GetStatuses, GetTransportList } from 'src/api/CustomAPI';

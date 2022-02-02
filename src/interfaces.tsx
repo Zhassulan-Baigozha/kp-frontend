@@ -1,4 +1,4 @@
-import { IWheel } from './api/CustomAPIModel';
+import { IGetWSResponse, IWheel } from './api/CustomAPIModel';
 import { IUser } from './store/data/types';
 
 export type TKeyValuePair<T> = {
@@ -47,4 +47,12 @@ export interface IWSListTable {
     status: number,
     wagonId: number,
     wheels: IWheel[] | null,
+}
+export interface ITransferList {
+    key: string,
+    departure: string,
+    destination: string,
+    transport: string,
+    transportType: string,
+    wheelSet: IGetWSResponse[]
 }
