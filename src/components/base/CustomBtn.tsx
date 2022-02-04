@@ -8,6 +8,7 @@ interface ICustomBtn {
     children?: React.ReactNode
     disabled?: boolean;
     PlusOutlinedIcon?: boolean;
+    mr?: boolean;
 }
 
 export const CustomBlockBtn: React.FC<ICustomBtn> = ({
@@ -36,9 +37,9 @@ export const CustomBlockBtn: React.FC<ICustomBtn> = ({
 
 export const CustomCheckBtn: React.FC<ICustomBtn> = ({
     disabled = false,
+    mr = true,
     PlusOutlinedIcon = false,
     onClick,
-    
 }) => {
     return (
         <Button 
@@ -51,7 +52,7 @@ export const CustomCheckBtn: React.FC<ICustomBtn> = ({
                 fontWeight: '500',
                 width: '60px',
                 height: '30px',
-                marginRight: '16px',
+                marginRight: mr ? '16px': undefined,
             }}
         >
             {PlusOutlinedIcon ? (

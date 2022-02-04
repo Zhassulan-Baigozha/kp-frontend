@@ -63,7 +63,7 @@ const WarehousePage: React.FC<IWarehousePage> = ({
                     </Button>
                 </div>
 
-                <div style={{marginRight: '16px', display: 'inline-block'}}>
+                <div style={{display: 'inline-block'}}>
                     <Button 
                         className={'OutlinedBtn'} 
                         icon={<NodeExpandOutlined style={{fontSize: '20px', paddingTop: '0px'}}/>} 

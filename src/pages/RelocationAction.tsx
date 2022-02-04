@@ -148,19 +148,17 @@ const RelocationAction: React.FC = () => {
                     }} />
                 </div>
                 <div style={{ display: 'inline-block'}}>
-                    <CustomCheckBtn 
-                        onClick={() => {
-                            if (selectedTransfer) {
-                                SendTransfer(token.access, selectedTransfer).then(()=>{
-                                    message.success('Вы успешно отправили Трансфер');
-                                    return null; 
-                                });
-                            } else {
-                                message.error('Вы не выбрали Трансфер');
+                    <CustomCheckBtn mr={false} onClick={() => {
+                        if (selectedTransfer) {
+                            SendTransfer(token.access, selectedTransfer).then(()=>{
+                                message.success('Вы успешно отправили Трансфер');
                                 return null; 
-                            }
-                        }} 
-                    />
+                            });
+                        } else {
+                            message.error('Вы не выбрали Трансфер');
+                            return null; 
+                        }
+                    }} />
                 </div>
             </div>
             {transferList.length > 0 &&
@@ -172,7 +170,7 @@ const RelocationAction: React.FC = () => {
                     }
                     console.log('_a', _a);
                     console.log('_b', _b);
-                    if (_b.length === 1 && _b[0].wheelSet.length > 0) {
+                    if (_b.length === 1 ?? _b[0].wheelSet?.length > 0) {
                         setWS(convertWs(_b[0].wheelSet));
                     }
                 }} />

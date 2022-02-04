@@ -67,3 +67,4 @@ export const GetTransferByDestination = (token: string, wh_id: number | string) 
 export const GetTransferByDeparture = (token: string, wh_id: number | string) => CustomAxios2(token).get<IGetTransferByDestResponse[]>(`api/v1/transfer-stock/${wh_id}`).then((r)=>r.data);
 export const SendTransfer = (token: string, transfer_id: number | string) => CustomAxios2(token).get<IGetTransferByDestResponse[]>(`api/v1/transfer-stock/${transfer_id}`).then((r)=>r.data);
 export const CreateTransfer = (token: string, data: ICreateTransfer) => CustomAxios2(token).post<ICreateTransfer, AxiosResponse<ISignInResponse>>('api/v1/transfer/new', data).then((r)=>r.data);
+export const AddWSToTransfer = (token: string, transfer_id: number | string, wsId: number | string) => CustomAxios2(token).get<IGetTransferByDestResponse[]>(`api/v1/transfer-add/${transfer_id}/${wsId}`).then((r)=>r.data);
