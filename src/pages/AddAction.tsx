@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { IComboBoxOption, ITransferList, IWSListTable } from 'src/interfaces';
+import React, { useState } from 'react';
+import { IComboBoxOption, IWSListTable } from 'src/interfaces';
 import { AddWSFromWagon, AppendPurchased, GetTransferByDestination, GetWagonById, GetWarehouseByStoreId } from 'src/api/CustomAPI';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from 'src/store';
@@ -9,7 +9,6 @@ import { AddActionTypeNames } from 'src/constants/AddActionTypeNames';
 import BackgroundPaper from 'src/layout/BackgroundPaper';
 import ComboBox from 'src/components/base/ComboBox';
 import Purchased from 'src/components/AddAction_From/Purchased';
-import CustomTextField from 'src/components/base/CustomTextField';
 import { CustomCheckBtn } from 'src/components/base/CustomBtn';
 import { Input, message } from 'antd';
 import WSTable from 'src/components/tables/WSTable';

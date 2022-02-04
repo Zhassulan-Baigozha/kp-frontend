@@ -62,8 +62,6 @@ const WSTable: React.FC<IWSTable> = ({
     const rowSelection = {
         onChange: (selectedRowKeys: React.Key[], selectedRows: IWSListTable[]) => {
             onChange?.(selectedRowKeys, selectedRows);
-            console.log('selectedRowKeys:', selectedRowKeys);
-            console.log('selectedRows:', selectedRows);
         },
         getCheckboxProps: (record: IWSListTable) => ({
             // disabled: record.axisNum === 'Disabled User',

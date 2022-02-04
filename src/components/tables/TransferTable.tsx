@@ -49,8 +49,6 @@ const TransferTable: React.FC<ITranferTable> = ({
     const rowSelection = {
         onChange: (selectedRowKeys: React.Key[], selectedRows: ITransferList[]) => {
             onChange?.(selectedRowKeys, selectedRows);
-            console.log('selectedRowKeys:', selectedRowKeys);
-            console.log('selectedRows:', selectedRows);
         },
         getCheckboxProps: (record: ITransferList) => ({
             id: record.key,

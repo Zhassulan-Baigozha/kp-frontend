@@ -2,9 +2,9 @@ import * as React from 'react';
 import { Input, InputProps } from 'antd';
 
 interface ICustomPasswordField {
-  type   ?: string
-  value ?: string
-  placeholder ?: string
+    type   ?: string
+    value ?: string
+    placeholder ?: string
 }
 
 const CustomPasswordField: React.FC<ICustomPasswordField & InputProps> = ({

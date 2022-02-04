@@ -106,17 +106,9 @@ const CustomHeader: React.FC<ICustomHeader> = ({
                         }}>
                             logo
                         </td>
-                        <td style={{
-                            textAlign: 'center',
-                            fontFamily: 'Roboto',
-                            fontSize: '36px',
-                            fontStyle: 'normal',
-                            fontWeight: 500,
-                            lineHeight: '42px',
-                            opacity: 0.5,
-                            color: primaryColor,
-                            width: '33%',
-                        }}>{getPageTitle(currentPage)}</td>
+                        <td className={'HeaderText'} style={{ opacity: 0.5}}>
+                            {getPageTitle(currentPage)}
+                        </td>
                         <td style={{textAlign: 'right', width: '34%'}}>
                             {SIGN_IN_ACTION !== currentPage && (
                                 <div style={{display: '-webkit-inline-box'}}>

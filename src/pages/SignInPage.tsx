@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setTokenData } from 'src/store/token/actions';
 import { IRootState } from 'src/store';
 import { primaryColor } from 'src/constants/primaryColor';
-import CustomPasswordField from 'src/components/CustomPasswordField';
+import CustomPasswordField from 'src/components/base/CustomPasswordField';
 import { CustomBlockBtn } from 'src/components/base/CustomBtn';
 import { WAREHOUSE_ACTION } from 'src/layout/pages';
 import { setWarehouseList, setAllStatusesList, setTransportList } from 'src/store/data/actions';

@@ -1,101 +1,80 @@
-/* html {
-  background-color: #f0f0f0;
-}
-
-body {
-  margin: 0;
-  padding: 0;
-}
-
-.MRE-MuiDrawer-paperAnchorRight {
-  width: 640px;
-}
-.MRE-MuiDrawer-paperAnchorBottom {
-  background-color: white;
-  border-radius: 16px;
-  margin: 0;
-  height: 90% !important;
-}
-.MRE-MuiPaper-elevation16 {
-  box-shadow: none !important;
-}
-.roomsWithPrices::before {
-  position: absolute;
-  top: 12px;
-  display: block;
-  width: 100%;
-  border-bottom: 1px dotted #c4c4c4;
-  content: "";
-  z-index: -1;
-}
-*/
-
-/* ////////////////////////////////////////////////// */
-/* #components-layout-demo-fixed .logo {
-  float: left;
-  width: 120px;
-  height: 31px;
-  margin: 16px 24px 16px 0;
-  background: #fff;
-}
-.site-layout .site-layout-background {
-  background: #fff;
-} */
-
-
 .ant-layout-header {
-  background: #fff;
+    background: #fff;
 }
 
 .site-layout-background {
-  background: #fff;
+    background: #fff;
 }
 
 .ant-btn:hover,
 .ant-btn:focus {
-  color: #263b5e;
-  border-color: #263b5e;
+    color: #263b5e;
+    border-color: #263b5e;
 }
 
 .ant-input {
-  background-color: #f0f0f0;
+    background-color: #f0f0f0;
 }
 .OutlinedBtn {
-  border-color: #263b5e;
-  border-radius: 5px;
-  font-weight: 400;
+    border-color: #263b5e;
+    border-radius: 5px;
+    font-weight: 400;
 }
+
 .WarehouseBtnText {
-  margin-left: 8px;
-  font-size: 16px;
-  color: #263b5e;
+    margin-left: 8px;
+    font-size: 16px;
+    color: #263b5e;
+}
+
+.RelocationOutlinedBtn {
+    border-color: #263b5e;
+    border-radius: 5px;
+    font-weight: 400;
+    height: 40px;
+    margin-right: 16px;
+}
+.RelocationBtnText {
+    font-size: 16px;
+    color: #263b5e;
 }
 
 .ant-select-selector {
-  background-color: #f0f0f0 !important;
-  border-radius: 8px !important;
+    background-color: #f0f0f0 !important;
+    border-radius: 8px !important;
 }
 .ant-table-cell {
-  padding: 4px 4px 4px 12px !important;
+    padding: 4px 4px 4px 12px !important;
 }
 .ant-input-group > .ant-input:first-child,
 .ant-input-group-addon:first-child {
-  border-top-left-radius: 8px !important;
-  border-bottom-left-radius: 8px !important;
+    border-top-left-radius: 8px !important;
+    border-bottom-left-radius: 8px !important;
 }
 .ant-input-search
-  > .ant-input-group
-  > .ant-input-group-addon:last-child
-  .ant-input-search-button {
-  border-top-right-radius: 8px !important;
-  border-bottom-right-radius: 8px !important;
+    > .ant-input-group
+    > .ant-input-group-addon:last-child
+    .ant-input-search-button {
+    border-top-right-radius: 8px !important;
+    border-bottom-right-radius: 8px !important;
 }
 
 .ant-table-tbody > tr > td,
 .ant-table-thead > tr > th {
-  border: 1px solid rgb(38, 59, 94, 0.5) !important;
+    border: 1px solid rgb(38, 59, 94, 0.5) !important;
 }
 
 .ant-table-thead > tr > th {
-  background-color: rgb(38, 59, 94, 0.2) !important;
+    background-color: rgb(38, 59, 94, 0.2) !important;
+}
+
+.HeaderText {
+    text-align: center;
+    font-family: 'Roboto';
+    font-size: 36px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 42px;
+    color: #263b5e;
+    width: 33%;
 }
