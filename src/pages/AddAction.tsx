@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { IComboBoxOption, ITransferList, IWSListTable } from 'src/interfaces';
 import { AddWSFromWagon, AppendPurchased, GetTransferByDestination, GetWagonById, GetWarehouseByStoreId } from 'src/api/CustomAPI';
 import { useDispatch, useSelector } from 'react-redux';
@@ -18,6 +18,7 @@ import { convertKeyToNumber } from 'src/utils/convert';
 import { setSelectedWS } from 'src/store/selectedWS/actions';
 import { setWSList } from 'src/store/wsList/actions';
 import TransferTable from 'src/components/tables/TransferTable';
+import { setTransferList } from 'src/store/data/actions';
 // import CustomizedInputBase from 'src/components/CustomizedInputBase';
 const { Search } = Input;
 
@@ -50,16 +51,16 @@ const initNewField: IAppendPurchasedForm = {
 const AddAction: React.FC = () => {
     const warehouseList = useSelector((state: IRootState) => state.data.warehouse);
     const selectedWarehouse = useSelector((state: IRootState) => state.selectedWS.data);
+    const transferList = useSelector((state: IRootState) => state.data.transferList);
     const token = useSelector((state: IRootState) => state.token.data);
     const [typeOfAdding, setToggleTypeOfAdding] = useState<IComboBoxOption>(AddActionTypeNames[1]);
     const [selectedWS, selectWS] = useState<number[]>([]);
     const dispatch = useDispatch();
 
 
-    // const [selectedWarehouse, selectWarehouse] = useState<IComboBoxOption | null>(null);
     const [purchasedWSData, setPurchasedWSData] = useState<IAppendPurchasedForm>(initNewField);
     const [wagonNum, setWagonNum] = useState<string>('21206958');
-    const [transferList, setTransferList] = useState<ITransferList[]>([]);
+    // const [transferList, setTransferList] = useState<ITransferList[]>([]);
 
     const [ws, setWS] = useState<IWSListTable[]>([]);
 
@@ -218,22 +219,21 @@ const AddAction: React.FC = () => {
                             options={warehouseList}
                             value={selectedWarehouse}
                             onChange={(value) => {
-                                // GetTransferByDestination
                                 dispatch(setSelectedWS(value));
                                 if (value?.id) {
                                     console.log('value = ', value);
                                     GetTransferByDestination(token.access, value.id).then((res) => {
                                         if (res?.length > 0) {
-                                            setTransferList(res.map((item) => ({
+                                            dispatch(setTransferList(res.map((item) => ({
                                                 key: item.id.toString(),
                                                 departure: item.departure.name,
                                                 destination: item.destination.name,
                                                 transport: item.transport.number,
                                                 transportType: item.transport.transport_type === 'TRUCK' ? 'Машина':'Поезд',
                                                 wheelSet: item.product.map(productItem => productItem.wheel_set),
-                                            })));
+                                            }))));
                                         } else {
-                                            setTransferList([]);
+                                            dispatch(setTransferList([]));
                                         }
                                     });
                                     GetWarehouseByStoreId(token.access, value.id.toString()).then((res)=>{

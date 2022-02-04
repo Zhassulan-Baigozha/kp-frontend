@@ -1,13 +1,13 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
 import * as React from 'react';
 import { Button } from 'antd';
 import { primaryColor } from 'src/constants/primaryColor';
-import { CheckOutlined } from '@ant-design/icons';
+import { CheckOutlined, PlusOutlined } from '@ant-design/icons';
 
 interface ICustomBtn {
-  onClick ?: ()=> void;
-  children?: React.ReactNode
-  disabled?: boolean;
+    onClick ?: ()=> void;
+    children?: React.ReactNode
+    disabled?: boolean;
+    PlusOutlinedIcon?: boolean;
 }
 
 export const CustomBlockBtn: React.FC<ICustomBtn> = ({
@@ -26,6 +26,7 @@ export const CustomBlockBtn: React.FC<ICustomBtn> = ({
                 borderRadius: '8px',
                 height: '40px',
                 fontWeight: '500',
+                marginRight: '16px',
             }}
         >
             {children}
@@ -35,7 +36,9 @@ export const CustomBlockBtn: React.FC<ICustomBtn> = ({
 
 export const CustomCheckBtn: React.FC<ICustomBtn> = ({
     disabled = false,
+    PlusOutlinedIcon = false,
     onClick,
+    
 }) => {
     return (
         <Button 
@@ -47,12 +50,19 @@ export const CustomCheckBtn: React.FC<ICustomBtn> = ({
                 borderRadius: '8px',
                 fontWeight: '500',
                 width: '60px',
-                height: '30px'
+                height: '30px',
+                marginRight: '16px',
             }}
         >
-            <CheckOutlined style={{
-                fontSize: '20px',
-            }}/>
+            {PlusOutlinedIcon ? (
+                <PlusOutlined style={{
+                    fontSize: '20px',
+                }}/>
+            ): (
+                <CheckOutlined style={{
+                    fontSize: '20px',
+                }}/>
+            )}
         </Button>
     );
 };

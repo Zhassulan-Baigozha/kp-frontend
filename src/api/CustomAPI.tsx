@@ -16,7 +16,8 @@ import {
     IUpdatePassword, 
     IUpdateUserFieldsRequest, 
     IWarehouse,
-    IGetTransferByDestResponse
+    IGetTransferByDestResponse,
+    ICreateTransfer
 } from './CustomAPIModel';
 import { ITransport, IStatusesTable } from 'src/store/data/types';
 import { ISignUpRequest, ISignUpUser, IUpdateUserRole } from 'src/interfaces';
@@ -63,3 +64,6 @@ export const GetTransfersByWh_id = (token: string, wh_id: string) => CustomAxios
 
 
 export const GetTransferByDestination = (token: string, wh_id: number | string) => CustomAxios2(token).get<IGetTransferByDestResponse[]>(`api/v1/transfer-delivery/${wh_id}`).then((r)=>r.data);
+export const GetTransferByDeparture = (token: string, wh_id: number | string) => CustomAxios2(token).get<IGetTransferByDestResponse[]>(`api/v1/transfer-stock/${wh_id}`).then((r)=>r.data);
+export const SendTransfer = (token: string, transfer_id: number | string) => CustomAxios2(token).get<IGetTransferByDestResponse[]>(`api/v1/transfer-stock/${transfer_id}`).then((r)=>r.data);
+export const CreateTransfer = (token: string, data: ICreateTransfer) => CustomAxios2(token).post<ICreateTransfer, AxiosResponse<ISignInResponse>>('api/v1/transfer/new', data).then((r)=>r.data);

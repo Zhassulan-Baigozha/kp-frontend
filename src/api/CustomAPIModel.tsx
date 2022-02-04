@@ -205,3 +205,9 @@ export interface IGetTransferByDestResponse {
     },
     product: {wheel_set: IGetWSResponse}[]
 }
+
+export interface ICreateTransfer {
+    departure_id: number,
+    destination_id: number,
+    transport_number: string
+}

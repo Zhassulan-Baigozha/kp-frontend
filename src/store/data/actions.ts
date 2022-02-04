@@ -1,21 +1,23 @@
-import { IComboBoxOption } from 'src/interfaces';
+import { IComboBoxOption, ITransferList } from 'src/interfaces';
 import { IOffice, IRoles, IStatusesTable, ITransport, IUser } from './types';
 
-export interface IActUser { type: 'user/SET', user: IUser }
+export interface IActAllOffices { type: 'allOffices/SET', allOffices: IOffice[] }
 export interface IActAllUsers { type: 'allUsers/SET', allUsers: IUser[] }
 export interface IActAllStatuses { type: 'allStatuses/SET', allStatuses: IStatusesTable[] }
-export interface IActAllOffices { type: 'allOffices/SET', allOffices: IOffice[] }
 export interface IActRoles { type: 'roles/SET', roles: IRoles[] }
+export interface IActTransfertList { type: 'transferList/SET', transferList: ITransferList[] }
 export interface IActTransportList { type: 'transportList/SET', transportList: ITransport[] }
+export interface IActUser { type: 'user/SET', user: IUser }
 export interface IActWarehouse { type: 'warehouse/SET', warehouse: IComboBoxOption[] }
 
 export type Action 
-    = IActUser 
+    = IActAllOffices 
     | IActAllUsers 
     | IActAllStatuses 
-    | IActAllOffices 
     | IActRoles 
+    | IActTransfertList
     | IActTransportList 
+    | IActUser 
     | IActWarehouse
 
 
@@ -41,6 +43,10 @@ export const setRolesList = (roles: IRoles[]): IActRoles => {
 
 export const setTransportList = (transportList: ITransport[]): IActTransportList => {
     return { type: 'transportList/SET', transportList };
+};
+
+export const setTransferList = (transferList: ITransferList[]): IActTransfertList => {
+    return { type: 'transferList/SET', transferList };
 };
 
 export const setWarehouseList = (warehouse: IComboBoxOption[]): IActWarehouse => {

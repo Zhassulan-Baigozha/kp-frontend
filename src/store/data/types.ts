@@ -1,4 +1,4 @@
-import { IComboBoxOption } from 'src/interfaces';
+import { IComboBoxOption, ITransferList } from 'src/interfaces';
 
 export interface IUser {
     email: string,
@@ -36,11 +36,12 @@ export interface ITransport {
 }
 
 export interface IUserState {
-    user: IUser,
-    allUsers: IUser[],
-    allStatuses: IStatusesTable[],
     allOffices: IOffice[],
+    allStatuses: IStatusesTable[],
+    allUsers: IUser[],
     roles: IComboBoxOption[],
+    transferList: ITransferList[],
     transportList: ITransport[],
+    user: IUser,
     warehouse: IComboBoxOption[],
 }
