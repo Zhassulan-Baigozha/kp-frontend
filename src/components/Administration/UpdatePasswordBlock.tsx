@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import CustomTextField from '../base/CustomTextField';
 import { IComboBoxOption } from '../../interfaces';
 import { IUpdatePassword } from '../../api/CustomAPIModel';
-import { IUser } from '../../store/data/types';
 import { useSelector } from 'react-redux';
 import { IRootState } from 'src/store';
 import { UpdatePassword } from 'src/api/CustomAPI';
@@ -59,6 +58,7 @@ const UpdatePasswordBlock: React.FC = () => {
                 </CollapseElemLayout>
                 <CollapseElemLayout>
                     <CustomTextField 
+                        fullWidth={true}
                         placeholder={'Пароль'} 
                         type={'password'}
                         onChange={(value) => {
@@ -69,6 +69,7 @@ const UpdatePasswordBlock: React.FC = () => {
                 </CollapseElemLayout>
                 <CollapseElemLayout>
                     <CustomTextField 
+                        fullWidth={true}
                         placeholder={'Повторите пароль'} 
                         type={'password'}
                         onChange={(value) => {
@@ -80,11 +81,11 @@ const UpdatePasswordBlock: React.FC = () => {
                 <CollapseLastElemLayout>
                     <CustomBlockBtn onClick={updatePasswordClick} disabled={
                         !(selectedUser && selectedUser.label.length > 0) ||
-            !(passwords.new_password.length > 0) ||
-            !(passwords.repeat_password.length > 0) ||
-            !(passwords.repeat_password === passwords.new_password)
+                        !(passwords.new_password.length > 0) ||
+                        !(passwords.repeat_password.length > 0) ||
+                        !(passwords.repeat_password === passwords.new_password)
                     }>
-            Подтвердить 
+                        Подтвердить 
                     </CustomBlockBtn>
                 </CollapseLastElemLayout>
             </Panel>

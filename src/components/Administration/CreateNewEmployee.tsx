@@ -154,16 +154,16 @@ const CreateNewEmployee: React.FC = () => {
                 <CollapseLastElemLayout>
                     <CustomBlockBtn onClick={signUpOnClick} disabled={
                         !(newUser && (typeof (newUser.office) === 'number')) ||
-            !(newUser && newUser.roles.length > 0) ||
-            !(newUser && newUser.email.length > 0) ||
-            !(newUser && newUser.surname.length > 0) ||
-            !(newUser && newUser.name.length > 0) ||
-            !(newUser && newUser.position.length > 0) ||
-            !(newUser.password.length > 0) ||
-            !(newUser.repeat_password.length > 0) ||
-            !(newUser.repeat_password === newUser.password)
+                        !(newUser && newUser.roles.length > 0) ||
+                        !(newUser && newUser.email.length > 0) ||
+                        !(newUser && newUser.surname.length > 0) ||
+                        !(newUser && newUser.name.length > 0) ||
+                        !(newUser && newUser.position.length > 0) ||
+                        !(newUser.password.length > 0) ||
+                        !(newUser.repeat_password.length > 0) ||
+                        !(newUser.repeat_password === newUser.password)
                     }>
-            Зарегистрировать 
+                        Зарегистрировать 
                     </CustomBlockBtn>
                 </CollapseLastElemLayout>
             </Panel>
