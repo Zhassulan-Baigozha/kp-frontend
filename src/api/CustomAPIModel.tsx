@@ -33,7 +33,12 @@ export interface IGetWSResponse {
     date_survey: string,
     manufacturer_code: number,
     description: string,
-    status: number,
+    status: {
+        name: string
+    },
+    state: {
+        name: string
+    },
     warehouse_id: number,
     wagon: number,
     created_at: string,

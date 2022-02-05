@@ -133,6 +133,7 @@ const CustomHeader: React.FC<ICustomHeader> = ({
                                         style={{ marginRight: '16px' }}
                                         onClick={async ()=>{
                                             const GetStatusesResponse = await GetStatuses(token.access);
+                                            console.log('GetStatusesResponse = ', GetStatusesResponse);
                                             dispatch(setAllStatusesList(GetStatusesResponse.sort(sortStatuses)));
                                             switchPage(DASHBOARD_ACTION);
                                         }}

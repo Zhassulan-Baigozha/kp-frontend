@@ -5,10 +5,10 @@ export const convertWs = (wsIn: IGetWSResponse[]):IWSListTable[] => {
     if (wsIn && wsIn.length > 0) {
         return wsIn.map(item => ({
             ...item,
-            status: item.status,
+            status: item.status.name,
             key: item.id,
             axisNum: item.number,
-            axisType: '',
+            state: item.state.name,
             manufacturerCode: item.manufacturer_code,
             createdAt: item.created_at.substr(0,4),
             description: item.description,

@@ -59,7 +59,7 @@ const AddAction: React.FC = () => {
 
 
     const [purchasedWSData, setPurchasedWSData] = useState<IAppendPurchasedForm>(initNewField);
-    const [wagonNum, setWagonNum] = useState<string>('21206958');
+    const [wagonNum, setWagonNum] = useState<string>('61891966');
     // const [transferList, setTransferList] = useState<ITransferList[]>([]);
 
     const [ws, setWS] = useState<IWSListTable[]>([]);
