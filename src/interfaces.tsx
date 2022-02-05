@@ -45,7 +45,6 @@ export interface IWSListTable {
     key: number,
     manufacturerCode: number,
     status: number,
-    wagonId: number,
     wheels: IWheel[] | null,
 }
 export interface ITransferList {

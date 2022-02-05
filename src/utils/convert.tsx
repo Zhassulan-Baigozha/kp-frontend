@@ -8,7 +8,6 @@ export const convertWs = (wsIn: IGetWSResponse[]):IWSListTable[] => {
             status: item.status,
             key: item.id,
             axisNum: item.number,
-            wagonId: item.wagon,
             axisType: '',
             manufacturerCode: item.manufacturer_code,
             createdAt: item.created_at.substr(0,4),

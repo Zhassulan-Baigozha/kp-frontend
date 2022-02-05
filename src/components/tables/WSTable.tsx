@@ -23,12 +23,6 @@ const WSTable: React.FC<IWSTable> = ({
             width: 150,
         },
         {
-            title: '№ Вагона',
-            dataIndex: 'wagonId',
-            key: 'wagonId',
-            width: 150,
-        },
-        {
             title: 'Тип',
             dataIndex: 'axisType',
             key: 'axisType',
