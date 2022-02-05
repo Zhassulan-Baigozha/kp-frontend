@@ -71,14 +71,21 @@ const RelocationAction: React.FC = () => {
     const GetTransfer = (fromWarehouse: string | number) => {
         GetTransferByDeparture(token.access, fromWarehouse).then((res) => {
             if (res?.length > 0) {
-                dispatch(setTransferList(res.map((item) => ({
+                const bufTransferList = res.map((item) => ({
                     key: item.id.toString(),
                     departure: item.departure.name,
                     destination: item.destination.name,
                     transport: item.transport.number,
                     transportType: item.transport.transport_type === 'TRUCK' ? 'Машина' : 'Поезд',
                     wheelSet: item.product?.map(productItem => productItem.wheel_set),
-                }))));
+                }));
+                const bufTransferList2 = bufTransferList.filter(item => item.key === selectedTransfer);
+                if (bufTransferList?.length > 0 && bufTransferList2?.length === 1 && bufTransferList2[0]?.wheelSet?.length > 0) {
+                    setWsInTransfer(convertWs(bufTransferList2[0]?.wheelSet));
+                } else {
+                    setWsInTransfer([]);
+                }
+                dispatch(setTransferList(bufTransferList));
             } else {
                 dispatch(setTransferList([]));
             }
@@ -167,11 +174,15 @@ const RelocationAction: React.FC = () => {
                     <Button 
                         className={'RelocationOutlinedBtn'} 
                         onClick={()=>{
-                            if (selectedTransfer && selectedWS) {
+                            if (selectedTransfer && selectedWS && fromWarehouse?.id) {
                                 AddWSToTransfer(token.access, selectedTransfer, selectedWS).then(()=>{
                                     message.success('Вы успешно добавили КП в Трансфер');
+                                    GetTransfer(fromWarehouse?.id);
                                     return null; 
                                 });
+                            } else if(selectedTransfer && selectedWS) {
+                                message.error('Вы не выбрали склад отправления');
+                                return null; 
                             } else if(selectedTransfer) {
                                 message.error('Вы не выбрали КП');
                                 return null; 
@@ -186,13 +197,17 @@ const RelocationAction: React.FC = () => {
                     <Button 
                         className={'RelocationOutlinedBtn'} 
                         onClick={()=>{
-                            if (selectedTransfer && selectedWsInTransfer) {
+                            if (selectedTransfer && selectedWsInTransfer && fromWarehouse?.id) {
                                 DeleteWSToTransfer(token.access, selectedTransfer, selectedWsInTransfer).then(()=>{
                                     message.success('Вы успешно удалили КП в Трансфер');
+                                    GetTransfer(fromWarehouse?.id);
                                     return null; 
                                 });
-                            } else if(selectedTransfer) {
-                                message.error('Вы не выбрали КП');
+                            } else if(selectedTransfer && selectedWsInTransfer) {
+                                message.error('Вы не выбрали склад отправления');
+                                return null; 
+                            } else if (selectedTransfer){
+                                message.error('Вы не выбрали КП из Трансфера');
                                 return null; 
                             } else {
                                 message.error('Вы не выбрали Трансфер');
