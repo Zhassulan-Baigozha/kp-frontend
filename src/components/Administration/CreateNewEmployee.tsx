@@ -47,6 +47,8 @@ const CreateNewEmployee: React.FC = () => {
                 })
                 .catch((err) => {
                     console.error('err', err);
+                    message.error(err.response.data.message);
+                    message.error(err.response.data.system_message);
                 });
         }
     };

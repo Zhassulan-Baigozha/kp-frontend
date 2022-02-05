@@ -1,4 +1,4 @@
-import { GetStatuses, GetTransportList, GetWarehouse, SignIn } from 'src/api/CustomAPI';
+import { GetWarehouse, SignIn } from 'src/api/CustomAPI';
 import React, { useState } from 'react';
 import CustomTextField from 'src/components/base/CustomTextField';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,9 +8,8 @@ import { primaryColor } from 'src/constants/primaryColor';
 import CustomPasswordField from 'src/components/base/CustomPasswordField';
 import { CustomBlockBtn } from 'src/components/base/CustomBtn';
 import { WAREHOUSE_ACTION } from 'src/layout/pages';
-import { setWarehouseList, setAllStatusesList, setTransportList } from 'src/store/data/actions';
-import { IStatusesTable } from 'src/store/data/types';
-import { convertWs } from 'src/utils/convert';
+import { setWarehouseList } from 'src/store/data/actions';
+import { message } from 'antd';
 
 interface ILogin {
     login: string,
@@ -34,11 +33,6 @@ const SignInPage: React.FC<ISignInPage> = ({ switchPage }) => {
             password: user.password, 
         })
             .then(async (res) => {
-                // if (!res.access_token) {
-                //     message.error('Обновите страницу и попробуйте перезайти, или обратитесь к администратору');
-                //     return;
-                // }
-                
                 const access_token = 'Bearer ' + res.access_token;
                 dispatch(setTokenData({
                     access: access_token,
@@ -47,21 +41,14 @@ const SignInPage: React.FC<ISignInPage> = ({ switchPage }) => {
                 const GetWarehouseResponse = await GetWarehouse(access_token);
                 switchPage(WAREHOUSE_ACTION);
                 dispatch(setWarehouseList(GetWarehouseResponse.map((item) =>({id: item.id, label: item.name}))));
-                console.log('GetWarehouseResponse', );
-                // const GetTransportListResponse = await GetTransportList(access_token);
-                // dispatch(setTransportList(GetTransportListResponse));
-
-                // const GetAllUsrResponse = await GetAllUsr(access_token);
-                // const GetOfficesResponse = await GetOffices(access_token);
-                // console.log('GetRolesResponse', GetRolesResponse);
-                // console.log('GetAllUsrResponse', GetAllUsrResponse);
-                // console.log('GetOfficesResponse', GetOfficesResponse);
-                // console.log('GetStatusesResponse', GetStatusesResponse);
-                // console.log('GetTransportListResponse', GetTransportListResponse);
-                // dispatch(setOfficesList(GetOfficesResponse));
-                // dispatch(setRolesList(GetRolesResponse.map((item) => ({ ...item, label: item.name }))));
-                // dispatch(setAllUsersList(GetAllUsrResponse));
-                
+            }).catch((err)=>{
+                console.error(err);
+                if (err.response.status === 401) {
+                    message.error('Неверные авторизационные данные');
+                } else {
+                    message.error(err.response.data.message);
+                    message.error(err.response.data.system_message);
+                }
             });
     };
 

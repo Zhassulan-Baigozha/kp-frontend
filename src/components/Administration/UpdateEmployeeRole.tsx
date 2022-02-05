@@ -27,6 +27,8 @@ const UpdateEmployeeRole: React.FC = () => {
                 message.success('Роль клиента обновлено');
             }).catch((err) => {
                 console.error(err);
+                message.error(err.response.data.message);
+                message.error(err.response.data.system_message);
             });
     };
     return (

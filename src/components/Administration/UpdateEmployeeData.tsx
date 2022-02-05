@@ -36,6 +36,8 @@ const UpdateEmployeeData: React.FC = () => {
                 message.success('Данные клиента обновлены');
             }).catch((err) => {
                 console.error(err);
+                message.error(err.response.data.message);
+                message.error(err.response.data.system_message);
             });
         const GetAllUsrResponse = await GetAllUsr(token.access);
         dispatch(setAllUsersList(GetAllUsrResponse));

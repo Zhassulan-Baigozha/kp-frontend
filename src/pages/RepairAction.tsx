@@ -71,6 +71,7 @@ const RepairAction: React.FC = () => {
             }).then(()=>{
                 message.success('Вы успешно добавили КП');
             }).catch((err)=>{
+                console.error(err);
                 message.error(err.response.data.message);
                 message.error(err.response.data.system_message);
             });

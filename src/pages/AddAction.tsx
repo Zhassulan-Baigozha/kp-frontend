@@ -78,15 +78,11 @@ const AddAction: React.FC = () => {
                         getWagonByIdResponse.wheel_set_fourth
                     ]);
                     setWS(buf);
-                    // setWagonBtnDisabled(true);
-                    // setWagonExists('find');
                 })
                 .catch((err)=>{
-                    // setWagonBtnDisabled(true);
-                    // setWagonExists('notFind');
-                    console.error(err.response.code);
-                    console.error(err.response.status);
-                    console.error(err.response.message);
+                    console.error(err);
+                    message.error(err.response.data.message);
+                    message.error(err.response.data.system_message);
                 });
         }
     };
@@ -112,9 +108,9 @@ const AddAction: React.FC = () => {
         }).then((_res)=>{
             message.success('Вы успешно добавили КП');
         }).catch((err) => {
+            console.log(err);
             message.error(err.response.data.message);
             message.error(err.response.data.system_message);
-            console.log(err);
         });
     };
     const GetTransfer = (toWarehouse: string | number) => {
@@ -180,10 +176,10 @@ const AddAction: React.FC = () => {
                 message.success('Вы успешно добавили КП');
             })
             .catch((err)=>{
+                console.error(err);
                 message.error('Произошла ошибка. Попробуйте перезагрузить страницу и попробуйте снова.');
                 message.error(err.response.data.message);
                 message.error(err.response.data.system_message);
-                console.error(err);
             });
     };
 
