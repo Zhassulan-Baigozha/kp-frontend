@@ -33,9 +33,9 @@ const Purchased: React.FC<IPurchased> = ({
                         onChange={(value) => {
                             if (
                                 typeof (+value.target.value) === 'number' 
-                && !isNaN(+value.target.value) 
-                && value.target.value.length <= 4
-                && (+value.target.value) <= 3000
+                                && !isNaN(+value.target.value) 
+                                && value.target.value.length <= 4
+                                && (+value.target.value) <= 3000
                             ){
                                 setPurchasedWSData({...purchasedWSData, wheel_left_year_issue: +value.target.value});
                             }
@@ -68,9 +68,9 @@ const Purchased: React.FC<IPurchased> = ({
                         }}
                         value={
                             purchasedWSData?.wheel_left_manufacturer_code !== undefined
-              && purchasedWSData?.wheel_left_manufacturer_code !== null
-              && typeof (+purchasedWSData.wheel_left_manufacturer_code) === 'number' 
-              && !isNaN(+purchasedWSData?.wheel_left_manufacturer_code)
+                            && purchasedWSData?.wheel_left_manufacturer_code !== null
+                            && typeof (+purchasedWSData.wheel_left_manufacturer_code) === 'number' 
+                            && !isNaN(+purchasedWSData?.wheel_left_manufacturer_code)
                                 ? purchasedWSData.wheel_left_manufacturer_code.toString()
                                 : '0'
                         }
@@ -80,15 +80,19 @@ const Purchased: React.FC<IPurchased> = ({
                     <CustomTextField 
                         placeholder={'Толщина обода'}
                         onChange={(value) => {
-                            if (typeof (+value.target.value) === 'number' && !isNaN(+value.target.value)){
-                                setPurchasedWSData({...purchasedWSData, wheel_left_rim: +value.target.value});
+                            if (
+                                parseFloat(value.target.value) && parseFloat(value.target.value) < 100
+                            ){
+                                setPurchasedWSData({
+                                    ...purchasedWSData, 
+                                    wheel_left_rim: value.target.value
+                                });
                             }
                         }}
                         value={
                             purchasedWSData.wheel_left_rim
                                 ? purchasedWSData.wheel_left_rim.toString()
                                 : ''
-              
                         }
                     />
                 </div>
@@ -96,8 +100,13 @@ const Purchased: React.FC<IPurchased> = ({
                     <CustomTextField 
                         placeholder={'Толщина гребня'}
                         onChange={(value) => {
-                            if (typeof (+value.target.value) === 'number' && !isNaN(+value.target.value)){
-                                setPurchasedWSData({...purchasedWSData, wheel_left_flange: +value.target.value});
+                            if (
+                                parseFloat(value.target.value) && parseFloat(value.target.value) < 100
+                            ){
+                                setPurchasedWSData({
+                                    ...purchasedWSData, 
+                                    wheel_left_flange: value.target.value
+                                });
                             }
                         }}
                         value={
@@ -129,9 +138,9 @@ const Purchased: React.FC<IPurchased> = ({
                         onChange={(value) => {
                             if (
                                 typeof (+value.target.value) === 'number' 
-                && !isNaN(+value.target.value) 
-                && value.target.value.length <= 4
-                && (+value.target.value) <= 3000
+                                && !isNaN(+value.target.value) 
+                                && value.target.value.length <= 4
+                                && (+value.target.value) <= 3000
                             ){
                                 setPurchasedWSData({...purchasedWSData, wheel_right_year_issue: +value.target.value});
                             }
@@ -163,9 +172,9 @@ const Purchased: React.FC<IPurchased> = ({
                         }}
                         value={
                             purchasedWSData?.wheel_right_manufacturer_code !== undefined
-              && purchasedWSData?.wheel_right_manufacturer_code !== null
-              && typeof (+purchasedWSData.wheel_right_manufacturer_code) === 'number' 
-              && !isNaN(+purchasedWSData?.wheel_right_manufacturer_code)
+                            && purchasedWSData?.wheel_right_manufacturer_code !== null
+                            && typeof (+purchasedWSData.wheel_right_manufacturer_code) === 'number' 
+                            && !isNaN(+purchasedWSData?.wheel_right_manufacturer_code)
                                 ? purchasedWSData.wheel_right_manufacturer_code.toString()
                                 : '0'
                         }
@@ -175,8 +184,13 @@ const Purchased: React.FC<IPurchased> = ({
                     <CustomTextField 
                         placeholder={'Толщина обода'}
                         onChange={(value) => {
-                            if (typeof (+value.target.value) === 'number' && !isNaN(+value.target.value)){
-                                setPurchasedWSData({...purchasedWSData, wheel_right_rim: +value.target.value});
+                            if (
+                                parseFloat(value.target.value) && parseFloat(value.target.value) < 100
+                            ){
+                                setPurchasedWSData({
+                                    ...purchasedWSData, 
+                                    wheel_right_rim: value.target.value
+                                });
                             }
                         }}
                         value={
@@ -190,8 +204,13 @@ const Purchased: React.FC<IPurchased> = ({
                     <CustomTextField 
                         placeholder={'Толщина гребня'}
                         onChange={(value) => {
-                            if (typeof (+value.target.value) === 'number' && !isNaN(+value.target.value)){
-                                setPurchasedWSData({...purchasedWSData, wheel_right_flange: +value.target.value});
+                            if (
+                                parseFloat(value.target.value) && parseFloat(value.target.value) < 100
+                            ) {
+                                setPurchasedWSData({
+                                    ...purchasedWSData, 
+                                    wheel_right_flange: value.target.value
+                                });
                             }
                         }}
                         value={

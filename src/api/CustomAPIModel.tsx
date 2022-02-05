@@ -120,17 +120,17 @@ export interface IAppendPurchasedForm {
     warehouse_id: number,
     year_issue: number,
     wheel_left_date_survey?: string,
-    wheel_left_flange?: number,
+    wheel_left_flange?: string,
     wheel_left_manufacturer_code?: number,
     wheel_left_number?: string,
-    wheel_left_rim?: number,
+    wheel_left_rim?: string,
     wheel_left_status?: number,
     wheel_left_year_issue?: number
     wheel_right_date_survey?: string,
-    wheel_right_flange?: number,
+    wheel_right_flange?: string,
     wheel_right_manufacturer_code?: number,
     wheel_right_number?: string,
-    wheel_right_rim?: number,
+    wheel_right_rim?: string,
     wheel_right_status?: number,
     wheel_right_year_issue?: number
 }

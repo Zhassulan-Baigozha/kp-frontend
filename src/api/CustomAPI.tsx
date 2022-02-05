@@ -60,16 +60,18 @@ export const AddWSFromWagon = (token: string, data: IAddWSFromWagonRequest) => C
 export const GetTransportList = (token: string) => CustomAxios2(token).get<ITransport[]>('api/v1/transfer-transport').then((r)=>r.data);
 export const GetTransfersByWh_id = (token: string, wh_id: string) => CustomAxios2(token).get<IGetTransfersByWh_id[]>(`api/v1/transfer-stock/${wh_id}`).then((r)=>r.data);
 
-
-export const GetTransferByDestination = (token: string, wh_id: number | string) => CustomAxios2(token).get<IGetTransferByDestResponse[]>(`api/v1/transfer-delivery/${wh_id}`).then((r)=>r.data);
-export const GetTransferByDeparture = (token: string, wh_id: number | string) => CustomAxios2(token).get<IGetTransferByDestResponse[]>(`api/v1/transfer-stock/${wh_id}`).then((r)=>r.data);
-
-
 export const GetWSByWarehouse = (token: string, wh_id: number | string) => CustomAxios2(token).get<IGetRepairWSResponse[]>(`api/v1/repair/ws/${wh_id}`).then((r)=>r.data);
 export const GetWarehouseByStoreId = (token: string, storeId: string) => CustomAxios2(token).get<IGetWSResponse[]>(`api/v1/ws-warehouse/${storeId}`).then((r)=>r.data);
 
-export const SendTransfer = (token: string, transfer_id: number | string) => CustomAxios2(token).get<IGetTransferByDestResponse[]>(`api/v1/transfer-stock/${transfer_id}`).then((r)=>r.data);
-export const CreateTransfer = (token: string, data: ICreateTransfer) => CustomAxios2(token).post<ICreateTransfer, AxiosResponse<ISignInResponse>>('api/v1/transfer/new', data).then((r)=>r.data);
+//Transfer
+export const GetTransferByDestination = (token: string, wh_id: number | string) => CustomAxios2(token)
+    .get<IGetTransferByDestResponse[]>(`api/v1/transfer-delivery/${wh_id}`).then((r)=>r.data);
+export const GetTransferByDeparture = (token: string, wh_id: number | string) => CustomAxios2(token)
+    .get<IGetTransferByDestResponse[]>(`api/v1/transfer-stock/${wh_id}`).then((r)=>r.data);
+export const SendTransfer = (token: string, transfer_id: number | string) => CustomAxios2(token)
+    .get<IGetTransferByDestResponse[]>(`api/v1/transfer-send/${transfer_id}`).then((r)=>r.data);
+export const CreateTransfer = (token: string, data: ICreateTransfer) => CustomAxios2(token)
+    .post<ICreateTransfer, AxiosResponse<ISignInResponse>>('api/v1/transfer/new', data).then((r)=>r.data);
 export const AddWSToTransfer = (token: string, transfer_id: number | string, wsId: number | string) => CustomAxios2(token)
     .get<IGetTransferByDestResponse[]>(`api/v1/transfer-add/${transfer_id}/${wsId}`).then((r)=>r.data);
 export const DeleteWSToTransfer = (token: string, transfer_id: number | string, wsId: number | string) => CustomAxios2(token)

@@ -31,18 +31,18 @@ const initNewField: IAppendPurchasedForm = {
     year_issue: +getCurrentDateString({onlyYear:true}) ,
 
     wheel_left_date_survey: getCurrentDateString({onlyYear:false}),
-    wheel_left_flange: 0,
+    wheel_left_flange: '15.5',
     wheel_left_manufacturer_code: 0,
     wheel_left_number: '',
-    wheel_left_rim: 0,
+    wheel_left_rim: '15.5',
     wheel_left_status: 1,
     wheel_left_year_issue: +getCurrentDateString({onlyYear:true}) ,
 
     wheel_right_date_survey: getCurrentDateString({onlyYear:false}) ,
-    wheel_right_flange: 0,
+    wheel_right_flange: '15.0',
     wheel_right_manufacturer_code: 0,
     wheel_right_number: '',
-    wheel_right_rim: 0,
+    wheel_right_rim: '15.0',
     wheel_right_status: 1,
     wheel_right_year_issue: +getCurrentDateString({onlyYear:true}) ,
 };
@@ -52,7 +52,7 @@ const AddAction: React.FC = () => {
     const selectedWarehouse = useSelector((state: IRootState) => state.selectedWS.data);
     const transferList = useSelector((state: IRootState) => state.data.transferList);
     const token = useSelector((state: IRootState) => state.token.data);
-    const [typeOfAdding, setToggleTypeOfAdding] = useState<IComboBoxOption>(AddActionTypeNames[1]);
+    const [typeOfAdding, setToggleTypeOfAdding] = useState<IComboBoxOption>(AddActionTypeNames[2]);
     const [selectedWS, selectWS] = useState<number[]>([]);
     const [selectedTransfer, setSelectedTransfer] = useState<number | string| null>(null);
     const dispatch = useDispatch();
@@ -113,6 +113,7 @@ const AddAction: React.FC = () => {
             message.error(err.response.data.system_message);
         });
     };
+
     const GetTransfer = (toWarehouse: string | number) => {
         GetTransferByDestination(token.access, toWarehouse).then((res) => {
             if (res?.length > 0) {
@@ -129,6 +130,7 @@ const AddAction: React.FC = () => {
             }
         });
     };
+
     const addNewWS2 = () => {
         if (selectedTransfer){
             CompleteWSToTransfer(token.access, selectedTransfer).then(() => {
@@ -141,46 +143,55 @@ const AddAction: React.FC = () => {
     };
 
     const addNewWSType3 = () => {
-        if (!selectedWarehouse?.id){ 
+        if (
+            !selectedWarehouse?.id
+        ){ 
             message.error('Вы не выбрали Склад');
             return null; 
         }
-        const temp = {
-            date_survey: purchasedWSData.date_survey + 'T00:00:00Z',
-            description: purchasedWSData.description,
-            manufacturer_code: purchasedWSData.manufacturer_code ? purchasedWSData.manufacturer_code : 0,
-            number: purchasedWSData.number,
-            status: 1,
-            warehouse_id: +selectedWarehouse.id,
-            year_issue: purchasedWSData.year_issue? purchasedWSData.year_issue: 0,
-            wheels: [{
-                date_survey: purchasedWSData.wheel_left_date_survey + 'T00:00:00Z',
-                flange: purchasedWSData.wheel_left_flange? purchasedWSData.wheel_left_flange : 0,
-                manufacturer_code: purchasedWSData.wheel_left_manufacturer_code ? purchasedWSData.wheel_left_manufacturer_code : 0,
-                number: purchasedWSData.wheel_left_number ? purchasedWSData.wheel_left_number : '',
-                rim: purchasedWSData.wheel_left_rim? purchasedWSData.wheel_left_rim : 0,
+        if (
+            purchasedWSData.wheel_left_rim
+            && purchasedWSData.wheel_right_rim
+            && purchasedWSData.wheel_right_flange
+            && purchasedWSData.wheel_left_flange
+        ){
+            const temp = {
+                date_survey: purchasedWSData.date_survey + 'T00:00:00Z',
+                description: purchasedWSData.description,
+                manufacturer_code: purchasedWSData.manufacturer_code ? purchasedWSData.manufacturer_code : 0,
+                number: purchasedWSData.number,
                 status: 1,
-                year_issue: purchasedWSData.wheel_left_year_issue ? purchasedWSData.wheel_left_year_issue : 0,
-            },{
-                date_survey: purchasedWSData.wheel_right_date_survey + 'T00:00:00Z',
-                flange: purchasedWSData.wheel_right_flange? purchasedWSData.wheel_right_flange : 0,
-                manufacturer_code: purchasedWSData.wheel_right_manufacturer_code ? purchasedWSData.wheel_right_manufacturer_code : 0,
-                number: purchasedWSData.wheel_right_number ? purchasedWSData.wheel_right_number : '',
-                rim: purchasedWSData.wheel_right_rim? purchasedWSData.wheel_right_rim : 0,
-                status: 1,
-                year_issue: purchasedWSData.wheel_right_year_issue ? purchasedWSData.wheel_right_year_issue : 0,
-            }],
-        };
-        AppendPurchased(token.access, temp)
-            .then(() => {
-                message.success('Вы успешно добавили КП');
-            })
-            .catch((err)=>{
-                console.error(err);
-                message.error('Произошла ошибка. Попробуйте перезагрузить страницу и попробуйте снова.');
-                message.error(err.response.data.message);
-                message.error(err.response.data.system_message);
-            });
+                warehouse_id: +selectedWarehouse.id,
+                year_issue: purchasedWSData.year_issue? purchasedWSData.year_issue: 0,
+                wheels: [{
+                    date_survey: purchasedWSData.wheel_left_date_survey + 'T00:00:00Z',
+                    flange: parseFloat(purchasedWSData.wheel_left_flange),
+                    manufacturer_code: purchasedWSData.wheel_left_manufacturer_code ? purchasedWSData.wheel_left_manufacturer_code : 0,
+                    number: purchasedWSData.wheel_left_number ? purchasedWSData.wheel_left_number : '',
+                    rim: parseFloat(purchasedWSData.wheel_left_rim),
+                    status: 1,
+                    year_issue: purchasedWSData.wheel_left_year_issue ? purchasedWSData.wheel_left_year_issue : 0,
+                },{
+                    date_survey: purchasedWSData.wheel_right_date_survey + 'T00:00:00Z',
+                    flange: parseFloat(purchasedWSData.wheel_right_flange),
+                    manufacturer_code: purchasedWSData.wheel_right_manufacturer_code ? purchasedWSData.wheel_right_manufacturer_code : 0,
+                    number: purchasedWSData.wheel_right_number ? purchasedWSData.wheel_right_number : '',
+                    rim: parseFloat(purchasedWSData.wheel_right_rim),
+                    status: 1,
+                    year_issue: purchasedWSData.wheel_right_year_issue ? purchasedWSData.wheel_right_year_issue : 0,
+                }],
+            };
+            AppendPurchased(token.access, temp)
+                .then(() => {
+                    message.success('Вы успешно добавили КП');
+                })
+                .catch((err)=>{
+                    console.error(err);
+                    message.error('Произошла ошибка. Попробуйте перезагрузить страницу и попробуйте снова.');
+                    message.error(err.response.data.message);
+                    message.error(err.response.data.system_message);
+                });
+        }
     };
 
     return (

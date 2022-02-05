@@ -2,12 +2,12 @@ import * as React from 'react';
 import { Input, InputProps } from 'antd';
 
 interface ICustomTextField {
-  type   ?: string
-  value ?: string
-  placeholder ?: string
-  fullWidth ?: boolean
-  error ?: boolean
-  disabled ?: boolean
+    type   ?: string
+    value ?: string
+    placeholder ?: string
+    fullWidth ?: boolean
+    error ?: boolean
+    disabled ?: boolean
 }
 
 const CustomTextField: React.FC<ICustomTextField & InputProps> = ({
