@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { IComboBoxOption, IWSListTable } from 'src/interfaces';
-import { AddWSFromWagon, AppendPurchased, GetTransferByDestination, GetWagonById, GetWarehouseByStoreId } from 'src/api/CustomAPI';
+import { AddWSFromWagon, AppendPurchased, CompleteWSToTransfer, GetTransferByDestination, GetWagonById, GetWarehouseByStoreId } from 'src/api/CustomAPI';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from 'src/store';
 import { IAppendPurchasedForm } from 'src/api/CustomAPIModel';
@@ -54,6 +54,7 @@ const AddAction: React.FC = () => {
     const token = useSelector((state: IRootState) => state.token.data);
     const [typeOfAdding, setToggleTypeOfAdding] = useState<IComboBoxOption>(AddActionTypeNames[1]);
     const [selectedWS, selectWS] = useState<number[]>([]);
+    const [selectedTransfer, setSelectedTransfer] = useState<number | string| null>(null);
     const dispatch = useDispatch();
 
 
@@ -116,9 +117,31 @@ const AddAction: React.FC = () => {
             console.log(err);
         });
     };
-
+    const GetTransfer = (toWarehouse: string | number) => {
+        GetTransferByDestination(token.access, toWarehouse).then((res) => {
+            if (res?.length > 0) {
+                dispatch(setTransferList(res.map((item) => ({
+                    key: item.id.toString(),
+                    departure: item.departure.name,
+                    destination: item.destination.name,
+                    transport: item.transport.number,
+                    transportType: item.transport.transport_type === 'TRUCK' ? 'Машина' : 'Поезд',
+                    wheelSet: item.product?.map(productItem => productItem.wheel_set),
+                }))));
+            } else {
+                dispatch(setTransferList([]));
+            }
+        });
+    };
     const addNewWS2 = () => {
-        console.log('addNewWS2');
+        if (selectedTransfer){
+            CompleteWSToTransfer(token.access, selectedTransfer).then(() => {
+                message.success('Вы успешно добавили КП');
+            });
+        } else {
+            message.error('Вы не выбрали Трансфер');
+        }
+        
     };
 
     const addNewWSType3 = () => {
@@ -221,20 +244,7 @@ const AddAction: React.FC = () => {
                                 dispatch(setSelectedWS(value));
                                 if (value?.id) {
                                     console.log('value = ', value);
-                                    GetTransferByDestination(token.access, value.id).then((res) => {
-                                        if (res?.length > 0) {
-                                            dispatch(setTransferList(res.map((item) => ({
-                                                key: item.id.toString(),
-                                                departure: item.departure.name,
-                                                destination: item.destination.name,
-                                                transport: item.transport.number,
-                                                transportType: item.transport.transport_type === 'TRUCK' ? 'Машина':'Поезд',
-                                                wheelSet: item.product.map(productItem => productItem.wheel_set),
-                                            }))));
-                                        } else {
-                                            dispatch(setTransferList([]));
-                                        }
-                                    });
+                                    GetTransfer(value?.id);
                                     GetWarehouseByStoreId(token.access, value.id.toString()).then((res)=>{
                                         dispatch(setWSList(res));
                                     });
@@ -271,9 +281,10 @@ const AddAction: React.FC = () => {
             </div>
             { typeOfAdding?.id === 2 && transferList.length > 0 &&
                 <TransferTable selectionType={'radio'} transferList={transferList} onChange={(_a, _b) => {
-                    console.log('_a', _a);
-                    console.log('_b', _b);
-                    if (_b.length === 1 && _b[0].wheelSet.length > 0) {
+                    if (_a.length === 1) {
+                        setSelectedTransfer(_a[0]);
+                    }
+                    if (_b.length === 1 && _b[0]?.wheelSet?.length > 0) {
                         setWS(convertWs(_b[0].wheelSet));
                     }
                 }}/>

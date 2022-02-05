@@ -84,13 +84,12 @@ const RelocationAction: React.FC = () => {
             }
         });
     };
+
+    const [selectedWS, selectWS] = useState<number | string | null>(null);
+
     const filteredTransportList = transportList
         .filter((item) => (item.transport_type === transportType?.id))
         .map((item, idx) => ({ id: idx, label: item.number }));
-    
-    
-    
-    const [selectedWS, selectWS] = useState<number | string | null>(null);
 
 
     return (

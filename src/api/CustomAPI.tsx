@@ -74,3 +74,5 @@ export const AddWSToTransfer = (token: string, transfer_id: number | string, wsI
     .get<IGetTransferByDestResponse[]>(`api/v1/transfer-add/${transfer_id}/${wsId}`).then((r)=>r.data);
 export const DeleteWSToTransfer = (token: string, transfer_id: number | string, wsId: number | string) => CustomAxios2(token)
     .get<IGetTransferByDestResponse[]>(`api/v1/transfer-remove/${transfer_id}/${wsId}`).then((r)=>r.data);
+export const CompleteWSToTransfer = (token: string, transfer_id: number | string) => CustomAxios2(token)
+    .get<IGetTransferByDestResponse[]>(`api/v1/transfer-complete/${transfer_id}`).then((r)=>r.data);
