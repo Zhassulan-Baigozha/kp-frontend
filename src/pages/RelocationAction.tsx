@@ -137,87 +137,89 @@ const RelocationAction: React.FC = () => {
                     onChange={setSelectedTransport}
                 />
             </div>
-            <div style={{ display: 'inline-block', paddingBottom: '16px'}}>
-                <Button 
-                    className={'RelocationOutlinedBtn'} 
-                    onClick={()=>{
-                        if (fromWarehouse?.id && toWarehouse?.id && selectTransport?.label){
-                            CreateTransfer(token.access, {
-                                departure_id: +fromWarehouse.id,
-                                destination_id: +toWarehouse.id,
-                                transport_number: selectTransport.label.toString(),
-                            }).then(()=>{
-                                message.success('Вы успешно создали Трансфер');
-                                GetTransfer(fromWarehouse?.id);
-                            });
-                        } else if(fromWarehouse?.id && toWarehouse?.id ) {
-                            message.error('Вы не выбрали Транспорт');
-                            return null; 
-                        } else if(fromWarehouse?.id ) { 
-                            message.error('Вы не Склад Куда');
-                            return null; 
-                        } else {
-                            message.error('Вы не Склад Откуда');
-                            return null; 
-                        }
-                    }}
-                >
-                    <span className={'RelocationBtnText'}>Создать Трансфер</span>
-                </Button>
-                <Button 
-                    className={'RelocationOutlinedBtn'} 
-                    onClick={()=>{
-                        if (selectedTransfer && selectedWS) {
-                            AddWSToTransfer(token.access, selectedTransfer, selectedWS).then(()=>{
-                                message.success('Вы успешно добавили КП в Трансфер');
+            <div style={{textAlign: 'right'}}>
+                <div style={{ display: 'inline-block', paddingBottom: '16px', textAlign: 'right' }}>
+                    <Button 
+                        className={'RelocationOutlinedBtn'} 
+                        onClick={()=>{
+                            if (fromWarehouse?.id && toWarehouse?.id && selectTransport?.label){
+                                CreateTransfer(token.access, {
+                                    departure_id: +fromWarehouse.id,
+                                    destination_id: +toWarehouse.id,
+                                    transport_number: selectTransport.label.toString(),
+                                }).then(()=>{
+                                    message.success('Вы успешно создали Трансфер');
+                                    GetTransfer(fromWarehouse?.id);
+                                });
+                            } else if(fromWarehouse?.id && toWarehouse?.id ) {
+                                message.error('Вы не выбрали Транспорт');
                                 return null; 
-                            });
-                        } else if(selectedTransfer) {
-                            message.error('Вы не выбрали КП');
-                            return null; 
-                        } else {
-                            message.error('Вы не выбрали Трансфер');
-                            return null; 
-                        }
-                    }}
-                >
-                    <span className={'RelocationBtnText'}>Добавить КП в Трансфер</span>
-                </Button>
-                <Button 
-                    className={'RelocationOutlinedBtn'} 
-                    onClick={()=>{
-                        if (selectedTransfer && selectedWsInTransfer) {
-                            DeleteWSToTransfer(token.access, selectedTransfer, selectedWsInTransfer).then(()=>{
-                                message.success('Вы успешно удалили КП в Трансфер');
+                            } else if(fromWarehouse?.id ) { 
+                                message.error('Вы не Склад Куда');
                                 return null; 
-                            });
-                        } else if(selectedTransfer) {
-                            message.error('Вы не выбрали КП');
-                            return null; 
-                        } else {
-                            message.error('Вы не выбрали Трансфер');
-                            return null; 
-                        }
-                    }}
-                >
-                    <span className={'RelocationBtnText'}>Удалить КП в Трансфер</span>
-                </Button>
-                <Button 
-                    className={'RelocationOutlinedBtn'} 
-                    onClick={()=>{
-                        if (selectedTransfer) {
-                            SendTransfer(token.access, selectedTransfer).then(()=>{
-                                message.success('Вы успешно отправили Трансфер');
+                            } else {
+                                message.error('Вы не Склад Откуда');
                                 return null; 
-                            });
-                        } else {
-                            message.error('Вы не выбрали Трансфер');
-                            return null; 
-                        }
-                    }}
-                >
-                    <span className={'RelocationBtnText'}>Отправить</span>
-                </Button>
+                            }
+                        }}
+                    >
+                        <span className={'RelocationBtnText'}>Создать Трансфер</span>
+                    </Button>
+                    <Button 
+                        className={'RelocationOutlinedBtn'} 
+                        onClick={()=>{
+                            if (selectedTransfer && selectedWS) {
+                                AddWSToTransfer(token.access, selectedTransfer, selectedWS).then(()=>{
+                                    message.success('Вы успешно добавили КП в Трансфер');
+                                    return null; 
+                                });
+                            } else if(selectedTransfer) {
+                                message.error('Вы не выбрали КП');
+                                return null; 
+                            } else {
+                                message.error('Вы не выбрали Трансфер');
+                                return null; 
+                            }
+                        }}
+                    >
+                        <span className={'RelocationBtnText'}>Добавить КП в Трансфер</span>
+                    </Button>
+                    <Button 
+                        className={'RelocationOutlinedBtn'} 
+                        onClick={()=>{
+                            if (selectedTransfer && selectedWsInTransfer) {
+                                DeleteWSToTransfer(token.access, selectedTransfer, selectedWsInTransfer).then(()=>{
+                                    message.success('Вы успешно удалили КП в Трансфер');
+                                    return null; 
+                                });
+                            } else if(selectedTransfer) {
+                                message.error('Вы не выбрали КП');
+                                return null; 
+                            } else {
+                                message.error('Вы не выбрали Трансфер');
+                                return null; 
+                            }
+                        }}
+                    >
+                        <span className={'RelocationBtnText'}>Удалить КП в Трансфер</span>
+                    </Button>
+                    <Button 
+                        className={'RelocationOutlinedBtn'} 
+                        onClick={()=>{
+                            if (selectedTransfer) {
+                                SendTransfer(token.access, selectedTransfer).then(()=>{
+                                    message.success('Вы успешно отправили Трансфер');
+                                    return null; 
+                                });
+                            } else {
+                                message.error('Вы не выбрали Трансфер');
+                                return null; 
+                            }
+                        }}
+                    >
+                        <span className={'RelocationBtnText'}>Отправить</span>
+                    </Button>
+                </div>
             </div>
             <div className={'HeaderText'} 
                 style={{ fontSize: '24px', textAlign: 'left', }} 
