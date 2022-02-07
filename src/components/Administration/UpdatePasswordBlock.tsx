@@ -47,7 +47,7 @@ const UpdatePasswordBlock: React.FC = () => {
 
     return (
         <Collapse accordion>
-            <Panel header="Изменить данные пользователя" key="1">
+            <Panel header="Изменить пароль пользователя" key="1">
                 <CollapseElemLayout>
                     <ComboBox 
                         label={'Выберите пользователя'} 

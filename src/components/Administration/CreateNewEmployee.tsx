@@ -103,11 +103,19 @@ const CreateNewEmployee: React.FC = () => {
                     <ComboBox 
                         label={'Роль'} 
                         options={roles}
-                        value={value}
+                        value={
+                            roles
+                                .map((item)=>({...item, label: item.label}))
+                                .filter((item)=>newUser.roles === item.label).length === 1 ? 
+                                roles
+                                    .map((item)=>({...item, label: item.label}))
+                                    .filter((item)=>newUser.roles === item.label)[0]
+                                : null
+                        }
                         onChange={(value) => {
-                            // if (value?.name){
-                            // setNewUser({...newUser, roles: value.name});
-                            // }
+                            if (value?.label){
+                                setNewUser({...newUser, roles: value.label});
+                            }
                         }}
                     />
                 </CollapseElemLayout>

@@ -50,9 +50,9 @@ const UpdateEmployeeRole: React.FC = () => {
                         onChange={(item) => {
                             if (
                                 (typeof item?.id === 'number') && 
-                users.length && 
-                users[item.id]?.uuid && 
-                (typeof users[item.id]?.uuid) === 'string'
+                                users.length && 
+                                users[item.id]?.uuid && 
+                                (typeof users[item.id]?.uuid) === 'string'
                             ){
                                 setUserFields({
                                     user_id: users[item.id].uuid,
@@ -76,21 +76,21 @@ const UpdateEmployeeRole: React.FC = () => {
                                 : null
                         }
                         onChange={(item) => {
-                            // if (item?.name) {
-                            //   setUserFields({
-                            //     ...userFields,
-                            //     role_name: item.name
-                            //   });
-                            // }
+                            if (item?.label) {
+                                setUserFields({
+                                    ...userFields,
+                                    role_name: item.label
+                                });
+                            }
                         }}
                     />
                 </CollapseElemLayout>
                 <CollapseLastElemLayout>
                     <CustomBlockBtn onClick={updateRole} disabled={
                         !(userFields && userFields.role_name.length > 0) ||
-            !(userFields && userFields.user_id.length > 0)
+                        !(userFields && userFields.user_id.length > 0)
                     }>
-            Изменить 
+                        Изменить 
                     </CustomBlockBtn>
                 </CollapseLastElemLayout>
             </Panel>

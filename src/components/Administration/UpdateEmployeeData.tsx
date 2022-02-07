@@ -47,6 +47,39 @@ const UpdateEmployeeData: React.FC = () => {
         <Collapse accordion>
             <Panel header="Изменить данные пользователя" key="1">
                 <CollapseElemLayout>
+                    <ComboBox 
+                        label={'Выберите пользователя'} 
+                        options={users.map((item, idx)=>({id: idx, label: item.surname + ' ' + item.name}))}
+                        value={
+                            userFields.uuid &&
+                            users
+                                .filter((item) => (item.uuid === userFields.uuid)).length === 1
+                                ? users
+                                    .filter((item) => (item.uuid === userFields.uuid))
+                                    .map((item, idx)=>({id: idx, label: item.surname + ' ' + item.name}))[0]
+                                : null
+                        }
+                        onChange={(item) => {
+                            if (
+                                (typeof item?.id === 'number') && 
+                                users.length && 
+                                users[item.id]?.uuid && 
+                                (typeof users[item.id]?.uuid) === 'string'
+                            ){
+                                setUserFields({
+                                    email: users[item.id].email,
+                                    name: users[item.id].name,
+                                    office: users[item.id].office,
+                                    position: users[item.id].position,
+                                    status: true,
+                                    surname: users[item.id].surname,
+                                    uuid: users[item.id].uuid
+                                });
+                            }
+                        }}
+                    />
+                </CollapseElemLayout>
+                <CollapseElemLayout>
                     <CustomTextField 
                         placeholder={'Имя'}
                         onChange={(value) => {
@@ -87,39 +120,6 @@ const UpdateEmployeeData: React.FC = () => {
                         }}
                         value={userFields.email}
                         fullWidth={true}
-                    />
-                </CollapseElemLayout>
-                <CollapseElemLayout>
-                    <ComboBox 
-                        label={'Выберите пользователя'} 
-                        options={users.map((item, idx)=>({id: idx, label: item.surname + ' ' + item.name}))}
-                        value={
-                            userFields.uuid &&
-                            users
-                                .filter((item) => (item.uuid === userFields.uuid)).length === 1
-                                ? users
-                                    .filter((item) => (item.uuid === userFields.uuid))
-                                    .map((item, idx)=>({id: idx, label: item.surname + ' ' + item.name}))[0]
-                                : null
-                        }
-                        onChange={(item) => {
-                            if (
-                                (typeof item?.id === 'number') && 
-                users.length && 
-                users[item.id]?.uuid && 
-                (typeof users[item.id]?.uuid) === 'string'
-                            ){
-                                setUserFields({
-                                    email: users[item.id].email,
-                                    name: users[item.id].name,
-                                    office: users[item.id].office,
-                                    position: users[item.id].position,
-                                    status: true,
-                                    surname: users[item.id].surname,
-                                    uuid: users[item.id].uuid
-                                });
-                            }
-                        }}
                     />
                 </CollapseElemLayout>
                 <CollapseElemLayout>
