@@ -65,11 +65,11 @@ const SignInPage: React.FC<ISignInPage> = ({ switchPage }) => {
                 backgroundColor: '#fff',
                 borderRadius: '8px',
                 margin:'auto',
-                height: '265px',
+                height: '285px',
             }}>
                 <div style={{ 
                     display: 'block',
-                    paddingBottom: '16px',
+                    // paddingBottom: '16px',
                     textAlign: 'center',
                     color: primaryColor,
                     opacity: 0.5,

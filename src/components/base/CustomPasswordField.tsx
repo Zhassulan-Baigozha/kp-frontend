@@ -13,13 +13,18 @@ const CustomPasswordField: React.FC<ICustomPasswordField & InputProps> = ({
     placeholder,
 }) => {
     return (
-        <Input.Password placeholder={placeholder} onChange={onChange} value={value} style={{
-            backgroundColor: '#f0f0f0', 
-            width: '300px',
-            marginBottom: '16px', 
-            marginRight: '16px',
-            borderRadius: '8px',
-        }} />
+        <div>
+            <div className="CustomTextField">
+                {placeholder}
+            </div>
+            <Input.Password placeholder={placeholder} onChange={onChange} value={value} style={{
+                backgroundColor: '#f0f0f0', 
+                width: '300px',
+                marginBottom: '16px', 
+                marginRight: '16px',
+                borderRadius: '8px',
+            }} />
+        </div>
     );
 };
 

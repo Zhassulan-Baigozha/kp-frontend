@@ -18,7 +18,7 @@ const Purchased: React.FC<IPurchased> = ({
     const wheelPair1Fields = () => {
         return (
             <>
-                <div style={{display: 'block', paddingBottom: '16px'}}>
+                <div style={{display: 'block'}}>
                     <CustomTextField 
                         placeholder={'Номер'}
                         onChange={(value) => {
@@ -27,7 +27,7 @@ const Purchased: React.FC<IPurchased> = ({
                         value={purchasedWSData.wheel_left_number}
                     />
                 </div>
-                <div style={{display: 'block', paddingBottom: '16px'}}>
+                <div style={{display: 'block'}}>
                     <CustomTextField 
                         placeholder={'Год изготовления'}
                         onChange={(value) => {
@@ -47,7 +47,7 @@ const Purchased: React.FC<IPurchased> = ({
                         }
                     />
                 </div>
-                <div style={{display: 'block', paddingBottom: '16px'}}>
+                <div style={{display: 'block'}}>
                     <CustomTextField 
                         placeholder={'Дата Ремонта'}
                         onChange={(value) => {
@@ -58,7 +58,7 @@ const Purchased: React.FC<IPurchased> = ({
                     />
                 </div>
 
-                <div style={{display: 'block', paddingBottom: '16px'}}>
+                <div style={{display: 'block'}}>
                     <CustomTextField 
                         placeholder={'Клеймо производителя'}
                         onChange={(value) => {
@@ -76,7 +76,7 @@ const Purchased: React.FC<IPurchased> = ({
                         }
                     />
                 </div>
-                <div style={{display: 'block', paddingBottom: '16px'}}>
+                <div style={{display: 'block'}}>
                     <CustomTextField 
                         placeholder={'Толщина обода'}
                         onChange={(value) => {
@@ -98,7 +98,7 @@ const Purchased: React.FC<IPurchased> = ({
                         }
                     />
                 </div>
-                <div style={{display: 'block', paddingBottom: '16px'}}>
+                <div style={{display: 'block'}}>
                     <CustomTextField 
                         placeholder={'Толщина гребня'}
                         onChange={(value) => {
@@ -127,7 +127,7 @@ const Purchased: React.FC<IPurchased> = ({
     const wheelPair2Fields = () => {
         return (
             <>
-                <div style={{display: 'block', paddingBottom: '16px'}}>
+                <div style={{display: 'block'}}>
                     <CustomTextField 
                         placeholder={'Номер'}
                         onChange={(value) => {
@@ -136,7 +136,7 @@ const Purchased: React.FC<IPurchased> = ({
                         value={purchasedWSData.wheel_right_number}
                     />
                 </div>
-                <div style={{display: 'block', paddingBottom: '16px'}}>
+                <div style={{display: 'block'}}>
                     <CustomTextField 
                         placeholder={'Год изготовления'}
                         onChange={(value) => {
@@ -156,7 +156,7 @@ const Purchased: React.FC<IPurchased> = ({
                         }
                     />
                 </div>
-                <div style={{display: 'block', paddingBottom: '16px'}}>
+                <div style={{display: 'block'}}>
                     <CustomTextField 
                         placeholder={'Дата Ремонта'}
                         onChange={(value) => {
@@ -166,7 +166,7 @@ const Purchased: React.FC<IPurchased> = ({
                         value={purchasedWSData.wheel_right_date_survey}
                     />
                 </div>
-                <div style={{display: 'block', paddingBottom: '16px'}}>
+                <div style={{display: 'block'}}>
                     <CustomTextField 
                         placeholder={'Клеймо производителя'}
                         onChange={(value) => {
@@ -184,7 +184,7 @@ const Purchased: React.FC<IPurchased> = ({
                         }
                     />
                 </div>
-                <div style={{display: 'block', paddingBottom: '16px'}}>
+                <div style={{display: 'block'}}>
                     <CustomTextField 
                         placeholder={'Толщина обода'}
                         onChange={(value) => {
@@ -206,7 +206,7 @@ const Purchased: React.FC<IPurchased> = ({
                         }
                     />
                 </div>
-                <div style={{display: 'block', paddingBottom: '16px'}}>
+                <div style={{display: 'block'}}>
                     <CustomTextField 
                         placeholder={'Толщина гребня'}
                         onChange={(value) => {
@@ -236,7 +236,7 @@ const Purchased: React.FC<IPurchased> = ({
         <Row gutter={16}>
             <Col span={8} className="gutter-row">
                 <InnerBlock>
-                    <Title level={5} style={{ paddingBottom: '16px' }}>
+                    <Title level={5} style={{ paddingBottom: '8px' }}>
                         Данные левого колеса
                     </Title>
                     {wheelPair1Fields()}
@@ -244,7 +244,7 @@ const Purchased: React.FC<IPurchased> = ({
             </Col>
             <Col span={8} className="gutter-row">
                 <InnerBlock>
-                    <Title level={5} style={{ paddingBottom: '16px' }}>
+                    <Title level={5} style={{ paddingBottom: '8px' }}>
                         Данные правого колеса
                     </Title>
                     {wheelPair2Fields()}
@@ -252,10 +252,10 @@ const Purchased: React.FC<IPurchased> = ({
             </Col>
             <Col span={8} className="gutter-row">
                 <InnerBlock>
-                    <Title level={5}  style={{ paddingBottom: '16px' }}>
+                    <Title level={5}  style={{ paddingBottom: '8px' }}>
                         Данные оси
                     </Title>
-                    <div style={{display: 'block', paddingBottom: '16px'}}>
+                    <div style={{display: 'block'}}>
                         <CustomTextField 
                             placeholder={'Номер'}
                             onChange={(value) => {
@@ -264,7 +264,7 @@ const Purchased: React.FC<IPurchased> = ({
                             value={purchasedWSData.number}
                         />
                     </div>
-                    <div style={{display: 'block', paddingBottom: '16px'}}>
+                    <div style={{display: 'block'}}>
                         <CustomTextField 
                             placeholder={'Год изготовления'}
                             onChange={(value) => {
@@ -280,7 +280,7 @@ const Purchased: React.FC<IPurchased> = ({
                             value={purchasedWSData.year_issue.toString()}
                         />
                     </div>
-                    <div style={{display: 'block', paddingBottom: '16px'}}>
+                    <div style={{display: 'block'}}>
                         <CustomTextField 
                             placeholder={'Дата Ремонта'}
                             onChange={(value) => {
@@ -290,7 +290,7 @@ const Purchased: React.FC<IPurchased> = ({
                             value={purchasedWSData.date_survey}
                         />
                     </div>
-                    <div style={{display: 'block', paddingBottom: '16px'}}>
+                    <div style={{display: 'block'}}>
                         <CustomTextField 
                             placeholder={'Клеймо производителя'}
                             onChange={(value) => {
@@ -301,7 +301,7 @@ const Purchased: React.FC<IPurchased> = ({
                             value={purchasedWSData.manufacturer_code.toString()}
                         />
                     </div>
-                    <div style={{display: 'block', paddingBottom: '16px'}}>
+                    <div style={{display: 'block'}}>
                         <CustomTextArea 
                             placeholder={'Примечание'}
                             onChange={(value)=>{

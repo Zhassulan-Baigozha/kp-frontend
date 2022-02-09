@@ -46,7 +46,7 @@ export const GetWS = (token: string) => CustomAxios2(token).get<IGetWSResponse[]
 export const GetAllUsr = (token: string) => CustomAxios2(token).get<IUser[]>('api/usr/all').then((r)=>r.data);
 export const GetOffices = (token: string) => CustomAxios2(token).get<IOffice[]>('api/v1/office').then((r)=>r.data);
 export const GetWarehouse = (token: string) => CustomAxios2(token).get<IWarehouse[]>('api/v1/warehouse').then((r)=>r.data);
-export const GetStatuses = (token: string) => CustomAxios2(token).get<IStatusesTable[]>('api/v1/status').then((r)=>r.data);
+export const GetStatuses = (token: string) => CustomAxios2(token).get<IStatusesTable[]>('api/v1/repair/status').then((r)=>r.data);
 export const GetWagonByWarehouse = (token: string, wh_id: number) => CustomAxios2(token).get<IStatusesTable[]>(`api/v1/repair/wagon/${wh_id}`).then((r)=>r.data);
 export const AuthReNew = (token: string, data: IAuthReNew) => CustomAxios2(token).put<IAuthReNew, AxiosResponse<ISignInResponse>>('api/auth/renew', data).then((r)=>r.data);
 export const SignIn = (token: string, data: ISignInRequest) => CustomAxios2(token).post<ISignInRequest, AxiosResponse<ISignInResponse>>('api/auth/signin', data).then((r)=>r.data);

@@ -19,19 +19,24 @@ const CustomTextField: React.FC<ICustomTextField & InputProps> = ({
     disabled = false, 
 }) => {
     return (
-        <Input
-            placeholder={placeholder}
-            onChange={onChange}
-            value={value}
-            disabled={disabled}
-            style={{
-                backgroundColor: '#f0f0f0', 
-                marginBottom: '16px', 
-                marginRight: '16px', 
-                borderRadius: '8px',
-                width: fullWidth ? '100%': '300px',
-            }}
-        />
+        <div>
+            <div className="CustomTextField">
+                {placeholder}
+            </div>
+            <Input
+                placeholder={placeholder}
+                onChange={onChange}
+                value={value}
+                disabled={disabled}
+                style={{
+                    backgroundColor: '#f0f0f0', 
+                    marginBottom: '16px', 
+                    marginRight: '16px', 
+                    borderRadius: '8px',
+                    width: fullWidth ? '100%': '300px',
+                }}
+            />
+        </div>
     );
 };
 
