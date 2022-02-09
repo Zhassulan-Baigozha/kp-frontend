@@ -17,7 +17,6 @@ const CreateNewEmployee: React.FC = () => {
     const token = useSelector((state: IRootState) => state.token.data);
     const offices = useSelector((state: IRootState) => state.data.allOffices);
     const roles = useSelector((state: IRootState) => state.data.roles);
-    const [value, setValue] = useState<IComboBoxOption | null>(null);
     const [emailErrorStatus, setEmailErrorStatus] = useState<boolean>(false);
     const [newUser, setNewUser] = useState<ISignUpRequest>({
         email: '',
@@ -42,7 +41,7 @@ const CreateNewEmployee: React.FC = () => {
             newUser.surname
         ) {
             SignUp(token.access, newUser)
-                .then((res) => {
+                .then(() => {
                     message.success('Сотрудник зарегистрирован');
                 })
                 .catch((err) => {

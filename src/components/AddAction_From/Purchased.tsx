@@ -81,7 +81,9 @@ const Purchased: React.FC<IPurchased> = ({
                         placeholder={'Толщина обода'}
                         onChange={(value) => {
                             if (
-                                parseFloat(value.target.value) && parseFloat(value.target.value) < 100
+                                parseFloat(value.target.value) 
+                                && parseFloat(value.target.value) < 100 
+                                && !isNaN(+value.target.value)
                             ){
                                 setPurchasedWSData({
                                     ...purchasedWSData, 
@@ -101,7 +103,9 @@ const Purchased: React.FC<IPurchased> = ({
                         placeholder={'Толщина гребня'}
                         onChange={(value) => {
                             if (
-                                parseFloat(value.target.value) && parseFloat(value.target.value) < 100
+                                parseFloat(value.target.value) 
+                                && parseFloat(value.target.value) < 100 
+                                && !isNaN(+value.target.value)
                             ){
                                 setPurchasedWSData({
                                     ...purchasedWSData, 
@@ -185,7 +189,9 @@ const Purchased: React.FC<IPurchased> = ({
                         placeholder={'Толщина обода'}
                         onChange={(value) => {
                             if (
-                                parseFloat(value.target.value) && parseFloat(value.target.value) < 100
+                                parseFloat(value.target.value) 
+                                && parseFloat(value.target.value) < 100 
+                                && !isNaN(+value.target.value)
                             ){
                                 setPurchasedWSData({
                                     ...purchasedWSData, 
@@ -205,7 +211,9 @@ const Purchased: React.FC<IPurchased> = ({
                         placeholder={'Толщина гребня'}
                         onChange={(value) => {
                             if (
-                                parseFloat(value.target.value) && parseFloat(value.target.value) < 100
+                                parseFloat(value.target.value) 
+                                && parseFloat(value.target.value) < 100
+                                && !isNaN(+value.target.value)
                             ) {
                                 setPurchasedWSData({
                                     ...purchasedWSData, 
