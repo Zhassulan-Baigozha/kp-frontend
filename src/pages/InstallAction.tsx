@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { IWSListTable, WagonExistanceType } from 'src/interfaces';
+import { IWSListTable } from 'src/interfaces';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from 'src/store';
-import { IGridData } from 'src/api/CustomAPIModel';
-import { GetWagonById, GetWarehouseByStoreId } from 'src/api/CustomAPI';
+import { GetWagonById, GetWarehouseByStoreId, InstallWSToWagon } from 'src/api/CustomAPI';
 import BackgroundPaper from 'src/layout/BackgroundPaper';
 import { primaryColor } from 'src/constants/primaryColor';
 import ComboBox from 'src/components/base/ComboBox';
@@ -14,9 +13,7 @@ import { Input, message } from 'antd';
 import { convertWs } from 'src/utils/convert';
 import WSTable from 'src/components/tables/WSTable';
 import useConvertWs from 'src/hooks/useConvertWs';
-// import CheckIcon from '@mui/icons-material/Check';
-// import WSTable from 'src/components/WSTable';
-// import CustomizedInputBase from 'src/components/CustomizedInputBase';
+import { Key } from 'antd/lib/table/interface';
 const { Search } = Input;
 
 const InstallAction: React.FC = () => {
@@ -25,10 +22,12 @@ const InstallAction: React.FC = () => {
     const dispatch = useDispatch();
     const [wsWagon, setWSWagon] = useState<IWSListTable[]>([]);
     const { convertedWS } = useConvertWs();
+    const warehouseList = useSelector((state: IRootState) => state.data.warehouse);
+    const [wagonNum, setWagonNum] = useState<string>('61891966');
+    const [selectedWSinWarehouse, setSelectedWSinWarehouse] = useState<Key[]>([]);
     const onSearch = (value: string) => {
         setWagonNum(value);
         setWSWagon([]);
-
         if (wagonNum?.length === 8){
             GetWagonById(token.access, value)
                 .then((getWagonByIdResponse) => {
@@ -47,15 +46,42 @@ const InstallAction: React.FC = () => {
                 });
         }
     };
+    const onSubmit = () => {
+        if (!(+wagonNum)) {
+            message.error('Вы не выбрали Вагон');
+            return null;
+        }
+        if (!(selectedWarehouse?.id)) {
+            message.error('Вы не выбрали Склад');
+            return null;
+        }
+        if (!(selectedWSinWarehouse.length > 0)) {
+            message.error('Вы не выбрали КП');
+            return null;
+        }
+        
+        console.log('Подтвердить',
+            {
+                description: '',
+                wagon_id: +wagonNum,
+                warehouse_id: +selectedWarehouse.id,
+                ws_list: selectedWSinWarehouse
+            }
+        );
+        InstallWSToWagon(token.access, {
+            description: '',
+            wagon_id: +wagonNum,
+            warehouse_id: +selectedWarehouse.id,
+            ws_list: selectedWSinWarehouse
+        }).then(() => {
+            message.success('Установка успешно произведена!');
+        }).catch((err) => {
+            console.error('err', err);
+            message.error(err.response.data.message);
+            message.error(err.response.data.system_message);
+        });
+    };
 
-
-    const [wagonBtnDisabled, setWagonBtnDisabled] = useState<boolean>(false);
-    const warehouseList = useSelector((state: IRootState) => state.data.warehouse);
-    const statuses = useSelector((state: IRootState) => state.data.allStatuses);
-    const [wsWarehouse, setWSWarehouse] = useState<IGridData[]>([]);
-    // const [selectedWarehouse, selectWarehouse] = useState<IComboBoxOption | null>(null);
-    const [wagonNum, setWagonNum] = useState<string>('61891966');
-    const [wagonExists, setWagonExists] = useState<WagonExistanceType>(null);
 
     return (
         <BackgroundPaper>
@@ -84,9 +110,7 @@ const InstallAction: React.FC = () => {
                     }}
                     // validate={wagonExists}
                 />
-                <CustomCheckBtn onClick={()=>{
-                    console.log('Подтвердить');
-                }}/>
+                <CustomCheckBtn onClick={onSubmit}/>
             </div>
             <div style={{
                 fontFamily: 'Roboto',
@@ -113,7 +137,13 @@ const InstallAction: React.FC = () => {
             }}>
                 Колесные пары на складе
             </div>
-            <WSTable ws={convertedWS}/>
+            <WSTable ws={convertedWS} onChange={(_a, _b) => {
+                if (_a.length > 0) {
+                    setSelectedWSinWarehouse(_a);
+                }
+                console.log('WSTable convertedWS _a = ', _a);
+                console.log('WSTable convertedWS _b = ', _b);
+            }}/>
         </BackgroundPaper>
     );
 };

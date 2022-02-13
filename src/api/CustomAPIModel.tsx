@@ -1,3 +1,4 @@
+import { Key } from 'antd/lib/table/interface';
 import { TTransportTypesId } from 'src/constants/transportTypes';
 import { ITransport } from 'src/store/data/types';
 
@@ -215,4 +216,10 @@ export interface ICreateTransfer {
     departure_id: number,
     destination_id: number,
     transport_number: string
+}
+export interface IInstallWSToWagonRequest {
+    description: string,
+    wagon_id: number,
+    warehouse_id: number,
+    ws_list: Key[],
 }

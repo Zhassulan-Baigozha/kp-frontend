@@ -17,7 +17,8 @@ import {
     IUpdateUserFieldsRequest, 
     IWarehouse,
     IGetTransferByDestResponse,
-    ICreateTransfer
+    ICreateTransfer,
+    IInstallWSToWagonRequest
 } from './CustomAPIModel';
 import { ITransport, IStatusesTable } from 'src/store/data/types';
 import { ISignUpRequest, ISignUpUser, IUpdateUserRole } from 'src/interfaces';
@@ -53,15 +54,20 @@ export const SignIn = (token: string, data: ISignInRequest) => CustomAxios2(toke
 
 export const GetWagonById = (token: string, num: string) => CustomAxios2(token).get<IGetWagonByIdResponse>(`api/v1/wagon/${num}`).then((r)=>r.data);
 
-export const AppendPurchased = (token: string, data: IAppendPurchasedRequest) => CustomAxios2(token).post<IAppendPurchasedRequest, AxiosResponse<ISignInResponse>>('api/v1/repair/append-purchased', data).then((r)=>r.data);
+export const AppendPurchased = (token: string, data: IAppendPurchasedRequest) => CustomAxios2(token)
+    .post<IAppendPurchasedRequest, AxiosResponse<ISignInResponse>>('api/v1/repair/append-purchased', data).then((r)=>r.data);
+export const InstallWSToWagon = (token: string, data: IInstallWSToWagonRequest) => CustomAxios2(token)
+    .post<IInstallWSToWagonRequest, AxiosResponse>('api/v1/repair/installation-wheelset', data).then((r)=>r.data);
 export const RepairWSChangeStatus = (token: string, data: IRepairWSChangeStatusRequest) => CustomAxios2(token).post<IRepairWSChangeStatusRequest>('api/v1/repair/ws/', data).then((r)=>r.data);
 export const RepairWSUpdate = (token: string, data: IRepairWSUpdateRequest) => CustomAxios2(token).put<IRepairWSUpdateRequest>('api/v1/repair/ws/', data).then((r)=>r.data);
 export const AddWSFromWagon = (token: string, data: IAddWSFromWagonRequest) => CustomAxios2(token).post<IAddWSFromWagonRequest>('api/v1/repair/append-wagon/', data).then((r)=>r.data);
 export const GetTransportList = (token: string) => CustomAxios2(token).get<ITransport[]>('api/v1/transfer-transport').then((r)=>r.data);
 export const GetTransfersByWh_id = (token: string, wh_id: string) => CustomAxios2(token).get<IGetTransfersByWh_id[]>(`api/v1/transfer-stock/${wh_id}`).then((r)=>r.data);
 
-export const GetWSByWarehouse = (token: string, wh_id: number | string) => CustomAxios2(token).get<IGetRepairWSResponse[]>(`api/v1/repair/ws/${wh_id}`).then((r)=>r.data);
-export const GetWarehouseByStoreId = (token: string, storeId: string) => CustomAxios2(token).get<IGetWSResponse[]>(`api/v1/ws-warehouse/${storeId}`).then((r)=>r.data);
+export const GetWSByWarehouse = (token: string, wh_id: number | string) => CustomAxios2(token)
+    .get<IGetRepairWSResponse[]>(`api/v1/repair/ws/${wh_id}`).then((r)=>r.data);
+export const GetWarehouseByStoreId = (token: string, storeId: string) => CustomAxios2(token)
+    .get<IGetWSResponse[]>(`api/v1/ws-warehouse/${storeId}`).then((r)=>r.data);
 
 //Transfer
 export const GetTransferByDestination = (token: string, wh_id: number | string) => CustomAxios2(token)
