@@ -8,6 +8,7 @@ import InstallAction from '../pages/InstallAction';
 import DashboardPage from '../pages/DashboardPage';
 import ProfilePage from '../pages/ProfilePage';
 import Administration from '../pages/Administration';
+import CraftingPage from 'src/pages/CraftingPage';
 
 export const DASHBOARD_ACTION = 'Dashboard';
 export const WAREHOUSE_ACTION = 'Warehouse';
@@ -18,6 +19,7 @@ export const RELOCATION_ACTION = 'Administration';
 export const ADMINISTRATION = 'CreateUser';
 export const SIGN_IN_ACTION = 'SignIn';
 export const PROFILE = 'Profile';
+export const CRAFTING = 'CraftingPage';
 
 export const getPageTitle = (value: string):string => {
     switch (value) {
@@ -30,6 +32,7 @@ export const getPageTitle = (value: string):string => {
     case ADMINISTRATION: return 'Администрирование';
     case SIGN_IN_ACTION: return 'Авторизоваться';
     case PROFILE: return 'Личный кабинет';
+    case CRAFTING: return 'Сбор/Разбор КП';
     default: return 'Авторизоваться';
     }
 };
@@ -53,6 +56,7 @@ export const Pagination:React.FC<IPagination> = ({
     case REPAIR_ACTION: return <RepairAction />;
     case INSTALL_ACTION: return <InstallAction />;
     case RELOCATION_ACTION: return <RelocationAction />;
+    case CRAFTING: return <CraftingPage />;
     default: return <SignInPage  switchPage={switchPage}/>;
     }
 };

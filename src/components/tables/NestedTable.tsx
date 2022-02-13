@@ -33,7 +33,6 @@ const NestedTable: React.FC<INestedTable> = ({wheels}) => {
         key: item.id,
         CKK: item.number
     })) : [];
-    console.log('wheels', data);
     return (
         <Table
             bordered

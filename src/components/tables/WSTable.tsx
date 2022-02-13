@@ -24,8 +24,8 @@ const WSTable: React.FC<IWSTable> = ({
         },
         {
             title: 'Состояние',
-            dataIndex: 'state',
-            key: 'state',
+            dataIndex: 'stateName',
+            key: 'stateName',
             width: 150,
         },
         {
@@ -42,8 +42,8 @@ const WSTable: React.FC<IWSTable> = ({
         },
         {
             title: 'Вид КП',
-            dataIndex: 'status',
-            key: 'status',
+            dataIndex: 'statusName',
+            key: 'statusName',
             width: 150,
         },
         {

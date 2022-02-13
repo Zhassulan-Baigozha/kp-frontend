@@ -14,7 +14,7 @@ const DashboardPage: React.FC = () => {
         num: (+s.code) + 1,
         name: s.name, 
         commonState: s.type_status,
-        amount: convertedWS.filter(z => z.status === s.name).length
+        amount: convertedWS.filter(z => z.statusName === s.name).length
     }));
 
     return (

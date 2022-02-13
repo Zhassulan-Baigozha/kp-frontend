@@ -39,12 +39,14 @@ export type WagonExistanceType = 'find' | 'notFind' | null
 
 export interface IWSListTable {
     axisNum: string,
-    state: string,
+    stateName: string,
+    state: IComboBoxOption,
     createdAt: string,
     description: string,
     key: number,
     manufacturerCode: number,
-    status: string,
+    statusName: string,
+    status: IComboBoxOption,
     wheels: IWheel[] | null,
 }
 export interface ITransferList {

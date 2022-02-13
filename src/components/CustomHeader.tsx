@@ -6,7 +6,8 @@ import {
     WAREHOUSE_ACTION, 
     DASHBOARD_ACTION, 
     SIGN_IN_ACTION, 
-    PROFILE 
+    PROFILE, 
+    CRAFTING
 } from 'src/layout/pages';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from 'src/store';
@@ -56,7 +57,7 @@ const CustomHeader: React.FC<ICustomHeader> = ({
                 });
                 switchPage(PROFILE);
             }}>
-                Личный кабинет
+                {getPageTitle(PROFILE)}
             </Menu.Item>
             <Menu.Item key={'ADMINISTRATION'} onClick={()=>{
                 GetRoles(token.access).then((GetRolesResponse)=>{
@@ -70,7 +71,12 @@ const CustomHeader: React.FC<ICustomHeader> = ({
                 });
                 switchPage(ADMINISTRATION);
             }}>
-                Администрирование
+                {getPageTitle(ADMINISTRATION)}
+            </Menu.Item>
+            <Menu.Item key={CRAFTING} onClick={()=>{
+                switchPage(CRAFTING);
+            }}>
+                {getPageTitle(CRAFTING)}
             </Menu.Item>
             <Menu.Item key={'SIGN_IN_ACTION'} onClick={()=>{
                 switchPage(SIGN_IN_ACTION);
@@ -133,7 +139,6 @@ const CustomHeader: React.FC<ICustomHeader> = ({
                                         style={{ marginRight: '16px' }}
                                         onClick={async ()=>{
                                             const GetStatusesResponse = await GetStatuses(token.access);
-                                            console.log('GetStatusesResponse = ', GetStatusesResponse);
                                             dispatch(setAllStatusesList(GetStatusesResponse.sort(sortStatuses)));
                                             switchPage(DASHBOARD_ACTION);
                                         }}

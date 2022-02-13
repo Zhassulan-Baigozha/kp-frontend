@@ -35,9 +35,11 @@ export interface IGetWSResponse {
     manufacturer_code: number,
     description: string,
     status: {
+        code: number,
         name: string
     },
     state: {
+        id: number,
         name: string
     },
     warehouse_id: number,
@@ -222,4 +224,18 @@ export interface IInstallWSToWagonRequest {
     wagon_id: number,
     warehouse_id: number,
     ws_list: Key[],
+}
+export interface IParseWSRequest {
+    description: string,
+    id: number,
+    state_id: number,
+    status_id: number,
+    wheels: {
+        date_survey: string,
+        flange: number,
+        id: number,
+        rim: number,
+        state_id: number,
+        status_id: number,
+    }[]
 }

@@ -67,3 +67,27 @@ export const CustomCheckBtn: React.FC<ICustomBtn> = ({
         </Button>
     );
 };
+export const CustomBtn: React.FC<ICustomBtn> = ({
+    children = '',
+    disabled = false,
+    mr = true,
+    onClick,
+}) => {
+    return (
+        <Button 
+            onClick={onClick} 
+            block 
+            disabled={disabled}
+            style={{ 
+                color: '#000',
+                borderRadius: '8px',
+                fontWeight: 400,
+                width: 'auto',
+                height: '30px',
+                marginRight: mr ? '16px': undefined,
+            }}
+        >
+            {children}
+        </Button>
+    );
+};

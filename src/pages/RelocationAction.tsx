@@ -12,10 +12,6 @@ import {
 } from 'src/api/CustomAPI';
 import BackgroundPaper from '../layout/BackgroundPaper';
 import ComboBox from 'src/components/base/ComboBox';
-// import WSTable from 'src/components/WSTable';
-// import { OutlinedButton } from 'src/components/CustomButtons';
-// import CheckIcon from '@mui/icons-material/Check';
-// import ComboBox from 'src/components/ComboBox';
 import { transportTypes } from 'src/constants/transportTypes';
 import WSTable from 'src/components/tables/WSTable';
 import { setSelectedWS } from 'src/store/selectedWS/actions';
@@ -26,8 +22,6 @@ import useConvertWs from 'src/hooks/useConvertWs';
 import { setTransferList } from 'src/store/data/actions';
 import { Button, message } from 'antd';
 import { ArrowDownOutlined, ArrowRightOutlined } from '@ant-design/icons';
-// import TransferList from 'src/components/Relocation_Form/TransferList';
-// import WSTransfer from 'src/components/Relocation_Form/WSTransfer';
 
 
 const RelocationAction: React.FC = () => {
