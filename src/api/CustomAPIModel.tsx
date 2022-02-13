@@ -239,3 +239,30 @@ export interface IParseWSRequest {
         status_id: number,
     }[]
 }
+export interface IGetWheelsResponse {
+    arrival_date: string,
+    id: number,
+    state: {
+        id: number,
+        name: string,
+    },
+    status: {
+        code: number,
+        description: string,
+        name: string,
+        type_status: string,
+    },
+    user_id: string,
+    warehouse_id: number,
+    wheel: IWheelFromGetWheelsResponse,
+}
+export interface IWheelFromGetWheelsResponse {
+    created_at: string,
+    date_survey: string,
+    flange: number,
+    id: number,
+    manufacturer_code: number,
+    number: string,
+    rim: number,
+    year_issue: number,
+}

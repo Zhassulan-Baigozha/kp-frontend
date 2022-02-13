@@ -52,8 +52,8 @@ const RepairAction: React.FC = () => {
         }
         
         if (repairType){
-            message.success('Из ремонта');
             console.log('Из ремонта = ', selectedWheelset);
+            message.success('Отремонтировали КП');
             // Из ремонта
             // if (selectedWheelset) {
             // RepairWSUpdate(token.access, selectedWheelset)
@@ -69,7 +69,7 @@ const RepairAction: React.FC = () => {
                 status_id: +selectedStatus?.id,
                 wheelset_id: wheelsetArray[0].key
             }).then(()=>{
-                message.success('Вы успешно добавили КП');
+                message.success('Отправили на КП');
             }).catch((err)=>{
                 console.error(err);
                 message.error(err.response.data.message);

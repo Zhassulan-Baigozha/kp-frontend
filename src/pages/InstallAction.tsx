@@ -59,15 +59,6 @@ const InstallAction: React.FC = () => {
             message.error('Вы не выбрали КП');
             return null;
         }
-        
-        console.log('Подтвердить',
-            {
-                description: '',
-                wagon_id: +wagonNum,
-                warehouse_id: +selectedWarehouse.id,
-                ws_list: selectedWSinWarehouse
-            }
-        );
         InstallWSToWagon(token.access, {
             description: '',
             wagon_id: +wagonNum,
@@ -122,10 +113,7 @@ const InstallAction: React.FC = () => {
             }}>
                 Колесные пары на вагоне
             </div>
-            <WSTable ws={wsWagon} onChange={(_a, _b) => {
-                console.log('_a = ', _a);
-                console.log('_b = ', _b);
-            }}/>
+            <WSTable ws={wsWagon}/>
             <div style={{
                 paddingTop: '16px',
                 fontFamily: 'Roboto',
@@ -141,8 +129,6 @@ const InstallAction: React.FC = () => {
                 if (_a.length > 0) {
                     setSelectedWSinWarehouse(_a);
                 }
-                console.log('WSTable convertedWS _a = ', _a);
-                console.log('WSTable convertedWS _b = ', _b);
             }}/>
         </BackgroundPaper>
     );

@@ -250,7 +250,6 @@ const AddAction: React.FC = () => {
                             onChange={(value) => {
                                 dispatch(setSelectedWS(value));
                                 if (value?.id) {
-                                    console.log('value = ', value);
                                     GetTransfer(value?.id);
                                     GetWarehouseByStoreId(token.access, value.id.toString()).then((res)=>{
                                         dispatch(setWSList(res));

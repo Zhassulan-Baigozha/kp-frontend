@@ -10,7 +10,7 @@ interface INestedTable {
 const NestedTable: React.FC<INestedTable> = ({wheels}) => {
     const columns2 = [  
         {
-            title: 'CKK',
+            title: 'ЦКК',
             dataIndex: 'CKK',
             key: 'CKK',
             width: 150,

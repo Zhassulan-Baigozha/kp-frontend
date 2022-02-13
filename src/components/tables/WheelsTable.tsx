@@ -1,32 +1,26 @@
 import * as React from 'react';
 import { Table } from 'antd';
 import NestedTable from './NestedTable';
-import { IWSListTable } from 'src/interfaces';
+import { IWheelsListTable } from 'src/interfaces';
 import { RowSelectionType } from 'antd/lib/table/interface';
 
-interface IWSTable {
-    ws: IWSListTable[]
-    onChange?: (selectedRowKeys: React.Key[], selectedRows: IWSListTable[]) => void;
+interface IWheelsTable {
+    ws: IWheelsListTable[]
+    onChange?: (selectedRowKeys: React.Key[], selectedRows: IWheelsListTable[]) => void;
     selectionType?: RowSelectionType
 }
 
-const WSTable: React.FC<IWSTable> = ({
+const WheelsTable: React.FC<IWheelsTable> = ({
     onChange,
     selectionType = 'checkbox',
     ws, 
 }) => {
     const columns2 = [
         {
-            title: '№ Оси',
-            dataIndex: 'axisNum',
-            key: 'axisNum',
+            title: '№',
+            dataIndex: 'wheelId',
+            key: 'wheelId',
             width: 100,
-        },
-        {
-            title: 'Состояние',
-            dataIndex: 'stateName',
-            key: 'stateName',
-            width: 150,
         },
         {
             title: 'Клеймо произ.',
@@ -36,30 +30,36 @@ const WSTable: React.FC<IWSTable> = ({
         },
         {
             title: 'Год изг.',
-            dataIndex: 'createdAt',
-            key: 'createdAt',
+            dataIndex: 'yearIssue',
+            key: 'yearIssue',
             width: 100,
         },
         {
-            title: 'Вид КП',
-            dataIndex: 'statusName',
-            key: 'statusName',
+            title: 'номер CKK',
+            dataIndex: 'CKKNumber',
+            key: 'CKKNumber',
             width: 150,
         },
         {
-            title: 'Примечание',
-            dataIndex: 'note',
-            key: 'note',
+            title: 'TO',
+            dataIndex: 'rim',
+            key: 'rim',
+            width: 150,
+        },
+        {
+            title: 'ТГ',
+            dataIndex: 'flange',
+            key: 'flange',
             width: 150,
         },
     ];
     const rowSelection = {
-        onChange: (selectedRowKeys: React.Key[], selectedRows: IWSListTable[]) => {
+        onChange: (selectedRowKeys: React.Key[], selectedRows: IWheelsListTable[]) => {
             onChange?.(selectedRowKeys, selectedRows);
         },
-        getCheckboxProps: (record: IWSListTable) => ({
+        getCheckboxProps: (record: IWheelsListTable) => ({
             // disabled: record.axisNum === 'Disabled User',
-            name: record.axisNum,
+            name: record.wheelId,
         }),
     };
     return (
@@ -74,14 +74,10 @@ const WSTable: React.FC<IWSTable> = ({
                     type: selectionType,
                     ...rowSelection,
                 }}
-                expandable={{ 
-                    rowExpandable: record => !!(record?.wheels && record?.wheels?.length),
-                    expandedRowRender: record => <NestedTable wheels={record.wheels}/>, 
-                }}
                 pagination={{ pageSize: 10, hideOnSinglePage: true }}
             />
         </div>
     );
 };
 
-export default WSTable;
+export default WheelsTable;
