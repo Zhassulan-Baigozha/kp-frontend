@@ -48,8 +48,8 @@ const WSTable: React.FC<IWSTable> = ({
         },
         {
             title: 'Примечание',
-            dataIndex: 'note',
-            key: 'note',
+            dataIndex: 'description',
+            key: 'description',
             width: 150,
         },
     ];

@@ -152,9 +152,8 @@ export interface IRepairWSChangeStatusRequest {
 export interface IRepairWSUpdateRequest {
     description: string,
     id: number,
+    state_id: number,
     status_id: number,
-    updated_at: string,
-    wagon: number | null,
     wheels: IRepairWSUpdateRequestWheels[]
 }
 export interface IRepairWSUpdateRequestWheels {
@@ -162,8 +161,8 @@ export interface IRepairWSUpdateRequestWheels {
     flange: number,
     id: number,
     rim: number,
-    status: number,
-    wheelset_id: number,
+    state_id: number,
+    status_id: number,
 }
 
 export interface IAddWSFromWagonRequest {

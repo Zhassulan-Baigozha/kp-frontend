@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from 'src/store';
 import { IComboBoxOption, IWSListTable } from 'src/interfaces';
-import { IGridData, IRepairWSUpdateRequest } from 'src/api/CustomAPIModel';
+import { IGridData } from 'src/api/CustomAPIModel';
 import { GetWarehouseByStoreId, RepairWSChangeStatus, RepairWSUpdate } from 'src/api/CustomAPI';
 import BackgroundPaper from '../layout/BackgroundPaper';
 import ComboBox from 'src/components/base/ComboBox';
@@ -14,11 +14,6 @@ import WSTable from 'src/components/tables/WSTable';
 import useConvertWs from 'src/hooks/useConvertWs';
 import { CustomCheckBtn } from 'src/components/base/CustomBtn';
 import FromRepair from 'src/components/RepairAction_Form/FromRepair';
-// import ComboBox from 'src/components/ComboBox';
-// import WSTable from 'src/components/WSTable';
-// import { Button } from '@mui/material';
-// import CheckIcon from '@mui/icons-material/Check';
-// import FromRepair from 'src/components/RepairAction_Form/FromRepair';
 
 
 const RepairAction: React.FC = () => {
@@ -30,11 +25,12 @@ const RepairAction: React.FC = () => {
     const selectedWarehouse = useSelector((state: IRootState) => state.selectedWS.data);
     const dispatch = useDispatch();
     const { convertedWS } = useConvertWs();
-    const [wheelsetArray, setWheelsetArray] = useState<IWSListTable[]>([]);
+
+    const [selectedWheelset, selectWheelset] = useState<IWSListTable | null>(null);
 
 
-    const [selectedWheelset, selectWheelset] = useState<IRepairWSUpdateRequest | null>(null);
-    const [repairType, setRepairType] = useState<boolean>(false);
+
+    const [repairType, setRepairType] = useState<boolean>(true);
     const [selectedItem, setSelectedItem] = useState<number | null>(null);
     const [ws, setWS] = useState<IGridData[]>([]);
     const sendRepair = () => {
@@ -46,28 +42,44 @@ const RepairAction: React.FC = () => {
             message.error('Вы не выбрали Статус');
             return null; 
         }
-        if (wheelsetArray.length !== 1) { 
+        if (!selectedWheelset?.key) { 
             message.error('Вы не выбрали КП');
             return null; 
         }
-        
+
         if (repairType){
-            console.log('Из ремонта = ', selectedWheelset);
-            message.success('Отремонтировали КП');
             // Из ремонта
-            // if (selectedWheelset) {
-            // RepairWSUpdate(token.access, selectedWheelset)
-            //     .then((res)=>{
-            //         message.success('Вы успешно добавили КП');
-            //     });
-            // }
+            if (selectedWheelset) {
+                RepairWSUpdate(token.access, {
+                    description: selectedWheelset.description,
+                    id: selectedWheelset.key,
+                    state_id: +selectedStatus.id,
+                    status_id: +selectedWheelset.status.id,
+                    wheels: selectedWheelset?.wheels && selectedWheelset.wheels?.length > 0 ? 
+                        selectedWheelset.wheels.map((wheel)=>({
+                            date_survey: wheel.date_survey,
+                            flange: wheel.flange,
+                            rim: wheel.rim,
+                            id: wheel.id ? wheel.id : 0,
+                            state_id: +selectedStatus.id,
+                            status_id: +selectedWheelset.status.id
+                        })) : []
+                })
+                    .then(() => {
+                        message.success('Отремонтировали КП');
+                    }).catch((err)=>{
+                        console.error(err);
+                        message.error(err.response.data.message);
+                        message.error(err.response.data.system_message);
+                    });
+            }
         } else {
             // На ремонт
             RepairWSChangeStatus(token.access, {
                 description: '',
                 state_id: 1,
                 status_id: +selectedStatus?.id,
-                wheelset_id: wheelsetArray[0].key
+                wheelset_id: selectedWheelset.key
             }).then(()=>{
                 message.success('Отправили на КП');
             }).catch((err)=>{
@@ -113,56 +125,18 @@ const RepairAction: React.FC = () => {
                         }
                     }}
                 />
-                <CustomCheckBtn onClick={sendRepair} />
+                <CustomCheckBtn onClick={sendRepair} mr={false}/>
             </div>
-            {selectedWheelset && <FromRepair 
-                wheelSetData={selectedWheelset} 
-                setWheelSetData={selectWheelset} 
+            {!!selectedWheelset?.key && <FromRepair 
+                selectedWheelset={selectedWheelset} 
+                selectWheelset={selectWheelset} 
             />}
-            {/* <WSTable ws={ws} onSelect={(selectedItemsWSTable:number[])=>{
-                if (!selectedStatus?.id){ 
-                    setAlertText('Вы не выбрали Статус');
-                    setAlertType('error');
-                    setOpenAlert(true);
-                    return null 
-                }
-            if (selectedItemsWSTable.length === 1){
-                setSelectedItem(selectedItemsWSTable[0]);
-                const temp = wheelsetArray.filter((item: IGetRepairWSResponse) => (
-                selectedItemsWSTable[0] === item?.wheelset?.id));
-                if (temp?.length === 1) {
-                selectWheelset({
-                    description: temp[0].wheelset.description,
-                    id: temp[0].wheelset.id,
-                    status_id: selectedStatus?.id, 
-                    updated_at: temp[0].wheelset.updated_at,
-                    wagon: temp[0].wheelset.wagon,
-                    wheels: temp[0].wheelset.wheels.map((item)=>({
-                        date_survey: item.date_survey!,
-                        flange: item.flange!,
-                        id: item.id!,
-                        rim: item.rim!,
-                        status: item.status!,
-                        wheelset_id: temp[0].wheelset.id!,
-                    }))?.length > 0 
-                    ? temp[0].wheelset.wheels.map((item)=>({
-                        date_survey: item.date_survey!,
-                        flange: item.flange!,
-                        id: item.id!,
-                        rim: item.rim!,
-                        status: item.status!,
-                        wheelset_id: temp[0].wheelset.id!,
-                    }))
-                    : []
-                    });
+            <WSTable ws={convertedWS} selectionType={'radio'} onChange={(_a, _b) => {
+                if (_b?.length > 0) {
+                    selectWheelset(_b[0]);
                 } else {
                     selectWheelset(null);
                 }
-            }
-            }}/> 
-        */}
-            <WSTable ws={convertedWS} selectionType={'radio'} onChange={(_a, _b) => {
-                setWheelsetArray(_b);
             }}/>
         </BackgroundPaper>
     );

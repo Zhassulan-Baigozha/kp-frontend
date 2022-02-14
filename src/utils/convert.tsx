@@ -2,7 +2,7 @@ import { IGetWSResponse } from 'src/api/CustomAPIModel';
 import { IWSListTable } from 'src/interfaces';
 
 export const convertWs = (wsIn: IGetWSResponse[]):IWSListTable[] => {
-    if (wsIn && wsIn.length > 0) {
+    if (wsIn && wsIn?.length > 0) {
         return wsIn.map(item => ({
             ...item,
             key: item.id,

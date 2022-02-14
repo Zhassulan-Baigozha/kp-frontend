@@ -16,10 +16,10 @@ const CustomTextArea: React.FC<ICustomTextArea & TextAreaProps> = ({
     placeholder,
     fullWidth = false,
     error = false, 
-    disabled = false, 
+    disabled = false,
 }) => {
     return (
-        <div>
+        <div style={{width: '100%'}}>
             <div className="CustomTextField">
                 {placeholder}
             </div>

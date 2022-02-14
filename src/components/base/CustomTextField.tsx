@@ -8,6 +8,7 @@ interface ICustomTextField {
     fullWidth ?: boolean
     error ?: boolean
     disabled ?: boolean
+    pr ?: boolean
 }
 
 const CustomTextField: React.FC<ICustomTextField & InputProps> = ({
@@ -17,9 +18,10 @@ const CustomTextField: React.FC<ICustomTextField & InputProps> = ({
     fullWidth = false,
     error = false, 
     disabled = false, 
+    pr = false, 
 }) => {
     return (
-        <div>
+        <div style={{width: '100%', paddingRight: pr ? '16px': undefined}}>
             <div className="CustomTextField">
                 {placeholder}
             </div>
