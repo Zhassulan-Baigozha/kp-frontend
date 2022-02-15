@@ -49,6 +49,26 @@ export interface IWSListTable {
     status: IComboBoxOption,
     wheels: IWheel[] | null,
 }
+
+export interface IWSListTableAddPage {
+    axisNum: string,
+    stateName: string,
+    state: IComboBoxOption,
+    createdAt: string,
+    description: string,
+    key: number,
+    manufacturerCode: number,
+    statusName: string,
+    status: IComboBoxOption,
+    CKK1: string,
+    rim1: number,
+    flange1: number,
+    CKK2: string,
+    rim2: number,
+    flange2: number,
+    editable: boolean,
+}
+
 export interface ITransferList {
     key: string,
     departure: string,

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { IComboBoxOption, IWSListTable } from 'src/interfaces';
+import { IComboBoxOption, IWSListTable, IWSListTableAddPage } from 'src/interfaces';
 import { AddWSFromWagon, AppendPurchased, CompleteWSToTransfer, GetTransferByDestination, GetWagonById, GetWarehouseByStoreId } from 'src/api/CustomAPI';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from 'src/store';
@@ -8,8 +8,7 @@ import { getCurrentDateString } from 'src/utils/getCurrentDateString';
 import { AddActionTypeNames } from 'src/constants/AddActionTypeNames';
 import BackgroundPaper from 'src/layout/BackgroundPaper';
 import ComboBox from 'src/components/base/ComboBox';
-import Purchased from 'src/components/AddAction_From/Purchased';
-import { CustomCheckBtn } from 'src/components/base/CustomBtn';
+import { CustomBtn, CustomCheckBtn } from 'src/components/base/CustomBtn';
 import { Input, message } from 'antd';
 import WSTable from 'src/components/tables/WSTable';
 import { convertWs } from 'src/utils/convert';
@@ -18,34 +17,10 @@ import { setSelectedWS } from 'src/store/selectedWS/actions';
 import { setWSList } from 'src/store/wsList/actions';
 import TransferTable from 'src/components/tables/TransferTable';
 import { setTransferList } from 'src/store/data/actions';
-// import CustomizedInputBase from 'src/components/CustomizedInputBase';
+import useConvertWs from 'src/hooks/useConvertWs';
+import EditableTable from 'src/components/tables/EditableTable';
 const { Search } = Input;
 
-const initNewField: IAppendPurchasedForm = {
-    date_survey: getCurrentDateString({onlyYear:false}) ,
-    description: '',
-    manufacturer_code: 0,
-    number: '',
-    status: 1,
-    warehouse_id: 0,
-    year_issue: +getCurrentDateString({onlyYear:true}) ,
-
-    wheel_left_date_survey: getCurrentDateString({onlyYear:false}),
-    wheel_left_flange: '15.5',
-    wheel_left_manufacturer_code: 0,
-    wheel_left_number: '',
-    wheel_left_rim: '15.5',
-    wheel_left_status: 1,
-    wheel_left_year_issue: +getCurrentDateString({onlyYear:true}) ,
-
-    wheel_right_date_survey: getCurrentDateString({onlyYear:false}) ,
-    wheel_right_flange: '15.0',
-    wheel_right_manufacturer_code: 0,
-    wheel_right_number: '',
-    wheel_right_rim: '15.0',
-    wheel_right_status: 1,
-    wheel_right_year_issue: +getCurrentDateString({onlyYear:true}) ,
-};
 
 const AddAction: React.FC = () => {
     const warehouseList = useSelector((state: IRootState) => state.data.warehouse);
@@ -56,11 +31,9 @@ const AddAction: React.FC = () => {
     const [selectedWS, selectWS] = useState<number[]>([]);
     const [selectedTransfer, setSelectedTransfer] = useState<number | string| null>(null);
     const dispatch = useDispatch();
-
-
-    const [purchasedWSData, setPurchasedWSData] = useState<IAppendPurchasedForm>(initNewField);
+    const { convertedWS2 } = useConvertWs();
+    const [buffWS, setBuffWS] = useState<IWSListTableAddPage[]>([]);
     const [wagonNum, setWagonNum] = useState<string>('61891966');
-    // const [transferList, setTransferList] = useState<ITransferList[]>([]);
 
     const [ws, setWS] = useState<IWSListTable[]>([]);
 
@@ -150,40 +123,39 @@ const AddAction: React.FC = () => {
             return null; 
         }
         if (
-            purchasedWSData.wheel_left_rim
-            && purchasedWSData.wheel_right_rim
-            && purchasedWSData.wheel_right_flange
-            && purchasedWSData.wheel_left_flange
+            buffWS.length === 1
         ){
             const temp = {
-                date_survey: purchasedWSData.date_survey + 'T00:00:00Z',
-                description: purchasedWSData.description,
-                manufacturer_code: purchasedWSData.manufacturer_code ? purchasedWSData.manufacturer_code : 0,
-                number: purchasedWSData.number,
+                date_survey: getCurrentDateString({onlyYear:false}) + 'T00:00:00Z',
+                description: buffWS[0].description,
+                manufacturer_code: buffWS[0].manufacturerCode,
+                number: buffWS[0].axisNum,
                 status: 1,
                 warehouse_id: +selectedWarehouse.id,
-                year_issue: purchasedWSData.year_issue? purchasedWSData.year_issue: 0,
+                year_issue: +buffWS[0].createdAt,
                 wheels: [{
-                    date_survey: purchasedWSData.wheel_left_date_survey + 'T00:00:00Z',
-                    flange: parseFloat(purchasedWSData.wheel_left_flange),
-                    manufacturer_code: purchasedWSData.wheel_left_manufacturer_code ? purchasedWSData.wheel_left_manufacturer_code : 0,
-                    number: purchasedWSData.wheel_left_number ? purchasedWSData.wheel_left_number : '',
-                    rim: parseFloat(purchasedWSData.wheel_left_rim),
+                    date_survey: getCurrentDateString({onlyYear:false}) + 'T00:00:00Z',
+                    manufacturer_code: buffWS[0].manufacturerCode,
+                    number: buffWS[0].CKK1,
+                    rim: buffWS[0].rim1,
                     status: 1,
-                    year_issue: purchasedWSData.wheel_left_year_issue ? purchasedWSData.wheel_left_year_issue : 0,
+                    flange: buffWS[0].flange1,
+                    year_issue: +buffWS[0].createdAt,
                 },{
-                    date_survey: purchasedWSData.wheel_right_date_survey + 'T00:00:00Z',
-                    flange: parseFloat(purchasedWSData.wheel_right_flange),
-                    manufacturer_code: purchasedWSData.wheel_right_manufacturer_code ? purchasedWSData.wheel_right_manufacturer_code : 0,
-                    number: purchasedWSData.wheel_right_number ? purchasedWSData.wheel_right_number : '',
-                    rim: parseFloat(purchasedWSData.wheel_right_rim),
+                    date_survey: getCurrentDateString({onlyYear:false}) + 'T00:00:00Z',
+                    manufacturer_code: buffWS[0].manufacturerCode,
+                    number: buffWS[0].CKK2,
+                    rim: buffWS[0].rim2,
+                    flange: buffWS[0].flange2,
                     status: 1,
-                    year_issue: purchasedWSData.wheel_right_year_issue ? purchasedWSData.wheel_right_year_issue : 0,
+                    year_issue: +buffWS[0].createdAt,
                 }],
             };
+
             AppendPurchased(token.access, temp)
                 .then(() => {
                     message.success('Вы успешно добавили КП');
+                    setBuffWS([]);
                 })
                 .catch((err)=>{
                     console.error(err);
@@ -274,13 +246,27 @@ const AddAction: React.FC = () => {
                                         dispatch(setWSList(res));
                                     });
                                 }
-                                if (value?.id && (warehouseList.filter(item => item.id === value.id).length === 1)){
-                                    setPurchasedWSData({...purchasedWSData, warehouse_id: +value.id});
-                                } else if(value === null) {
-                                    setPurchasedWSData({...purchasedWSData, warehouse_id: 0});
-                                }
                             }}
                         />
+                        <CustomBtn disabled={buffWS.length === 1} onClick={()=>{
+                            const buf = [{
+                                ...convertedWS2[0],
+                                axisNum: Date.now().toString(),
+                                CKK1: '00000000',
+                                CKK2: '00000000',
+                                rim1: 0,
+                                rim2: 0,
+                                flange1: 0,
+                                flange2: 0,
+                                description: 'Добавление новой КП',
+                                editable: true,
+                                key: Date.now(),
+                            },...buffWS];
+                            console.log('convertedWS2', buf);
+                            setBuffWS(buf);
+                        }}>
+                            Добавить
+                        </CustomBtn>
                         <CustomCheckBtn onClick={addNewWSType3}/>
                     </>
                 )}
@@ -296,7 +282,15 @@ const AddAction: React.FC = () => {
                 }}/>
             }
             { typeOfAdding?.id === 3 ? (
-                <Purchased purchasedWSData={purchasedWSData} setPurchasedWSData={setPurchasedWSData} />
+                <>
+                    <EditableTable  ws={buffWS.concat(convertedWS2)} setWS={(item)=>{
+                        if (item.length > 0) {
+                            setBuffWS([item[0]]);
+                        }
+                    }} selectionType={'radio'} onChange={(_a, _b) => {
+                        console.log('_b = ', _b);
+                    }}/>
+                </>
             ): ws.length > 0 ? (
                 <WSTable ws={ws} onChange={(_a, _b) => {
                     selectWS(convertKeyToNumber(_a));

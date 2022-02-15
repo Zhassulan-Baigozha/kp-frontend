@@ -14,6 +14,7 @@ import WSTable from 'src/components/tables/WSTable';
 import useConvertWs from 'src/hooks/useConvertWs';
 import { CustomCheckBtn } from 'src/components/base/CustomBtn';
 import FromRepair from 'src/components/RepairAction_Form/FromRepair';
+import { getCurrentDateString } from 'src/utils/getCurrentDateString';
 
 
 const RepairAction: React.FC = () => {
@@ -57,7 +58,7 @@ const RepairAction: React.FC = () => {
                     status_id: +selectedWheelset.status.id,
                     wheels: selectedWheelset?.wheels && selectedWheelset.wheels?.length > 0 ? 
                         selectedWheelset.wheels.map((wheel)=>({
-                            date_survey: wheel.date_survey,
+                            date_survey: getCurrentDateString({onlyYear:false}),
                             flange: wheel.flange,
                             rim: wheel.rim,
                             id: wheel.id ? wheel.id : 0,
