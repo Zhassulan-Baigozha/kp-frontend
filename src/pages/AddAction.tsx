@@ -1,17 +1,15 @@
 import React, { useState } from 'react';
-import { IComboBoxOption, IWSListTable, IWSListTableAddPage } from 'src/interfaces';
+import { IComboBoxOption, IWSListTableAddPage } from 'src/interfaces';
 import { AddWSFromWagon, AppendPurchased, CompleteWSToTransfer, GetTransferByDestination, GetWagonById, GetWarehouseByStoreId } from 'src/api/CustomAPI';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from 'src/store';
-import { IAppendPurchasedForm } from 'src/api/CustomAPIModel';
 import { getCurrentDateString } from 'src/utils/getCurrentDateString';
 import { AddActionTypeNames } from 'src/constants/AddActionTypeNames';
 import BackgroundPaper from 'src/layout/BackgroundPaper';
 import ComboBox from 'src/components/base/ComboBox';
 import { CustomBtn, CustomCheckBtn } from 'src/components/base/CustomBtn';
 import { Input, message } from 'antd';
-import WSTable from 'src/components/tables/WSTable';
-import { convertWs } from 'src/utils/convert';
+import { convertWs2 } from 'src/utils/convert';
 import { convertKeyToNumber } from 'src/utils/convert';
 import { setSelectedWS } from 'src/store/selectedWS/actions';
 import { setWSList } from 'src/store/wsList/actions';
@@ -35,7 +33,7 @@ const AddAction: React.FC = () => {
     const [buffWS, setBuffWS] = useState<IWSListTableAddPage[]>([]);
     const [wagonNum, setWagonNum] = useState<string>('61891966');
 
-    const [ws, setWS] = useState<IWSListTable[]>([]);
+    const [ws, setWS] = useState<IWSListTableAddPage[]>([]);
 
     const onSearch = (value: string) => {
         setWagonNum(value);
@@ -44,7 +42,7 @@ const AddAction: React.FC = () => {
         if (typeOfAdding?.id === 1 && wagonNum?.length === 8){
             GetWagonById(token.access, value)
                 .then((getWagonByIdResponse) => {
-                    const buf = convertWs([
+                    const buf = convertWs2([
                         getWagonByIdResponse.wheel_set_first,
                         getWagonByIdResponse.wheel_set_second,
                         getWagonByIdResponse.wheel_set_third,
@@ -277,7 +275,7 @@ const AddAction: React.FC = () => {
                         setSelectedTransfer(_a[0]);
                     }
                     if (_b.length === 1 && _b[0]?.wheelSet?.length > 0) {
-                        setWS(convertWs(_b[0].wheelSet));
+                        setWS(convertWs2(_b[0].wheelSet));
                     }
                 }}/>
             }
@@ -292,7 +290,7 @@ const AddAction: React.FC = () => {
                     }}/>
                 </>
             ): ws.length > 0 ? (
-                <WSTable ws={ws} onChange={(_a, _b) => {
+                <EditableTable selectionType={'checkbox'} ws={ws} onChange={(_a, _b) => {
                     selectWS(convertKeyToNumber(_a));
                 }}/>
             ): null}
