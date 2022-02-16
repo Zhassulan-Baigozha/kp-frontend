@@ -283,7 +283,7 @@ const AddAction: React.FC = () => {
             }
             { typeOfAdding?.id === 3 ? (
                 <>
-                    <EditableTable  ws={buffWS.concat(convertedWS2)} setWS={(item)=>{
+                    <EditableTable editable={true} ws={buffWS.concat(convertedWS2)} setWS={(item)=>{
                         if (item.length > 0) {
                             setBuffWS([item[0]]);
                         }

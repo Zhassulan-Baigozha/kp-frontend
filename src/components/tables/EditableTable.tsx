@@ -3,6 +3,7 @@ import { Table, Input, InputNumber, Popconfirm, Form, Typography } from 'antd';
 import { IWSListTableAddPage } from 'src/interfaces';
 import { RowSelectionType } from 'antd/lib/table/interface';
 import TextArea from 'antd/lib/input/TextArea';
+import EditableTableColums from 'src/constants/EditableTableColums';
 
 
 interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
@@ -68,13 +69,15 @@ const EditableCell: React.FC<EditableCellProps> = ({
     );
 };
 interface IWSTableAdd {
-    ws: IWSListTableAddPage[]
-    setWS: (value: IWSListTableAddPage[]) => void;
-    onChange?: (selectedRowKeys: React.Key[], selectedRows: IWSListTableAddPage[]) => void;
-    selectionType?: RowSelectionType
+    ws: IWSListTableAddPage[],
+    setWS: (value: IWSListTableAddPage[]) => void,
+    onChange?: (selectedRowKeys: React.Key[], selectedRows: IWSListTableAddPage[]) => void,
+    selectionType?: RowSelectionType,
+    editable ?: boolean,
 }
 
 const EditableTable: React.FC<IWSTableAdd> = ({
+    editable,
     onChange,
     selectionType = 'checkbox',
     ws, 
@@ -86,7 +89,7 @@ const EditableTable: React.FC<IWSTableAdd> = ({
     const isEditing = (record: IWSListTableAddPage) => record.key.toString() === editingKey;
 
     const edit = (record: Partial<IWSListTableAddPage> & { key: React.Key }) => {
-        form.setFieldsValue({ 
+        form.setFieldsValue({
             // axisNum: string,
             // stateName: string,
             // state: IComboBoxOption,
@@ -98,7 +101,7 @@ const EditableTable: React.FC<IWSTableAdd> = ({
             // statusName: string,
             // status: IComboBoxOption,
             // wheels: IWheel[] | null,
-            ...record 
+            ...record
         });
         setEditingKey(record.key.toString());
     };
@@ -131,115 +134,39 @@ const EditableTable: React.FC<IWSTableAdd> = ({
         }
     };
 
-    const columns = [
-        {
-            title: '№ Оси',
-            dataIndex: 'axisNum',
-            key: 'axisNum',
-            editable: true,
-            width: 100,
-        },
-        {
-            title: 'Состояние',
-            dataIndex: 'stateName',
-            key: 'stateName',
-            width: 150,
-        },
-        {
-            title: 'Клеймо произ.',
-            dataIndex: 'manufacturerCode',
-            key: 'manufacturerCode',
-            editable: true,
-            width: 100,
-        },
-        {
-            title: 'Год изг.',
-            dataIndex: 'createdAt',
-            key: 'createdAt',
-            editable: true,
-            width: 200,
-        },
-        {
-            title: 'Вид КП',
-            dataIndex: 'statusName',
-            key: 'statusName',
-            width: 150,
-        },
-        {
-            title: '№1 ЦКК',
-            dataIndex: 'CKK1',
-            key: 'CKK1',
-            editable: true,
-            width: 150,
-        },
-        {
-            title: '№1 TO',
-            dataIndex: 'rim1',
-            key: 'rim1',
-            editable: true,
-            width: 150,
-        },
-        {
-            title: '№1 ТГ',
-            dataIndex: 'flange1',
-            key: 'flange1',
-            editable: true,
-            width: 150,
-        },
-        {
-            title: '№2 ЦКК',
-            dataIndex: 'CKK2',
-            key: 'CKK2',
-            editable: true,
-            width: 150,
-        },
-        {
-            title: '№2 TO',
-            dataIndex: 'rim2',
-            key: 'rim2',
-            editable: true,
-            width: 150,
-        },
-        {
-            title: '№2 ТГ',
-            dataIndex: 'flange2',
-            key: 'flange2',
-            editable: true,
-            width: 150,
-        },
-        {
-            title: 'Примечание',
-            dataIndex: 'description',
-            key: 'description',
-            editable: true,
-            width: 150,
-        },
-        {
-            title: 'Действие',
-            dataIndex: 'operation',
-            render: (_: any, record: IWSListTableAddPage) => {
-                const editable = isEditing(record);
-                return editable ? (
-                    <span>
-                        <Typography.Link onClick={() => save(record.key)} style={{ marginRight: 8 }}>
-                            Сохранить
-                        </Typography.Link>
-                        <Popconfirm title="Вы уверены что хотите отменить?" onConfirm={cancel} okText="Да" cancelText="Нет">
-                            <a>Отмена</a>
-                        </Popconfirm>
-                    </span>
-                ) : record.editable ? (
-                    <Typography.Link disabled={editingKey !== ''} onClick={() => edit(record)}>
-                        Изменить
+    const columns2: { 
+        title: string;
+        dataIndex: string;
+        editable?: boolean;
+        render?: (_: any, record: IWSListTableAddPage) => React.ReactNode;
+    }[] = editable ? [...EditableTableColums.map(item =>({
+        ...item,
+        editable: item.key !== 'stateName' && item.key !== 'state' && item.key !== 'statusName' && item.key !== 'status'
+    })), {
+        title: 'Действие',
+        dataIndex: 'operation',
+        render: (_: any, record: IWSListTableAddPage) => {
+            const editable = isEditing(record);
+            return editable ? (
+                <span>
+                    <Typography.Link onClick={() => save(record.key)} style={{ marginRight: 8 }}>
+                        Сохранить
                     </Typography.Link>
-                ): (
-                    <div />
-                );
-            },
+                    <Popconfirm title="Вы уверены что хотите отменить?" onConfirm={cancel} okText="Да" cancelText="Нет">
+                        <a>Отмена</a>
+                    </Popconfirm>
+                </span>
+            ) : record.editable ? (
+                <Typography.Link disabled={editingKey !== ''} onClick={() => edit(record)}>
+                    Изменить
+                </Typography.Link>
+            ): (
+                <div />
+            );
         },
-    ];
+    }]: EditableTableColums;
 
-    const mergedColumns = columns.map(col => {
+    const mergedColumns = columns2.map(col => {
         if (!col.editable) {
             return col;
         }
