@@ -22,6 +22,7 @@ import useConvertWs from 'src/hooks/useConvertWs';
 import { setTransferList } from 'src/store/data/actions';
 import { Button, message } from 'antd';
 import { ArrowDownOutlined, ArrowRightOutlined } from '@ant-design/icons';
+import EditableTable from 'src/components/tables/EditableTable';
 
 
 const RelocationAction: React.FC = () => {
@@ -29,7 +30,7 @@ const RelocationAction: React.FC = () => {
     const fromWarehouse = useSelector((state: IRootState) => state.selectedWS.data);
     const warehouseList = useSelector((state: IRootState) => state.data.warehouse);
     const dispatch = useDispatch();
-    const { convertedWS } = useConvertWs();
+    const { convertedWS2 } = useConvertWs();
     const [showList, setShowList] = useState<{
         transferList: boolean,
         wsInTransfer: boolean,
@@ -272,11 +273,11 @@ const RelocationAction: React.FC = () => {
                     showList.wsInStore ? <ArrowDownOutlined /> : <ArrowRightOutlined />
                 }
             </div>
-            {showList.wsInStore && <WSTable onChange={(_a, _b) => {
+            {showList.wsInStore && <EditableTable onChange={(_a, _b) => {
                 if (_a?.length === 1) {
                     selectWS(_a[0]);
                 }
-            }} selectionType={'radio'} ws={convertedWS}/>}
+            }} selectionType={'radio'} ws={convertedWS2}/>}
         </BackgroundPaper>
     );
 };

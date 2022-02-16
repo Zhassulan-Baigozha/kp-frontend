@@ -79,7 +79,7 @@ interface IWSTableAdd {
 const EditableTable: React.FC<IWSTableAdd> = ({
     editable,
     onChange,
-    selectionType = 'checkbox',
+    selectionType,
     ws, 
     setWS,
 }) => {
@@ -182,6 +182,16 @@ const EditableTable: React.FC<IWSTableAdd> = ({
         };
     });
 
+    const rowSelection = {
+        onChange: (selectedRowKeys: React.Key[], selectedRows: IWSListTableAddPage[]) => {
+            onChange?.(selectedRowKeys, selectedRows);
+        },
+        getCheckboxProps: (record: IWSListTableAddPage) => ({
+            // disabled: record.axisNum === 'Disabled User',
+            name: record.axisNum,
+        }),
+    };
+
     return (
         <Form form={form} component={false}>
             <Table
@@ -195,6 +205,10 @@ const EditableTable: React.FC<IWSTableAdd> = ({
                 dataSource={ws}
                 columns={mergedColumns}
                 rowClassName="editable-row"
+                rowSelection={selectionType ? {
+                    type: selectionType,
+                    ...rowSelection,
+                }: undefined}
                 pagination={{
                     onChange: cancel,
                 }}
