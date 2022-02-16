@@ -2,7 +2,6 @@ import React from 'react';
 import { ADD_ACTION, INSTALL_ACTION, RELOCATION_ACTION, REPAIR_ACTION } from 'src/layout/pages';
 import { Button } from 'antd';
 import { ApartmentOutlined, DownloadOutlined, NodeExpandOutlined, PlusSquareOutlined } from '@ant-design/icons';
-import WSTable from 'src/components/tables/WSTable';
 import useConvertWs from 'src/hooks/useConvertWs';
 import BackgroundPaper from 'src/layout/BackgroundPaper';
 import { GetStatuses, GetTransportList } from 'src/api/CustomAPI';
@@ -10,8 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from 'src/store';
 import { sortStatuses } from 'src/utils/sortStatuses';
 import { setAllStatusesList, setTransportList } from 'src/store/data/actions';
-// import { OutlinedButton } from 'src/components/CustomButtons';
-// import { AddIco, InstallIco, RelocationIco, RepairIco } from '../assets/svg';
+import EditableTable from 'src/components/tables/EditableTable';
 interface IWarehousePage {
     switchPage: (value: string) => void
 }
@@ -19,7 +17,7 @@ interface IWarehousePage {
 const WarehousePage: React.FC<IWarehousePage> = ({
     switchPage,
 }) => {
-    const { convertedWS } = useConvertWs();
+    const { convertedWS2 } = useConvertWs();
     const token = useSelector((state: IRootState) => state.token.data);
     const dispatch = useDispatch();
 
@@ -79,9 +77,8 @@ const WarehousePage: React.FC<IWarehousePage> = ({
                 </div>
 
             </div>
-            <WSTable ws={convertedWS}/>
+            <EditableTable ws={convertedWS2}/>
         </BackgroundPaper>
-    //   <WSTable ws={sortedWS}/>
     );
 };
 

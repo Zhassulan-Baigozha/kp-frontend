@@ -70,7 +70,7 @@ const EditableCell: React.FC<EditableCellProps> = ({
 };
 interface IWSTableAdd {
     ws: IWSListTableAddPage[],
-    setWS: (value: IWSListTableAddPage[]) => void,
+    setWS?: (value: IWSListTableAddPage[]) => void,
     onChange?: (selectedRowKeys: React.Key[], selectedRows: IWSListTableAddPage[]) => void,
     selectionType?: RowSelectionType,
     editable ?: boolean,
@@ -122,11 +122,11 @@ const EditableTable: React.FC<IWSTableAdd> = ({
                     ...item,
                     ...row,
                 });
-                setWS(newData);
+                setWS?.(newData);
                 setEditingKey('');
             } else {
                 newData.push(row);
-                setWS(newData);
+                setWS?.(newData);
                 setEditingKey('');
             }
         } catch (errInfo) {
