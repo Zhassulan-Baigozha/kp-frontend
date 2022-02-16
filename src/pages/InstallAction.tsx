@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { IWSListTable } from 'src/interfaces';
+import { IWSListTableAddPage } from 'src/interfaces';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from 'src/store';
 import { GetWagonById, GetWarehouseByStoreId, InstallWSToWagon } from 'src/api/CustomAPI';
@@ -10,18 +10,18 @@ import { CustomCheckBtn } from 'src/components/base/CustomBtn';
 import { setSelectedWS } from 'src/store/selectedWS/actions';
 import { setWSList } from 'src/store/wsList/actions';
 import { Input, message } from 'antd';
-import { convertWs } from 'src/utils/convert';
-import WSTable from 'src/components/tables/WSTable';
+import { convertWs2 } from 'src/utils/convert';
 import useConvertWs from 'src/hooks/useConvertWs';
 import { Key } from 'antd/lib/table/interface';
+import EditableTable from 'src/components/tables/EditableTable';
 const { Search } = Input;
 
 const InstallAction: React.FC = () => {
     const selectedWarehouse = useSelector((state: IRootState) => state.selectedWS.data);
     const token = useSelector((state: IRootState) => state.token.data);
     const dispatch = useDispatch();
-    const [wsWagon, setWSWagon] = useState<IWSListTable[]>([]);
-    const { convertedWS } = useConvertWs();
+    const [wsWagon, setWSWagon] = useState<IWSListTableAddPage[]>([]);
+    const { convertedWS2 } = useConvertWs();
     const warehouseList = useSelector((state: IRootState) => state.data.warehouse);
     const [wagonNum, setWagonNum] = useState<string>('61891966');
     const [selectedWSinWarehouse, setSelectedWSinWarehouse] = useState<Key[]>([]);
@@ -31,7 +31,7 @@ const InstallAction: React.FC = () => {
         if (wagonNum?.length === 8){
             GetWagonById(token.access, value)
                 .then((getWagonByIdResponse) => {
-                    const buf = convertWs([
+                    const buf = convertWs2([
                         getWagonByIdResponse.wheel_set_first,
                         getWagonByIdResponse.wheel_set_second,
                         getWagonByIdResponse.wheel_set_third,
@@ -41,8 +41,8 @@ const InstallAction: React.FC = () => {
                 })
                 .catch((err)=>{
                     console.error(err);
-                    message.error(err.response.message);
-                    message.error(err.response.system_message);
+                    message.error(err.response.data.message);
+                    message.error(err.response.data.system_message);
                 });
         }
     };
@@ -113,7 +113,7 @@ const InstallAction: React.FC = () => {
             }}>
                 Колесные пары на вагоне
             </div>
-            <WSTable ws={wsWagon}/>
+            <EditableTable selectionType={'checkbox'} ws={wsWagon} />
             <div style={{
                 paddingTop: '16px',
                 fontFamily: 'Roboto',
@@ -125,7 +125,7 @@ const InstallAction: React.FC = () => {
             }}>
                 Колесные пары на складе
             </div>
-            <WSTable ws={convertedWS} onChange={(_a, _b) => {
+            <EditableTable selectionType={'checkbox'} ws={convertedWS2} onChange={(_a, _b) => {
                 if (_a.length > 0) {
                     setSelectedWSinWarehouse(_a);
                 }
