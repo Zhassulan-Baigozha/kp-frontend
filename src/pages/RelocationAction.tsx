@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { IComboBoxOption, ITransferList, IWSListTable } from 'src/interfaces';
+import { IComboBoxOption, ITransferList, IWSListTable, IWSListTableAddPage } from 'src/interfaces';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from 'src/store';
 import { 
@@ -13,11 +13,10 @@ import {
 import BackgroundPaper from '../layout/BackgroundPaper';
 import ComboBox from 'src/components/base/ComboBox';
 import { transportTypes } from 'src/constants/transportTypes';
-import WSTable from 'src/components/tables/WSTable';
 import { setSelectedWS } from 'src/store/selectedWS/actions';
 import { setWSList } from 'src/store/wsList/actions';
 import TransferTable from 'src/components/tables/TransferTable';
-import { convertWs } from 'src/utils/convert';
+import { convertWs, convertWs2 } from 'src/utils/convert';
 import useConvertWs from 'src/hooks/useConvertWs';
 import { setTransferList } from 'src/store/data/actions';
 import { Button, message } from 'antd';
@@ -40,7 +39,7 @@ const RelocationAction: React.FC = () => {
         wsInTransfer: false,
         wsInStore: false,
     });
-    const [wsInTransfer, setWsInTransfer] = useState<IWSListTable[]>([]);
+    const [wsInTransfer, setWsInTransfer] = useState<IWSListTableAddPage[]>([]);
 
     const [selectedTransfer, selectTransfer] = useState<number | string| null>(null);
     const [selectedWsInTransfer, setSelectedWsInTransfer] = useState<number | string| null>(null);
@@ -76,7 +75,7 @@ const RelocationAction: React.FC = () => {
                 }));
                 const bufTransferList2 = bufTransferList.filter(item => item.key === selectedTransfer);
                 if (bufTransferList?.length > 0 && bufTransferList2?.length === 1 && bufTransferList2[0]?.wheelSet?.length > 0) {
-                    setWsInTransfer(convertWs(bufTransferList2[0]?.wheelSet));
+                    setWsInTransfer(convertWs2(bufTransferList2[0]?.wheelSet));
                 } else {
                     setWsInTransfer([]);
                 }
@@ -246,7 +245,7 @@ const RelocationAction: React.FC = () => {
                         selectTransfer(null);
                     }
                     if (_b?.length === 1 && _b[0]?.wheelSet?.length > 0) {
-                        setWsInTransfer(convertWs(_b[0]?.wheelSet));
+                        setWsInTransfer(convertWs2(_b[0]?.wheelSet));
                     } else {
                         setWsInTransfer([]);
                     }
@@ -260,7 +259,7 @@ const RelocationAction: React.FC = () => {
                     showList.wsInTransfer ? <ArrowDownOutlined /> : <ArrowRightOutlined />
                 }
             </div>
-            {showList.wsInTransfer && <WSTable onChange={(_a, _b) => {
+            {showList.wsInTransfer && <EditableTable onChange={(_a, _b) => {
                 if (_a?.length === 1) {
                     setSelectedWsInTransfer(_a[0]);
                 }
