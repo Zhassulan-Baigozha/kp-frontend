@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from 'src/store';
-import { IComboBoxOption, IWSListTable } from 'src/interfaces';
-import { IGridData } from 'src/api/CustomAPIModel';
+import { IComboBoxOption, IWSListTableAddPage } from 'src/interfaces';
 import { GetWarehouseByStoreId, RepairWSChangeStatus, RepairWSUpdate } from 'src/api/CustomAPI';
 import BackgroundPaper from '../layout/BackgroundPaper';
 import ComboBox from 'src/components/base/ComboBox';
@@ -10,11 +9,11 @@ import { message } from 'antd';
 import { setSelectedWS } from 'src/store/selectedWS/actions';
 import { setWSList } from 'src/store/wsList/actions';
 import { RepairTypeOptions } from 'src/constants/RepairTypeOptions';
-import WSTable from 'src/components/tables/WSTable';
 import useConvertWs from 'src/hooks/useConvertWs';
 import { CustomCheckBtn } from 'src/components/base/CustomBtn';
 import FromRepair from 'src/components/RepairAction_Form/FromRepair';
 import { getCurrentDateString } from 'src/utils/getCurrentDateString';
+import EditableTable from 'src/components/tables/EditableTable';
 
 
 const RepairAction: React.FC = () => {
@@ -25,8 +24,8 @@ const RepairAction: React.FC = () => {
     const [selectedStatus, selectStatus] = useState<IComboBoxOption | null>(null);
     const selectedWarehouse = useSelector((state: IRootState) => state.selectedWS.data);
     const dispatch = useDispatch();
-    const { convertedWS } = useConvertWs();
-    const [selectedWheelset, selectWheelset] = useState<IWSListTable | null>(null);
+    const { convertedWS2 } = useConvertWs();
+    const [selectedWheelset, selectWheelset] = useState<IWSListTableAddPage | null>(null);
     const [repairType, setRepairType] = useState<boolean>(true);
 
     const sendRepair = () => {
@@ -53,7 +52,7 @@ const RepairAction: React.FC = () => {
                     status_id: +selectedWheelset.status.id,
                     wheels: selectedWheelset?.wheels && selectedWheelset.wheels?.length > 0 ? 
                         selectedWheelset.wheels.map((wheel)=>({
-                            date_survey: getCurrentDateString({onlyYear:false}),
+                            date_survey: getCurrentDateString({onlyYear:false, withTZ: true}),
                             flange: wheel.flange,
                             rim: wheel.rim,
                             id: wheel.id ? wheel.id : 0,
@@ -127,7 +126,7 @@ const RepairAction: React.FC = () => {
                 selectedWheelset={selectedWheelset} 
                 selectWheelset={selectWheelset} 
             />}
-            <WSTable ws={convertedWS} selectionType={'radio'} onChange={(_a, _b) => {
+            <EditableTable ws={convertedWS2} selectionType={'radio'} onChange={(_a, _b) => {
                 if (_b?.length > 0) {
                     selectWheelset(_b[0]);
                 } else {

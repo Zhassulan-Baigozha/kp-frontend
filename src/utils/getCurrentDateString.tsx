@@ -1,4 +1,4 @@
-export const getCurrentDateString = ({onlyYear}:{onlyYear: boolean}): string => {
+export const getCurrentDateString = ({onlyYear, withTZ}:{onlyYear: boolean, withTZ?: boolean}): string => {
     if (onlyYear){
         return (new Date()).getFullYear().toString();
     } else {
@@ -11,6 +11,6 @@ export const getCurrentDateString = ({onlyYear}:{onlyYear: boolean}): string => 
         (((new Date()).getDate() + 1) < 10 
             ? '0' + ((new Date()).getDate() + 1).toString() 
             : ((new Date()).getDate() + 1).toString());
-        return dateString;
+        return withTZ ? dateString + 'T00:00:00Z': dateString;
     }
 };

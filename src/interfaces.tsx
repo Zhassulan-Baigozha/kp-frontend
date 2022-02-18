@@ -67,6 +67,7 @@ export interface IWSListTableAddPage {
     rim2: number,
     flange2: number,
     editable: boolean,
+    wheels?: IWheel[]
 }
 
 export interface ITransferList {

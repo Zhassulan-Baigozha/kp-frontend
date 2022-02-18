@@ -1,11 +1,11 @@
 import React from 'react';
-import { IWSListTable } from 'src/interfaces';
+import { IWSListTableAddPage } from 'src/interfaces';
 import CustomTextArea from '../base/CustomTextArea';
 import CustomTextField from '../base/CustomTextField';
 
 interface IFromRepair {
-    selectedWheelset: IWSListTable
-    selectWheelset: (value: IWSListTable)=> void
+    selectedWheelset: IWSListTableAddPage
+    selectWheelset: (value: IWSListTableAddPage)=> void
 }
 
 const FromRepair: React.FC<IFromRepair> = ({

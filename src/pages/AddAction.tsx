@@ -124,7 +124,7 @@ const AddAction: React.FC = () => {
             buffWS.length === 1
         ){
             const temp = {
-                date_survey: getCurrentDateString({onlyYear:false}) + 'T00:00:00Z',
+                date_survey: getCurrentDateString({onlyYear:false, withTZ: true}),
                 description: buffWS[0].description,
                 manufacturer_code: buffWS[0].manufacturerCode,
                 number: buffWS[0].axisNum,
@@ -132,7 +132,7 @@ const AddAction: React.FC = () => {
                 warehouse_id: +selectedWarehouse.id,
                 year_issue: +buffWS[0].createdAt,
                 wheels: [{
-                    date_survey: getCurrentDateString({onlyYear:false}) + 'T00:00:00Z',
+                    date_survey: getCurrentDateString({onlyYear:false, withTZ: true}),
                     manufacturer_code: buffWS[0].manufacturerCode,
                     number: buffWS[0].CKK1,
                     rim: buffWS[0].rim1,
@@ -140,7 +140,7 @@ const AddAction: React.FC = () => {
                     flange: buffWS[0].flange1,
                     year_issue: +buffWS[0].createdAt,
                 },{
-                    date_survey: getCurrentDateString({onlyYear:false}) + 'T00:00:00Z',
+                    date_survey: getCurrentDateString({onlyYear:false, withTZ: true}),
                     manufacturer_code: buffWS[0].manufacturerCode,
                     number: buffWS[0].CKK2,
                     rim: buffWS[0].rim2,
