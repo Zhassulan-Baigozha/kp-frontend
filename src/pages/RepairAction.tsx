@@ -26,14 +26,9 @@ const RepairAction: React.FC = () => {
     const selectedWarehouse = useSelector((state: IRootState) => state.selectedWS.data);
     const dispatch = useDispatch();
     const { convertedWS } = useConvertWs();
-
     const [selectedWheelset, selectWheelset] = useState<IWSListTable | null>(null);
-
-
-
     const [repairType, setRepairType] = useState<boolean>(true);
-    const [selectedItem, setSelectedItem] = useState<number | null>(null);
-    const [ws, setWS] = useState<IGridData[]>([]);
+
     const sendRepair = () => {
         if (!selectedWarehouse?.id) { 
             message.error('Вы не выбрали Склад');
