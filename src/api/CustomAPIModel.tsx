@@ -224,19 +224,18 @@ export interface IInstallWSToWagonRequest {
     warehouse_id: number,
     ws_list: Key[],
 }
+
+export interface ICraftWheels {
+    flange: number,
+    id: number,
+    rim: number,
+    status_id: number,
+}
 export interface IParseWSRequest {
     description: string,
     id: number,
-    state_id: number,
     status_id: number,
-    wheels: {
-        date_survey: string,
-        flange: number,
-        id: number,
-        rim: number,
-        state_id: number,
-        status_id: number,
-    }[]
+    wheels: ICraftWheels[]
 }
 export interface IGetWheelsResponse {
     arrival_date: string,

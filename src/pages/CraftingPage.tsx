@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { IWheelsListTable, IWSListTable } from 'src/interfaces';
+import { IWheelsListTable, IWSListTableAddPage } from 'src/interfaces';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from 'src/store';
 import { CraftWS, GetWarehouseByStoreId, GetWheels, ParseWS } from 'src/api/CustomAPI';
@@ -9,19 +9,20 @@ import { CustomBtn } from 'src/components/base/CustomBtn';
 import { setSelectedWS } from 'src/store/selectedWS/actions';
 import { setWSList } from 'src/store/wsList/actions';
 import { message } from 'antd';
-import WSTable from 'src/components/tables/WSTable';
 import useConvertWs from 'src/hooks/useConvertWs';
 import WheelsTable from 'src/components/tables/WheelsTable';
+import EditableTable from 'src/components/tables/EditableTable';
+import { ICraftWheels } from 'src/api/CustomAPIModel';
 
 const CraftingPage: React.FC = () => {
     const selectedWarehouse = useSelector((state: IRootState) => state.selectedWS.data);
     const token = useSelector((state: IRootState) => state.token.data);
     const dispatch = useDispatch();
     const warehouseList = useSelector((state: IRootState) => state.data.warehouse);
-    const { convertedWS } = useConvertWs();
+    const { convertedWS2 } = useConvertWs();
     const [warehouseWheels, setWarehouseWheels] = useState<IWheelsListTable[]>([]);
     const [selectedWheel, setSelectedWheel] = useState<IWheelsListTable[]>([]);
-    const [selectedWSinWarehouse, setSelectedWSinWarehouse] = useState<IWSListTable[]>([]);
+    const [selectedWSinWarehouse, setSelectedWSinWarehouse] = useState<IWSListTableAddPage[]>([]);
 
 
     const onCraft = () => {
@@ -33,26 +34,35 @@ const CraftingPage: React.FC = () => {
             message.error('Вы не выбрали КП');
             return null;
         }
-        if (selectedWheel?.length !== 1) {
-            message.error('Вы не выбрали ЦКК');
+        if (selectedWSinWarehouse[0].CKK1 !== 'Нет' && selectedWSinWarehouse[0].CKK2 !== 'Нет') {
+            message.error('Данная Колесная пара уже содержит достаточно ЦКК');
             return null;
         }
+        if (selectedWheel?.length < 1) {
+            message.error('Вы не выбрали ЦКК');
+            return null;
+        } else if (selectedWheel?.length > 2){
+            message.error('Вы не выбрали более двух ЦКК');
+            return null;
+        }
+
+        
+        const tmpWheels:ICraftWheels[] = [];
+        selectedWheel.forEach((item) => {
+            tmpWheels.push({
+                flange: item.flange,
+                id: item.key,
+                rim: item.rim,
+                status_id: item.statusId,
+            });
+        });
         const craftData = {
             description: 'craft',
             id: selectedWSinWarehouse[0].key,
-            state_id: +selectedWSinWarehouse[0].state.id,
             status_id: +selectedWSinWarehouse[0].status.id,
-            wheels: [
-                {
-                    id: selectedWheel[0].key,
-                    flange: selectedWheel[0].flange,
-                    rim: selectedWheel[0].rim,
-                    date_survey: selectedWheel[0].dateSurvey,
-                    state_id: selectedWheel[0].stateId,
-                    status_id: selectedWheel[0].statusId,
-                }
-            ]
+            wheels: tmpWheels,
         };
+
         CraftWS(token.access, craftData)
             .then(() => {
                 message.success('Сборка успешно произведена');
@@ -80,22 +90,19 @@ const CraftingPage: React.FC = () => {
             return null;
         }
 
-        ParseWS(token.access, 
-            {
-                description: 'parse',
-                id: selectedWSinWarehouse[0].key,
-                state_id: +selectedWSinWarehouse[0].state.id,
-                status_id: +selectedWSinWarehouse[0].status.id,
-                wheels: selectedWSinWarehouse[0].wheels.map((wheel)=>({
-                    date_survey: wheel.date_survey,
-                    flange: wheel.flange,
-                    id: wheel.id ?? 0,
-                    rim: wheel.rim,
-                    state_id: +selectedWSinWarehouse[0].state.id,
-                    status_id: +selectedWSinWarehouse[0].status.id
-                }))
-            }
-        ).then(() => {
+        const parseObj = {
+            description: 'Разобрать',
+            id: selectedWSinWarehouse[0].key,
+            status_id: +selectedWSinWarehouse[0].status.id,
+            wheels: selectedWSinWarehouse[0].wheels.map((wheel)=>({
+                flange: wheel.flange,
+                id: wheel.id ?? 0,
+                rim: wheel.rim,
+                status_id: +selectedWSinWarehouse[0].status.id
+            }))
+        };
+
+        ParseWS(token.access, parseObj).then(() => {
             message.success('Разбор КП успешно произведен');
         }).catch((err) => {
             console.error('err', err);
@@ -120,6 +127,7 @@ const CraftingPage: React.FC = () => {
                                 dispatch(setWSList(res));
                             });
                             GetWheels(token.access, value.id.toString()).then((res)=>{
+                                console.log('res = ', res);
                                 setWarehouseWheels(res.map((item)=>({
                                     ...item,
                                     key: item.wheel.id,
@@ -134,6 +142,8 @@ const CraftingPage: React.FC = () => {
                                     stateId: item.state.id,
                                     statusId: item.status.code,
                                 })));
+                            }).catch(() => {
+                                setWarehouseWheels([]);
                             });
                         }
                     }}
@@ -145,13 +155,13 @@ const CraftingPage: React.FC = () => {
                     Разобрать
                 </CustomBtn>
             </div>
-            <WheelsTable selectionType={'radio'} ws={warehouseWheels} onChange={(_a, _b) => {
-                if (_b.length === 1) {
+            <WheelsTable selectionType={'checkbox'} ws={warehouseWheels} onChange={(_a, _b) => {
+                if (_b.length >= 1) {
                     setSelectedWheel(_b);
                 }
             }}/>
-            <WSTable selectionType={'radio'} ws={convertedWS} onChange={(_a, _b) => {
-                if (_b.length === 1) {
+            <EditableTable selectionType={'radio'} ws={convertedWS2} onChange={(_a, _b) => {
+                if (_b.length >= 1) {
                     setSelectedWSinWarehouse(_b);
                 }
             }}/>

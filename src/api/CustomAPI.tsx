@@ -109,6 +109,6 @@ export const CompleteWSToTransfer = (token: string, transfer_id: number | string
 export const GetWheels = (token: string, wh_id: number | string) => CustomAxios2(token)
     .get<IGetWheelsResponse[]>(`api/v1/repair/wheel/${wh_id}`).then((r)=>r.data);
 export const ParseWS = (token: string, data: IParseWSRequest) => CustomAxios2(token)
-    .put<IParseWSRequest>('api/v1/repair/ws/', data).then((r)=>r.data);
+    .put<IParseWSRequest>('api/v1/repair/parsing/', data).then((r)=>r.data);
 export const CraftWS = (token: string, data: IParseWSRequest) => CustomAxios2(token)
-    .put<IParseWSRequest>('api/v1/repair/ws/', data).then((r)=>r.data);
+    .post<IParseWSRequest>('api/v1/repair/making/', data).then((r)=>r.data);
