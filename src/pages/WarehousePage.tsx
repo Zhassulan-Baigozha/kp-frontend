@@ -23,10 +23,6 @@ const WarehousePage: React.FC<IWarehousePage> = ({
     const token = useSelector((state: IRootState) => state.token.data);
     const dispatch = useDispatch();
     const [selectedWSHistory, setSelectedWSHistory] = useState<IHistory[]>([]);
-    const users = useSelector((state: IRootState) => state.data.allUsers);
-    const statuses = useSelector((state: IRootState) => state.data.allStatuses);
-    const states = useSelector((state: IRootState) => state.data.allStates);
-    console.log('selectedWSHistory', selectedWSHistory);
 
     return (
         <BackgroundPaper>
@@ -112,21 +108,15 @@ const WarehousePage: React.FC<IWarehousePage> = ({
                     <div>
                         {`Дата: ${res.date_time.substr(0,10)} Время: ${res.date_time.substr(11,8)}`}
                     </div>
-                    {users.filter(user=> user.uuid === res.user_id).map(user => (
-                        <div key={user.uuid}>
-                            {`Пользователь: ${user.name + ' ' + user.surname} Почта: ${user.email} `}
-                        </div>
-                    ))}
-                    {statuses.filter(status=> status.code === res.status).map(status => (
-                        <div key={status.code}>
-                            {`Статус: ${status.description}`}
-                        </div>
-                    ))}
-                    {states.filter(status=> status.id === res.state).map(state => (
-                        <div key={state.id}>
-                            {`Состояние: ${state.label}`}
-                        </div>
-                    ))}
+                    <div>
+                        {`Пользователь: ${res.user.full_name} Почта: ${res.user.email} `}
+                    </div>
+                    <div>
+                        {`Статус: ${res.status.description}`}
+                    </div>
+                    <div>
+                        {`Статус: ${res.state.name}`}
+                    </div>
                 </div>
             ))}
         </BackgroundPaper>

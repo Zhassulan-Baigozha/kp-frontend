@@ -269,9 +269,21 @@ export interface IHistory {
     date_time: string
     description: string
     id: number
-    state: number
-    status: number
-    user_id: string
+    state: {
+        id: number
+        name: string
+    }
+    status: {
+        code: number
+        description: string
+        name: string
+        type_status: string
+    }
+    user: {
+        email: string
+        full_name: string
+        uuid: string
+    }
     warehouse_code: string
     warehouse_name: string
     
