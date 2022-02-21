@@ -264,3 +264,36 @@ export interface IWheelFromGetWheelsResponse {
     rim: number,
     year_issue: number,
 }
+
+export interface IHistory {
+    date_time: string
+    description: string
+    id: number
+    state: number
+    status: number
+    user_id: string
+    warehouse_code: string
+    warehouse_name: string
+    
+}
+export interface IGetWSHistoryResponse {
+    arrival_date: string
+    departure_date: string
+    description: string
+    history: IHistory[]
+    id: number
+    state: {id: number, name: string}
+    status: {
+        code: number, 
+        name: string, 
+        type_status: 'Уставновлен', 
+        description: 'КП установлено на вагон'
+    }
+    user_id: string
+    warehouse_id: number
+}
+
+export interface IGetStatesResponse {
+    id: number,
+    name: string
+}

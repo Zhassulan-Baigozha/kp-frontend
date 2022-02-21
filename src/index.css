@@ -1,20 +1,30 @@
 @import "~antd/dist/antd.css";
 
 body {
-  background: #f0f0f0;
-  overflow-y: scroll;
+    background: #f0f0f0;
+    overflow-y: scroll;
 }
 .anticon {
-  color: #263b5e;
+    color: #263b5e;
 }
 .rowClassName2 {
-  border-color: #263b5e;
+    border-color: #263b5e;
 }
 th {
-  background: #f0f0f0;
+    background: #f0f0f0;
 }
 
 * {
-  font-family: "Roboto";
-  font-style: normal;
+    font-family: "Roboto";
+    font-style: normal;
+}
+
+.installActionText{
+    padding-top: 16px;
+    font-family: Roboto;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 42px;
+    color: #263b5e;
 }

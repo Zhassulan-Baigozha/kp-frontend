@@ -114,15 +114,7 @@ const InstallAction: React.FC = () => {
                 Колесные пары на вагоне
             </div>
             <EditableTable selectionType={'checkbox'} ws={wsWagon} />
-            <div style={{
-                paddingTop: '16px',
-                fontFamily: 'Roboto',
-                fontSize: '24px',
-                fontStyle: 'normal',
-                fontWeight: 500,
-                lineHeight: '42px',
-                color: primaryColor,
-            }}>
+            <div className={'installActionText'}>
                 Колесные пары на складе
             </div>
             <EditableTable selectionType={'checkbox'} ws={convertedWS2} onChange={(_a, _b) => {

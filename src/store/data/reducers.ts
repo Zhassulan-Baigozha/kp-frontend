@@ -16,6 +16,7 @@ const userReducer = (state: IUserState = {
     allOffices: [],
     allUsers: [],
     allStatuses: [],
+    allStates: [],
     roles: [],
     transferList: [],
     transportList: [],
@@ -26,6 +27,7 @@ const userReducer = (state: IUserState = {
     case 'allOffices/SET': return { ...state, allOffices: action.allOffices };
     case 'allUsers/SET': return { ...state, allUsers: action.allUsers };
     case 'allStatuses/SET': return { ...state, allStatuses: action.allStatuses };
+    case 'allStates/SET': return { ...state, allStates: action.allStates };
     case 'roles/SET': return { ...state, roles: action.roles };
     case 'transferList/SET': return { ...state, transferList: action.transferList };
     case 'transportList/SET': return { ...state, transportList: action.transportList };

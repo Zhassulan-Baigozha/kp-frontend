@@ -20,7 +20,9 @@ import {
     ICreateTransfer,
     IInstallWSToWagonRequest,
     IParseWSRequest,
-    IGetWheelsResponse
+    IGetWheelsResponse,
+    IGetWSHistoryResponse,
+    IGetStatesResponse
 } from './CustomAPIModel';
 import { ITransport, IStatusesTable } from 'src/store/data/types';
 import { ISignUpRequest, ISignUpUser, IUpdateUserRole } from 'src/interfaces';
@@ -112,3 +114,7 @@ export const ParseWS = (token: string, data: IParseWSRequest) => CustomAxios2(to
     .put<IParseWSRequest>('api/v1/repair/parsing/', data).then((r)=>r.data);
 export const CraftWS = (token: string, data: IParseWSRequest) => CustomAxios2(token)
     .post<IParseWSRequest>('api/v1/repair/making/', data).then((r)=>r.data);
+export const GetWSHistory = (token: string, wh_id: number | string) => CustomAxios2(token)
+    .get<IGetWSHistoryResponse[]>(`api/v1/repair/history-ws/${wh_id}`).then((r)=>r.data);
+export const GetStates = (token: string) => CustomAxios2(token)
+    .get<IGetStatesResponse[]>('api/v1/repair/stock-state/').then((r)=>r.data);

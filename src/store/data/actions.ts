@@ -4,6 +4,7 @@ import { IOffice, IRoles, IStatusesTable, ITransport, IUser } from './types';
 export interface IActAllOffices { type: 'allOffices/SET', allOffices: IOffice[] }
 export interface IActAllUsers { type: 'allUsers/SET', allUsers: IUser[] }
 export interface IActAllStatuses { type: 'allStatuses/SET', allStatuses: IStatusesTable[] }
+export interface IActAllStates { type: 'allStates/SET', allStates: IComboBoxOption[] }
 export interface IActRoles { type: 'roles/SET', roles: IRoles[] }
 export interface IActTransfertList { type: 'transferList/SET', transferList: ITransferList[] }
 export interface IActTransportList { type: 'transportList/SET', transportList: ITransport[] }
@@ -14,6 +15,7 @@ export type Action
     = IActAllOffices 
     | IActAllUsers 
     | IActAllStatuses 
+    | IActAllStates
     | IActRoles 
     | IActTransfertList
     | IActTransportList 
@@ -31,6 +33,10 @@ export const setAllUsersList = (allUsers: IUser[]): IActAllUsers => {
 
 export const setAllStatusesList = (allStatuses: IStatusesTable[]): IActAllStatuses => {
     return { type: 'allStatuses/SET', allStatuses };
+};
+
+export const setAllStatesList = (allStates: IComboBoxOption[]): IActAllStates => {
+    return { type: 'allStates/SET', allStates };
 };
 
 export const setOfficesList = (allOffices: IOffice[]): IActAllOffices => {

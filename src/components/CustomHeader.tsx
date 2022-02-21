@@ -19,6 +19,7 @@ import {
     GetAllUsr, 
     GetOffices, 
     GetRoles, 
+    GetStates, 
     GetStatuses, 
     GetUsr, 
     GetWarehouseByStoreId 
@@ -31,7 +32,8 @@ import {
     setOfficesList, 
     setAllUsersList, 
     setAllStatusesList, 
-    setRolesList 
+    setRolesList, 
+    setAllStatesList
 } from 'src/store/data/actions';
 import { sortStatuses } from 'src/utils/sortStatuses';
 
@@ -87,7 +89,19 @@ const CustomHeader: React.FC<ICustomHeader> = ({
     );
 
     const hangleWSSelect = (value: IComboBoxOption | null) => {
+        GetAllUsr(token.access).then((GetAllUsrResponse )=>{
+            dispatch(setAllUsersList(GetAllUsrResponse));
+        });
         dispatch(setSelectedWS(value));
+
+        GetStatuses(token.access).then((GetStatusesResponse )=>{
+            dispatch(setAllStatusesList(GetStatusesResponse.sort(sortStatuses)));
+        });
+        GetStates(token.access).then((GetStatesResponse )=>{
+            dispatch(setAllStatesList(GetStatesResponse.map((item) => ({id: item.id, label: item.name}))));
+        });
+        
+
         if (value?.id) {
             GetWarehouseByStoreId(token.access, value.id.toString()).then((res)=>{
                 dispatch(setWSList(res));
@@ -110,7 +124,11 @@ const CustomHeader: React.FC<ICustomHeader> = ({
                         <td style={{textAlign: 'left', width: '33%', padding: 0}} onClick={()=>{
                             switchPage(WAREHOUSE_ACTION);
                         }}>
-                            logo
+                            <img 
+                                style={{width: '90px', height: '70px'}}
+                                src="./logo.png"
+                                alt="logo"
+                            />
                         </td>
                         <td className={'HeaderText'} style={{ opacity: 0.5}}>
                             {getPageTitle(currentPage)}

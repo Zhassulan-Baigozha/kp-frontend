@@ -38,6 +38,7 @@ export interface ITransport {
 export interface IUserState {
     allOffices: IOffice[],
     allStatuses: IStatusesTable[],
+    allStates: IComboBoxOption[],
     allUsers: IUser[],
     roles: IComboBoxOption[],
     transferList: ITransferList[],
