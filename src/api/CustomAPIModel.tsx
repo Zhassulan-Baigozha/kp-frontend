@@ -108,10 +108,7 @@ export interface IGetWagonByIdResponse {
     }
     wagon_id: number
     wagon_type: string
-    wheel_set_first: IGetWSResponse
-    wheel_set_second: IGetWSResponse
-    wheel_set_third: IGetWSResponse
-    wheel_set_fourth: IGetWSResponse
+    wheel_sets: IGetWSResponse[],
 }
 
 export interface IAppendPurchasedForm {

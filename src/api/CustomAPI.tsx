@@ -29,6 +29,7 @@ import { ISignUpRequest, ISignUpUser, IUpdateUserRole } from 'src/interfaces';
 
 
 export const CustomAxios2 = (auth_user_token: string) =>{
+    // const baseURL = process.env.NODE_ENV === 'development' ? 'http://localhost:8080/': 'https://api.kp.itmd.kz/';
     const instance = axios.create({
         baseURL: 'https://api.kp.itmd.kz/',
         timeout: 1000,

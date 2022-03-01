@@ -31,12 +31,7 @@ const InstallAction: React.FC = () => {
         if (wagonNum?.length === 8){
             GetWagonById(token.access, value)
                 .then((getWagonByIdResponse) => {
-                    const buf = convertWs2([
-                        getWagonByIdResponse.wheel_set_first,
-                        getWagonByIdResponse.wheel_set_second,
-                        getWagonByIdResponse.wheel_set_third,
-                        getWagonByIdResponse.wheel_set_fourth
-                    ]);
+                    const buf = convertWs2(getWagonByIdResponse.wheel_sets);
                     setWSWagon(buf);
                 })
                 .catch((err)=>{
