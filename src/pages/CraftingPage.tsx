@@ -98,7 +98,7 @@ const CraftingPage: React.FC = () => {
                 flange: wheel.flange,
                 id: wheel.id ?? 0,
                 rim: wheel.rim,
-                status_id: +selectedWSinWarehouse[0].status.id
+                status_id: 14,
             }))
         };
 
