@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
-import { Table, Input, InputNumber, Popconfirm, Form, Typography } from 'antd';
+import { Table, Input, InputNumber, Popconfirm, Form, Typography, Select } from 'antd';
 import { IWSListTableAddPage } from 'src/interfaces';
 import { RowSelectionType } from 'antd/lib/table/interface';
 import TextArea from 'antd/lib/input/TextArea';
-
+import { useSelector } from 'react-redux';
+import { IRootState } from 'src/store';
+import ComboBox from '../base/ComboBox';
+const { Option } = Select;
 const EditableTableColums = [
     {
         title: '№ Оси',
@@ -79,11 +82,12 @@ const EditableTableColums = [
     }
 ];
 
+type TTypeInput = 'number' | 'textArea' | 'string' | 'IComboBoxOption'
 interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
     editing: boolean;
     dataIndex: string;
     title: any;
-    inputType: 'number' | 'textArea' | 'string';
+    inputType: TTypeInput;
     record: IWSListTableAddPage;
     index: number;
     children: React.ReactNode;
@@ -116,9 +120,35 @@ const EditableCell: React.FC<EditableCellProps> = ({
     children,
     ...restProps
 }) => {
-    const inputNode = inputType === 'number' ? <InputNumber /> 
-        : inputType === 'textArea' ? <TextArea rows={1} /> 
-            : <Input style={{width: 100}}/>;
+    const statuses = useSelector((state: IRootState) => state.data.allStatuses);
+    const statusesList = statuses.map((item) =>({id: item.code, label: item.name}));
+    
+    const selectByInputType = (inputTypeProp: TTypeInput, dataIndexProp: string) => {
+        if (dataIndex === 'statusName'){
+            return (
+                <Select>
+                    {statusesList?.length > 0 && statusesList.map(status => (
+                        <Option value={status.id} key={status.id} >
+                            {status.label}
+                        </Option>
+                    ))}
+                </Select>
+            );
+        } else {
+            switch (inputTypeProp) {
+            case 'number': return <InputNumber /> ;
+            case 'textArea': return <TextArea rows={1} />;
+            default: return <Input style={{width: 100}} onChange={()=>{
+                console.log('dataIndex', dataIndex);
+                console.log('title', title);
+                console.log('index', index);
+                console.log('children', children);
+                console.log('inputType', inputType);
+            }}/>;
+            }
+        }
+    };
+    const inputNode = selectByInputType(inputType, dataIndex);
 
     return (
         <td {...restProps}>
@@ -162,6 +192,7 @@ const EditableTable: React.FC<IWSTableAdd> = ({
     const isEditing = (record: IWSListTableAddPage) => record.key.toString() === editingKey;
 
     const edit = (record: Partial<IWSListTableAddPage> & { key: React.Key }) => {
+        console.log('record', record);
         form.setFieldsValue({
             // axisNum: string,
             // stateName: string,
@@ -172,7 +203,8 @@ const EditableTable: React.FC<IWSTableAdd> = ({
             // key: number,
             // manufacturerCode: number,
             // statusName: string,
-            // status: IComboBoxOption,
+            status: record.status,
+            statusName: record.statusName,
             // wheels: IWheel[] | null,
             ...record
         });
@@ -214,7 +246,7 @@ const EditableTable: React.FC<IWSTableAdd> = ({
         render?: (_: any, record: IWSListTableAddPage) => React.ReactNode;
     }[] = editable ? [...EditableTableColums.map(item =>({
         ...item,
-        editable: item.key !== 'stateName' && item.key !== 'state' && item.key !== 'statusName' && item.key !== 'status'
+        editable: item.key !== 'stateName' && item.key !== 'state'
     })), {
         title: 'Действие',
         dataIndex: 'operation',

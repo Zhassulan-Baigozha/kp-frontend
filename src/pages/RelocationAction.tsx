@@ -70,7 +70,7 @@ const RelocationAction: React.FC = () => {
                     departure: item.departure.name,
                     destination: item.destination.name,
                     transport: item.transport.number,
-                    transportType: item.transport.transport_type === 'TRUCK' ? 'Машина' : 'Поезд',
+                    transportType: item.transport.transport_type === 'TRUCK' ? 'Машина' : 'Вагон',
                     wheelSet: item.product?.map(productItem => productItem.wheel_set),
                 }));
                 const bufTransferList2 = bufTransferList.filter(item => item.key === selectedTransfer);

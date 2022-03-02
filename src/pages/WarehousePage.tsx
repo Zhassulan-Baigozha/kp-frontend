@@ -31,7 +31,11 @@ const WarehousePage: React.FC<IWarehousePage> = ({
                     <Button 
                         className={'OutlinedBtn'} 
                         icon={<PlusSquareOutlined style={{fontSize: '20px', paddingTop: '0px'}}/>} 
-                        onClick={()=>{switchPage(ADD_ACTION);}}
+                        onClick={async ()=>{
+                            const GetStatusesResponse = await GetStatuses(token.access);
+                            dispatch(setAllStatusesList(GetStatusesResponse.sort(sortStatuses)));
+                            switchPage(ADD_ACTION);
+                        }}
                         style={{ height: '40px'}}
                     >
                         <span className={'WarehouseBtnText'}>Добавить</span>

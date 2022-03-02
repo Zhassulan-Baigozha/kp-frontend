@@ -88,7 +88,7 @@ const AddAction: React.FC = () => {
                     departure: item.departure.name,
                     destination: item.destination.name,
                     transport: item.transport.number,
-                    transportType: item.transport.transport_type === 'TRUCK' ? 'Машина' : 'Поезд',
+                    transportType: item.transport.transport_type === 'TRUCK' ? 'Машина' : 'Вагон',
                     wheelSet: item.product?.map(productItem => productItem.wheel_set),
                 }))));
             } else {
@@ -144,7 +144,7 @@ const AddAction: React.FC = () => {
                     year_issue: +buffWS[0].createdAt,
                 }],
             };
-
+            console.log('AppendPurchased = ', temp);
             AppendPurchased(token.access, temp)
                 .then(() => {
                     message.success('Вы успешно добавили КП');
@@ -254,7 +254,9 @@ const AddAction: React.FC = () => {
                                 description: 'Добавление новой КП',
                                 editable: true,
                                 key: Date.now(),
-                            },...buffWS];
+                                stateName: 'Принят на хранение',
+                                state: {id: 1, label: 'Принят на хранение'},
+                            }, ...buffWS];
                             console.log('convertedWS2', buf);
                             setBuffWS(buf);
                         }}>
