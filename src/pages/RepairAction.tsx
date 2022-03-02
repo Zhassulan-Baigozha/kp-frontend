@@ -14,9 +14,11 @@ import { CustomCheckBtn } from 'src/components/base/CustomBtn';
 import FromRepair from 'src/components/RepairAction_Form/FromRepair';
 import { getCurrentDateString } from 'src/utils/getCurrentDateString';
 import EditableTable from 'src/components/tables/EditableTable';
+import { useErrorHandler } from 'src/utils/useErrorHandler';
 
 
 const RepairAction: React.FC = () => {
+    const { errorHandler } = useErrorHandler();
     const warehouseList = useSelector((state: IRootState) => state.data.warehouse);
     const token = useSelector((state: IRootState) => state.token.data);
     const statuses = useSelector((state: IRootState) => state.data.allStatuses);
@@ -26,7 +28,7 @@ const RepairAction: React.FC = () => {
     const dispatch = useDispatch();
     const { convertedWS2 } = useConvertWs();
     const [selectedWheelset, selectWheelset] = useState<IWSListTableAddPage | null>(null);
-    const [repairType, setRepairType] = useState<boolean>(true);
+    const [repairType, setRepairType] = useState<boolean>(false);
 
     const sendRepair = () => {
         if (!selectedWarehouse?.id) { 
@@ -61,12 +63,11 @@ const RepairAction: React.FC = () => {
                         })) : []
                 })
                     .then(() => {
+                        GetWarehouseByStoreId(token.access, selectedWarehouse.id.toString()).then((res)=>{
+                            dispatch(setWSList(res));
+                        });
                         message.success('Отремонтировали КП');
-                    }).catch((err)=>{
-                        console.error(err);
-                        message.error(err.response.data.message);
-                        message.error(err.response.data.system_message);
-                    });
+                    }).catch(errorHandler);
             }
         } else {
             // На ремонт
@@ -76,12 +77,11 @@ const RepairAction: React.FC = () => {
                 status_id: +selectedStatus?.id,
                 wheelset_id: selectedWheelset.key
             }).then(()=>{
+                GetWarehouseByStoreId(token.access, selectedWarehouse.id.toString()).then((res)=>{
+                    dispatch(setWSList(res));
+                });
                 message.success('Отправили на КП');
-            }).catch((err)=>{
-                console.error(err);
-                message.error(err.response.data.message);
-                message.error(err.response.data.system_message);
-            });
+            }).catch(errorHandler);
         }
     };
     return (

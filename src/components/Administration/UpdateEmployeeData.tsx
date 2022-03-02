@@ -11,10 +11,12 @@ import CollapseElemLayout from 'src/layout/CollapseElemLayout';
 import CollapseLastElemLayout from 'src/layout/CollapseLastElemLayout';
 import { CustomBlockBtn } from 'src/components/base/CustomBtn';
 import ComboBox from '../base/ComboBox';
+import { useErrorHandler } from 'src/utils/useErrorHandler';
 
 
 
 const UpdateEmployeeData: React.FC = () => {
+    const { errorHandler } = useErrorHandler();
     const { Panel } = Collapse;
     const offices = useSelector((state: IRootState) => state.data.allOffices);
     const users = useSelector((state: IRootState) => state.data.allUsers);
@@ -34,11 +36,7 @@ const UpdateEmployeeData: React.FC = () => {
         await UpdateUserData(token.access, userFields)
             .then((res)=>{
                 message.success('Данные клиента обновлены');
-            }).catch((err) => {
-                console.error(err);
-                message.error(err.response.data.message);
-                message.error(err.response.data.system_message);
-            });
+            }).catch(errorHandler);
         const GetAllUsrResponse = await GetAllUsr(token.access);
         dispatch(setAllUsersList(GetAllUsrResponse));
     };

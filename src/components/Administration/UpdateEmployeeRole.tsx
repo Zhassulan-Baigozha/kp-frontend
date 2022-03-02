@@ -1,7 +1,6 @@
 import { UpdateUserRole } from 'src/api/CustomAPI';
 import React, { useState } from 'react';
 import { IUpdateUserRole } from '../../interfaces';
-import { IUser } from '../../store/data/types';
 import { IRootState } from '../../store';
 import { useSelector } from 'react-redux';
 import { Collapse, message } from 'antd';
@@ -9,10 +8,12 @@ import CollapseElemLayout from 'src/layout/CollapseElemLayout';
 import CollapseLastElemLayout from 'src/layout/CollapseLastElemLayout';
 import { CustomBlockBtn } from 'src/components/base/CustomBtn';
 import ComboBox from '../base/ComboBox';
+import { useErrorHandler } from 'src/utils/useErrorHandler';
 
 
 
 const UpdateEmployeeRole: React.FC = () => {
+    const { errorHandler } = useErrorHandler();
     const { Panel } = Collapse;
     const [userFields, setUserFields] = useState<IUpdateUserRole>({
         role_name: '',
@@ -25,11 +26,7 @@ const UpdateEmployeeRole: React.FC = () => {
         UpdateUserRole(token.access, userFields)
             .then(() => {
                 message.success('Роль клиента обновлено');
-            }).catch((err) => {
-                console.error(err);
-                message.error(err.response.data.message);
-                message.error(err.response.data.system_message);
-            });
+            }).catch(errorHandler);
     };
     return (
         <Collapse accordion>

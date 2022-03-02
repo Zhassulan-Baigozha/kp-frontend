@@ -9,7 +9,7 @@ import CustomPasswordField from 'src/components/base/CustomPasswordField';
 import { CustomBlockBtn } from 'src/components/base/CustomBtn';
 import { WAREHOUSE_ACTION } from 'src/layout/pages';
 import { setWarehouseList } from 'src/store/data/actions';
-import { message } from 'antd';
+import { useErrorHandler } from 'src/utils/useErrorHandler';
 
 interface ILogin {
     login: string,
@@ -20,6 +20,7 @@ interface ISignInPage {
 }
 
 const SignInPage: React.FC<ISignInPage> = ({ switchPage }) => {
+    const { errorHandler } = useErrorHandler();
     const dispatch = useDispatch();
     const token = useSelector((state: IRootState) => state.token.data);
     const [user, setUser] = useState<ILogin>({
@@ -41,15 +42,7 @@ const SignInPage: React.FC<ISignInPage> = ({ switchPage }) => {
                 const GetWarehouseResponse = await GetWarehouse(access_token);
                 switchPage(WAREHOUSE_ACTION);
                 dispatch(setWarehouseList(GetWarehouseResponse.map((item) =>({id: item.id, label: item.name}))));
-            }).catch((err)=>{
-                console.error(err);
-                if (err.response.status === 401) {
-                    message.error('Неверные авторизационные данные');
-                } else {
-                    message.error(err.response.data.message);
-                    message.error(err.response.data.system_message);
-                }
-            });
+            }).catch(errorHandler);
     };
 
     return (

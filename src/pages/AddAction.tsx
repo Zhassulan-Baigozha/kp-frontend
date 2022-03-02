@@ -17,10 +17,12 @@ import TransferTable from 'src/components/tables/TransferTable';
 import { setTransferList } from 'src/store/data/actions';
 import useConvertWs from 'src/hooks/useConvertWs';
 import EditableTable from 'src/components/tables/EditableTable';
+import { useErrorHandler } from 'src/utils/useErrorHandler';
 const { Search } = Input;
 
 
 const AddAction: React.FC = () => {
+    const { errorHandler } = useErrorHandler();
     const warehouseList = useSelector((state: IRootState) => state.data.warehouse);
     const selectedWarehouse = useSelector((state: IRootState) => state.selectedWS.data);
     const transferList = useSelector((state: IRootState) => state.data.transferList);
@@ -45,11 +47,7 @@ const AddAction: React.FC = () => {
                     const buf = convertWs2(getWagonByIdResponse.wheel_sets);
                     setWS(buf);
                 })
-                .catch((err)=>{
-                    console.error(err);
-                    message.error(err.response.data.message);
-                    message.error(err.response.data.system_message);
-                });
+                .catch(errorHandler);
         }
     };
 
@@ -73,11 +71,7 @@ const AddAction: React.FC = () => {
             ws_list: selectedWS
         }).then((_res)=>{
             message.success('Вы успешно добавили КП');
-        }).catch((err) => {
-            console.log(err);
-            message.error(err.response.data.message);
-            message.error(err.response.data.system_message);
-        });
+        }).catch(errorHandler);
     };
 
     const GetTransfer = (toWarehouse: string | number) => {
@@ -150,12 +144,7 @@ const AddAction: React.FC = () => {
                     message.success('Вы успешно добавили КП');
                     setBuffWS([]);
                 })
-                .catch((err)=>{
-                    console.error(err);
-                    message.error('Произошла ошибка. Попробуйте перезагрузить страницу и попробуйте снова.');
-                    message.error(err.response.data.message);
-                    message.error(err.response.data.system_message);
-                });
+                .catch(errorHandler);
         }
     };
 

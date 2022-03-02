@@ -11,6 +11,7 @@ import { sortStatuses } from 'src/utils/sortStatuses';
 import { setAllStatusesList, setTransportList } from 'src/store/data/actions';
 import EditableTable from 'src/components/tables/EditableTable';
 import { IHistory } from 'src/api/CustomAPIModel';
+import { useErrorHandler } from 'src/utils/useErrorHandler';
 interface IWarehousePage {
     switchPage: (value: string) => void
 }
@@ -20,6 +21,7 @@ const WarehousePage: React.FC<IWarehousePage> = ({
     switchPage,
 }) => {
     const { convertedWS2 } = useConvertWs();
+    const { errorHandler } = useErrorHandler();
     const token = useSelector((state: IRootState) => state.token.data);
     const dispatch = useDispatch();
     const [selectedWSHistory, setSelectedWSHistory] = useState<IHistory[]>([]);
@@ -32,9 +34,10 @@ const WarehousePage: React.FC<IWarehousePage> = ({
                         className={'OutlinedBtn'} 
                         icon={<PlusSquareOutlined style={{fontSize: '20px', paddingTop: '0px'}}/>} 
                         onClick={async ()=>{
-                            const GetStatusesResponse = await GetStatuses(token.access);
-                            dispatch(setAllStatusesList(GetStatusesResponse.sort(sortStatuses)));
-                            switchPage(ADD_ACTION);
+                            GetStatuses(token.access).then((GetStatusesResponse) => {
+                                dispatch(setAllStatusesList(GetStatusesResponse.sort(sortStatuses)));
+                                switchPage(ADD_ACTION);
+                            }).catch(errorHandler);
                         }}
                         style={{ height: '40px'}}
                     >

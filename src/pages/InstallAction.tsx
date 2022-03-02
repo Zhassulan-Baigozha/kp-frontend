@@ -14,9 +14,11 @@ import { convertWs2 } from 'src/utils/convert';
 import useConvertWs from 'src/hooks/useConvertWs';
 import { Key } from 'antd/lib/table/interface';
 import EditableTable from 'src/components/tables/EditableTable';
+import { useErrorHandler } from 'src/utils/useErrorHandler';
 const { Search } = Input;
 
 const InstallAction: React.FC = () => {
+    const { errorHandler } = useErrorHandler();
     const selectedWarehouse = useSelector((state: IRootState) => state.selectedWS.data);
     const token = useSelector((state: IRootState) => state.token.data);
     const dispatch = useDispatch();
@@ -34,11 +36,7 @@ const InstallAction: React.FC = () => {
                     const buf = convertWs2(getWagonByIdResponse.wheel_sets);
                     setWSWagon(buf);
                 })
-                .catch((err)=>{
-                    console.error(err);
-                    message.error(err.response.data.message);
-                    message.error(err.response.data.system_message);
-                });
+                .catch(errorHandler);
         }
     };
     const onSubmit = () => {
@@ -61,11 +59,7 @@ const InstallAction: React.FC = () => {
             ws_list: selectedWSinWarehouse
         }).then(() => {
             message.success('Установка успешно произведена!');
-        }).catch((err) => {
-            console.error('err', err);
-            message.error(err.response.data.message);
-            message.error(err.response.data.system_message);
-        });
+        }).catch(errorHandler);
     };
 
 

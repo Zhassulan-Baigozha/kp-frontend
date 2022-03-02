@@ -13,8 +13,10 @@ import useConvertWs from 'src/hooks/useConvertWs';
 import WheelsTable from 'src/components/tables/WheelsTable';
 import EditableTable from 'src/components/tables/EditableTable';
 import { ICraftWheels } from 'src/api/CustomAPIModel';
+import { useErrorHandler } from 'src/utils/useErrorHandler';
 
 const CraftingPage: React.FC = () => {
+    const { errorHandler } = useErrorHandler();
     const selectedWarehouse = useSelector((state: IRootState) => state.selectedWS.data);
     const token = useSelector((state: IRootState) => state.token.data);
     const dispatch = useDispatch();
@@ -66,11 +68,7 @@ const CraftingPage: React.FC = () => {
         CraftWS(token.access, craftData)
             .then(() => {
                 message.success('Сборка успешно произведена');
-            }).catch((err) => {
-                console.error('err', err);
-                message.error(err.response.data.message);
-                message.error(err.response.data.system_message);
-            });
+            }).catch(errorHandler);
     };
 
     const onParse = () => {
@@ -104,11 +102,7 @@ const CraftingPage: React.FC = () => {
 
         ParseWS(token.access, parseObj).then(() => {
             message.success('Разбор КП успешно произведен');
-        }).catch((err) => {
-            console.error('err', err);
-            message.error(err.response.data.message);
-            message.error(err.response.data.system_message);
-        });
+        }).catch(errorHandler);
     };
 
 

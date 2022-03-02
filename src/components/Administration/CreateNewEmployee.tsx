@@ -1,7 +1,7 @@
 import { SignUp } from 'src/api/CustomAPI';
 import React, { useState } from 'react';
 import CustomTextField from '../base/CustomTextField';
-import { IComboBoxOption, ISignUpRequest } from 'src/interfaces';
+import { ISignUpRequest } from 'src/interfaces';
 import { useSelector } from 'react-redux';
 import { IRootState } from 'src/store';
 import { validateEmail } from 'src/utils/validateEmail';
@@ -10,9 +10,11 @@ import CollapseElemLayout from 'src/layout/CollapseElemLayout';
 import CollapseLastElemLayout from 'src/layout/CollapseLastElemLayout';
 import { CustomBlockBtn } from '../base/CustomBtn';
 import ComboBox from '../base/ComboBox';
+import { useErrorHandler } from 'src/utils/useErrorHandler';
 
 
 const CreateNewEmployee: React.FC = () => {
+    const { errorHandler } = useErrorHandler();
     const { Panel } = Collapse;
     const token = useSelector((state: IRootState) => state.token.data);
     const offices = useSelector((state: IRootState) => state.data.allOffices);
@@ -44,11 +46,7 @@ const CreateNewEmployee: React.FC = () => {
                 .then(() => {
                     message.success('Сотрудник зарегистрирован');
                 })
-                .catch((err) => {
-                    console.error('err', err);
-                    message.error(err.response.data.message);
-                    message.error(err.response.data.system_message);
-                });
+                .catch(errorHandler);
         }
     };
 
