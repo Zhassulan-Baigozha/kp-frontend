@@ -70,8 +70,15 @@ const AddAction: React.FC = () => {
             warehouse_id: +selectedWarehouse.id,
             ws_list: selectedWS
         }).then((_res)=>{
-            message.success('Вы успешно добавили КП');
+            GetWagonById(token.access, wagonNum)
+                .then((getWagonByIdResponse) => {
+                    const buf = convertWs2(getWagonByIdResponse.wheel_sets);
+                    setWS(buf);
+                    message.success('Вы успешно добавили КП');
+                })
+                .catch(errorHandler);
         }).catch(errorHandler);
+        
     };
 
     const GetTransfer = (toWarehouse: string | number) => {
