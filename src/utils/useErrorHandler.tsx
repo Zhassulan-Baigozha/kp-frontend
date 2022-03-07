@@ -15,9 +15,12 @@ export const useErrorHandler = () => {
                 AuthReNew(token.access, {
                     refresh_token: token.refresh
                 });
+            } else if (err?.response?.status === 500 && err?.response?.data.code === 'TTS-004'){
+                message.error('По данному складу нет трансферов');
+            } else {
+                message.error(err?.response?.data.message);
+                message.error(err?.response?.data.system_message);
             }
-            message.error(err?.response?.data.message);
-            message.error(err?.response?.data.system_message);
         } else {
             console.error('err', err);
         }

@@ -51,6 +51,7 @@ export interface IWSListTable {
 }
 
 export interface IWSListTableAddPage {
+    id: number,
     axisNum: string,
     stateName: string,
     state: IComboBoxOption,

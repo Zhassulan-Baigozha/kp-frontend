@@ -18,6 +18,7 @@ import { setTransferList } from 'src/store/data/actions';
 import useConvertWs from 'src/hooks/useConvertWs';
 import EditableTable from 'src/components/tables/EditableTable';
 import { useErrorHandler } from 'src/utils/useErrorHandler';
+import FromRepair from 'src/components/RepairAction_Form/FromRepair';
 const { Search } = Input;
 
 
@@ -27,14 +28,14 @@ const AddAction: React.FC = () => {
     const selectedWarehouse = useSelector((state: IRootState) => state.selectedWS.data);
     const transferList = useSelector((state: IRootState) => state.data.transferList);
     const token = useSelector((state: IRootState) => state.token.data);
-    const [typeOfAdding, setToggleTypeOfAdding] = useState<IComboBoxOption>(AddActionTypeNames[2]);
+    const [typeOfAdding, setToggleTypeOfAdding] = useState<IComboBoxOption>(AddActionTypeNames[1]);
     const [selectedWS, selectWS] = useState<number[]>([]);
+    const [selectWSDetailed, setSelectWSDetailed] = useState<IWSListTableAddPage[]>([]);
     const [selectedTransfer, setSelectedTransfer] = useState<number | string| null>(null);
     const dispatch = useDispatch();
     const { convertedWS2 } = useConvertWs();
     const [buffWS, setBuffWS] = useState<IWSListTableAddPage[]>([]);
     const [wagonNum, setWagonNum] = useState<string>('61891966');
-
     const [ws, setWS] = useState<IWSListTableAddPage[]>([]);
 
     const onSearch = (value: string) => {
@@ -77,7 +78,10 @@ const AddAction: React.FC = () => {
                     message.success('Вы успешно добавили КП');
                 })
                 .catch(errorHandler);
-        }).catch(errorHandler);
+        }).catch((err) => {
+            setWS([]);
+            errorHandler(err);
+        });
         
     };
 
@@ -95,6 +99,9 @@ const AddAction: React.FC = () => {
             } else {
                 dispatch(setTransferList([]));
             }
+        }).catch((err) => {
+            errorHandler(err);
+            dispatch(setTransferList([]));
         });
     };
 
@@ -262,16 +269,28 @@ const AddAction: React.FC = () => {
                     </>
                 )}
             </div>
-            { typeOfAdding?.id === 2 && transferList.length > 0 &&
-                <TransferTable selectionType={'radio'} transferList={transferList} onChange={(_a, _b) => {
-                    if (_a.length === 1) {
-                        setSelectedTransfer(_a[0]);
-                    }
-                    if (_b.length === 1 && _b[0]?.wheelSet?.length > 0) {
-                        setWS(convertWs2(_b[0].wheelSet));
-                    }
-                }}/>
-            }
+            { typeOfAdding?.id === 2 && transferList.length > 0 && (
+                <>
+                    { selectWSDetailed.length > 0 && selectWSDetailed.map(item => (
+                        <React.Fragment key={item.id}>
+                            <FromRepair 
+                                selectedWheelset={item} 
+                                selectWheelset={(item2)=>{
+                                    console.log('item2 = ', item2);
+                                }} 
+                            />
+                        </React.Fragment>
+                    ))}
+                    <TransferTable selectionType={'radio'} transferList={transferList} onChange={(_a, _b) => {
+                        if (_a.length === 1) {
+                            setSelectedTransfer(_a[0]);
+                        }
+                        if (_b.length === 1 && _b[0]?.wheelSet?.length > 0) {
+                            setWS(convertWs2(_b[0].wheelSet));
+                        }
+                    }}/>
+                </>
+            )}
             { typeOfAdding?.id === 3 ? (
                 <>
                     <EditableTable editable={true} ws={buffWS.concat(convertedWS2)} setWS={(item)=>{
@@ -285,8 +304,10 @@ const AddAction: React.FC = () => {
             ): ws.length > 0 ? (
                 <EditableTable selectionType={'checkbox'} ws={ws} onChange={(_a, _b) => {
                     selectWS(convertKeyToNumber(_a));
+                    setSelectWSDetailed(_b);
                 }}/>
             ): null}
+            
         </BackgroundPaper>
     );
 };
