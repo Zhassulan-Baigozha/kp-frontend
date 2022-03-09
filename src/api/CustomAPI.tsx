@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from 'axios';
 import { IOffice, IUser } from 'src/store/data/types';
 import { 
     IAddWSFromWagonRequest,
-    IAppendPurchasedRequest, 
+    IAppendPurchasedRequest,
     IAuthReNew, 
     IGetRepairWSResponse, 
     IGetRolesItem, 

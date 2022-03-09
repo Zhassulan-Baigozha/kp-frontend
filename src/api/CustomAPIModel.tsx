@@ -283,7 +283,7 @@ export interface IHistory {
     }
     warehouse_code: string
     warehouse_name: string
-    
+    wheels: IWheel[]
 }
 export interface IGetWSHistoryResponse {
     arrival_date: string

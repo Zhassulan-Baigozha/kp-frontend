@@ -119,11 +119,21 @@ const WarehousePage: React.FC<IWarehousePage> = ({
                         {`Пользователь: ${res.user.full_name} Почта: ${res.user.email} `}
                     </div>
                     <div>
-                        {`Статус: ${res.status.description}`}
-                    </div>
-                    <div>
                         {`Статус: ${res.state.name}`}
                     </div>
+                    <div>
+                        {`Статус описание: ${res.status.description}`}
+                    </div>
+                    {res.wheels?.length > 0 && res.wheels.map((w, idx) => (
+                        <>
+                            <div key={idx}>
+                                {`Толщина обода №${idx + 1}: ${w.rim}`}
+                            </div>
+                            <div key={idx}>
+                                {`Толщина гребня №${idx + 1}: ${w.flange}`}
+                            </div>
+                        </>
+                    ))}
                 </div>
             ))}
         </BackgroundPaper>

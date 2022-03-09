@@ -88,6 +88,7 @@ const RepairAction: React.FC = () => {
         <BackgroundPaper>
             <div style={{display: 'flex'}}>
                 <ComboBox 
+                    fullWidth={'300px'}
                     label={'Выберите вид ремонта'} 
                     options={RepairTypeOptions}
                     value={
@@ -98,6 +99,7 @@ const RepairAction: React.FC = () => {
                     }}
                 />
                 <ComboBox 
+                    fullWidth={'300px'}
                     label={'Выберите Склад'} 
                     options={warehouseList}
                     value={selectedWarehouse}
@@ -111,6 +113,7 @@ const RepairAction: React.FC = () => {
                     }}
                 />
                 <ComboBox 
+                    fullWidth={'300px'}
                     label={'Выберите статус'}
                     options={statusesList}
                     value={selectedStatus}

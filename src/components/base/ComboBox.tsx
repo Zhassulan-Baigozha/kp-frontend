@@ -4,7 +4,7 @@ import { Select } from 'antd';
 
 const { Option } = Select;
 interface IComboBox {
-    fullWidth?: boolean
+    fullWidth?: string | undefined
     verticalAlign?: boolean
     label?: string
     options: IComboBoxOption[]
@@ -14,7 +14,7 @@ interface IComboBox {
 }
 
 const ComboBox: React.FC<IComboBox> = ({
-    fullWidth = true,
+    fullWidth = '',
     verticalAlign = false,
     label,
     onChange,
@@ -29,13 +29,13 @@ const ComboBox: React.FC<IComboBox> = ({
         }
     }
     return (
-        <div style={{width: '100%'}}>
+        <div>
             <div className="CustomTextField">
                 {placeholder}
             </div>
             <Select
                 style={{ 
-                    width: fullWidth ? '100%': '300px',
+                    width: fullWidth ?? '100%',
                     marginBottom: '16px',
                     marginRight: '16px',
                     textAlign: 'left',
@@ -50,7 +50,6 @@ const ComboBox: React.FC<IComboBox> = ({
                 ))}
             </Select>
         </div>
-        
     );
 };
 

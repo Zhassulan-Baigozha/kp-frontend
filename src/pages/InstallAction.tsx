@@ -66,20 +66,6 @@ const InstallAction: React.FC = () => {
     return (
         <BackgroundPaper>
             <div style={{ display: 'flex'}}>
-                <ComboBox 
-                    fullWidth={false}
-                    label={'Выберите Склад'} 
-                    options={warehouseList}
-                    value={selectedWarehouse}
-                    onChange={(value) => {
-                        dispatch(setSelectedWS(value));
-                        if (value?.id) {
-                            GetWarehouseByStoreId(token.access, value.id.toString()).then((res)=>{
-                                dispatch(setWSList(res));
-                            });
-                        }
-                    }}
-                />
                 <Search 
                     placeholder={'Номер вагона'}
                     value={wagonNum}
@@ -88,7 +74,6 @@ const InstallAction: React.FC = () => {
                     onChange={(value)=>{
                         setWagonNum(value.target.value);
                     }}
-                    // validate={wagonExists}
                 />
                 <CustomCheckBtn onClick={onSubmit}/>
             </div>

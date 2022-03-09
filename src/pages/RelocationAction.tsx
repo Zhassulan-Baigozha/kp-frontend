@@ -97,6 +97,7 @@ const RelocationAction: React.FC = () => {
         <BackgroundPaper>
             <div style={{ display: 'flex' }}>
                 <ComboBox
+                    fullWidth={'250px'}
                     label={'Склад откуда'}
                     options={warehouseList}
                     value={fromWarehouse}
@@ -111,6 +112,7 @@ const RelocationAction: React.FC = () => {
                     }}
                 />
                 <ComboBox
+                    fullWidth={'250px'}
                     label={'Склад куда'}
                     options={warehouseList}
                     value={toWarehouse}
@@ -121,6 +123,7 @@ const RelocationAction: React.FC = () => {
                     }}
                 />
                 <ComboBox
+                    fullWidth={'250px'}
                     label={'Вид транспорта'}
                     options={transportTypes}
                     value={transportType}
@@ -131,6 +134,7 @@ const RelocationAction: React.FC = () => {
                     }}
                 />
                 <ComboBox
+                    fullWidth={'250px'}
                     label={'Номер транспорта'}
                     options={filteredTransportList}
                     value={selectTransport}

@@ -137,7 +137,7 @@ const CustomHeader: React.FC<ICustomHeader> = ({
                             {SIGN_IN_ACTION !== currentPage && (
                                 <div style={{display: '-webkit-inline-box'}}>
                                     <ComboBox 
-                                        fullWidth={false}
+                                        fullWidth={'300px'}
                                         label={'Выберите Склад'} 
                                         options={warehouseList}
                                         value={selectedWarehouse}

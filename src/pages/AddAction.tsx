@@ -204,7 +204,7 @@ const AddAction: React.FC = () => {
         <BackgroundPaper>
             <div style={{display: 'flex', paddingBottom: '8px'}}>
                 <ComboBox 
-                    fullWidth={false}
+                    fullWidth={'300px'}
                     label={'Выберите формат добавления'} 
                     options={AddActionTypeNames}
                     value={typeOfAdding}
@@ -219,7 +219,7 @@ const AddAction: React.FC = () => {
                 { typeOfAdding?.id === 1 && (
                     <>
                         <ComboBox 
-                            fullWidth={false}
+                            fullWidth={'300px'}
                             label={'Выберите Склад'} 
                             options={warehouseList}
                             value={selectedWarehouse}
@@ -249,7 +249,7 @@ const AddAction: React.FC = () => {
                 {typeOfAdding?.id === 2 && (
                     <>
                         <ComboBox 
-                            fullWidth={false}
+                            fullWidth={'300px'}
                             label={'Выберите Склад'} 
                             options={warehouseList}
                             value={selectedWarehouse}
@@ -269,7 +269,7 @@ const AddAction: React.FC = () => {
                 {(typeOfAdding?.id === 3) && (
                     <>
                         <ComboBox 
-                            fullWidth={false}
+                            fullWidth={'300px'}
                             label={'Выберите Склад'} 
                             options={warehouseList}
                             value={selectedWarehouse}

@@ -51,7 +51,7 @@ export const CustomCheckBtn: React.FC<ICustomBtn> = ({
                 borderRadius: '8px',
                 fontWeight: '500',
                 width: '60px',
-                height: '30px',
+                height: '32px',
                 marginRight: mr ? '16px': undefined,
             }}
         >

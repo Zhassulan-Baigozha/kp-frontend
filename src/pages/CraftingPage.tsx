@@ -110,7 +110,7 @@ const CraftingPage: React.FC = () => {
         <BackgroundPaper>
             <div style={{ display: 'flex'}}>
                 <ComboBox 
-                    fullWidth={false}
+                    fullWidth={undefined}
                     label={'Выберите Склад'} 
                     options={warehouseList}
                     value={selectedWarehouse}
