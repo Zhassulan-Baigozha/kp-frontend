@@ -4,12 +4,13 @@ import { Select } from 'antd';
 
 const { Option } = Select;
 interface IComboBox {
-  fullWidth?: boolean
-  verticalAlign?: boolean
-  label?: string
-  options: IComboBoxOption[]
-  value: IComboBoxOption | null
-  onChange?: (value: IComboBoxOption | null) => void
+    fullWidth?: boolean
+    verticalAlign?: boolean
+    label?: string
+    options: IComboBoxOption[]
+    placeholder ?: string
+    value: IComboBoxOption | null
+    onChange?: (value: IComboBoxOption | null) => void
 }
 
 const ComboBox: React.FC<IComboBox> = ({
@@ -18,6 +19,7 @@ const ComboBox: React.FC<IComboBox> = ({
     label,
     onChange,
     options,
+    placeholder,
     value,
 }) => {
     function handleChange(value: any) {
@@ -27,22 +29,28 @@ const ComboBox: React.FC<IComboBox> = ({
         }
     }
     return (
-        <Select
-            style={{ 
-                width: fullWidth ? '100%': '300px',
-                marginBottom: '16px',
-                marginRight: '16px',
-                textAlign: 'left',
-                verticalAlign: verticalAlign ? 'top': undefined,
-            }} onChange={handleChange}
-            value={value?.label ?? label}
-        >
-            {options?.length > 0 && options.map(option =>(
-                <Option value={option.id} key={option.id} >
-                    {option.label}
-                </Option>
-            ))}
-        </Select>
+        <div style={{width: '100%'}}>
+            <div className="CustomTextField">
+                {placeholder}
+            </div>
+            <Select
+                style={{ 
+                    width: fullWidth ? '100%': '300px',
+                    marginBottom: '16px',
+                    marginRight: '16px',
+                    textAlign: 'left',
+                    verticalAlign: verticalAlign ? 'top': undefined,
+                }} onChange={handleChange}
+                value={value?.label ?? label}
+            >
+                {options?.length > 0 && options.map(option =>(
+                    <Option value={option.id} key={option.id} >
+                        {option.label}
+                    </Option>
+                ))}
+            </Select>
+        </div>
+        
     );
 };
 

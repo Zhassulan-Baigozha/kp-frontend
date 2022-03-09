@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { IComboBoxOption, IWSListTableAddPage } from 'src/interfaces';
-import { AddWSFromWagon, AppendPurchased, CompleteWSToTransfer, GetTransferByDestination, GetWagonById, GetWarehouseByStoreId } from 'src/api/CustomAPI';
+import { AddWSFromWagon, AppendPurchased, GetTransferByDestination, GetWagonById, GetWarehouseByStoreId } from 'src/api/CustomAPI';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from 'src/store';
 import { getCurrentDateString } from 'src/utils/getCurrentDateString';
@@ -18,7 +18,7 @@ import { setTransferList } from 'src/store/data/actions';
 import useConvertWs from 'src/hooks/useConvertWs';
 import EditableTable from 'src/components/tables/EditableTable';
 import { useErrorHandler } from 'src/utils/useErrorHandler';
-import FromRepair from 'src/components/RepairAction_Form/FromRepair';
+import FromOtherStore from 'src/components/AddAction_Form/FromOtherStore';
 const { Search } = Input;
 
 
@@ -105,15 +105,53 @@ const AddAction: React.FC = () => {
         });
     };
 
-    const addNewWS2 = () => {
-        if (selectedTransfer){
-            CompleteWSToTransfer(token.access, selectedTransfer).then(() => {
-                message.success('Вы успешно добавили КП');
+    const addNewWS2 = async () => {
+        try {
+            if (!selectedWarehouse) {
+                message.error('Вы не выбрали Склад');
+                return null;
+            }
+            if (!selectedTransfer) {
+                message.error('Вы не выбрали Трансфер');
+                return null;
+            }
+            // работает 
+            // await CompleteWSToTransfer(token.access, selectedTransfer);
+
+            // не работает 
+            selectWSDetailed.forEach((item5) =>{
+                // на ремонта
+                console.log('item5', item5);
+                // await RepairWSChangeStatus(token.access, {
+                //     description: '',
+                //     state_id: 1,
+                //     status_id: +selectedStatus?.id,
+                //     wheelset_id: selectedWheelset.key
+                // });
+                // из ремонта 
+                // await RepairWSUpdate(token.access, {
+                //     description: selectedWheelset.description,
+                //     id: selectedWheelset.key,
+                //     state_id: +selectedStatus.id,
+                //     status_id: +selectedWheelset.status.id,
+                //     wheels: selectedWheelset?.wheels && selectedWheelset.wheels?.length > 0 ? 
+                //         selectedWheelset.wheels.map((wheel)=>({
+                //             date_survey: getCurrentDateString({onlyYear:false, withTZ: true}),
+                //             flange: wheel.flange,
+                //             rim: wheel.rim,
+                //             id: wheel.id ? wheel.id : 0,
+                //             state_id: +selectedStatus.id,
+                //             status_id: +selectedWheelset.status.id
+                //         })) : []
+                // })
             });
-        } else {
-            message.error('Вы не выбрали Трансфер');
+            GetWarehouseByStoreId(token.access, selectedWarehouse.id.toString()).then((res)=>{
+                dispatch(setWSList(res));
+            });
+            message.success('Вы успешно добавили КП');
+        } catch (err) {
+            errorHandler(err);
         }
-        
     };
 
     const addNewWSType3 = () => {
@@ -273,10 +311,10 @@ const AddAction: React.FC = () => {
                 <>
                     { selectWSDetailed.length > 0 && selectWSDetailed.map(item => (
                         <React.Fragment key={item.id}>
-                            <FromRepair 
+                            <FromOtherStore 
                                 selectedWheelset={item} 
                                 selectWheelset={(item2)=>{
-                                    console.log('item2 = ', item2);
+                                    setSelectWSDetailed([item2, ...(selectWSDetailed.filter(item3 => item3.id !== item2.id))]);
                                 }} 
                             />
                         </React.Fragment>
