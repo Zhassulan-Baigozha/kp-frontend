@@ -28,7 +28,7 @@ const AddAction: React.FC = () => {
     const selectedWarehouse = useSelector((state: IRootState) => state.selectedWS.data);
     const transferList = useSelector((state: IRootState) => state.data.transferList);
     const token = useSelector((state: IRootState) => state.token.data);
-    const [typeOfAdding, setToggleTypeOfAdding] = useState<IComboBoxOption>(AddActionTypeNames[1]);
+    const [typeOfAdding, setToggleTypeOfAdding] = useState<IComboBoxOption>(AddActionTypeNames[2]);
     const [selectedWS, selectWS] = useState<number[]>([]);
     const [selectWSDetailed, setSelectWSDetailed] = useState<IWSListTableAddPage[]>([]);
     const [selectedTransfer, setSelectedTransfer] = useState<number | string| null>(null);
@@ -37,6 +37,10 @@ const AddAction: React.FC = () => {
     const [buffWS, setBuffWS] = useState<IWSListTableAddPage[]>([]);
     const [wagonNum, setWagonNum] = useState<string>('61891966');
     const [ws, setWS] = useState<IWSListTableAddPage[]>([]);
+
+    const statuses = useSelector((state: IRootState) => state.data.allStatuses);
+    const statusesList = statuses.map((item) =>({id: item.code, label: item.name}));
+    const [selectedStatus, selectStatus] = useState<IComboBoxOption | null>(null);
 
     const onSearch = (value: string) => {
         setWagonNum(value);
@@ -204,7 +208,7 @@ const AddAction: React.FC = () => {
         <BackgroundPaper>
             <div style={{display: 'flex', paddingBottom: '8px'}}>
                 <ComboBox 
-                    fullWidth={'300px'}
+                    fullWidth={'250px'}
                     label={'Выберите формат добавления'} 
                     options={AddActionTypeNames}
                     value={typeOfAdding}
@@ -269,7 +273,7 @@ const AddAction: React.FC = () => {
                 {(typeOfAdding?.id === 3) && (
                     <>
                         <ComboBox 
-                            fullWidth={'300px'}
+                            fullWidth={'250px'}
                             label={'Выберите Склад'} 
                             options={warehouseList}
                             value={selectedWarehouse}
@@ -282,10 +286,22 @@ const AddAction: React.FC = () => {
                                 }
                             }}
                         />
-                        <CustomBtn disabled={buffWS.length === 1} onClick={()=>{
+                        <ComboBox 
+                            fullWidth={'250px'}
+                            label={'Выберите статус'}
+                            options={statusesList}
+                            value={selectedStatus}
+                            onChange={(value) => {
+                                if (value?.id && (statusesList.filter(item => item.id === value.id).length === 1)){
+                                    selectStatus(statusesList.filter(item => item.id === value.id)[0]);
+                                }
+                            }}
+                        />
+                        <CustomBtn disabled={buffWS.length === 1} onClick={() => {
+                            const currentDate = Date.now().toString();
                             const buf = [{
                                 ...convertedWS2[0],
-                                axisNum: Date.now().toString(),
+                                axisNum: currentDate.substring(currentDate.length -8 , currentDate.length),
                                 CKK1: '00000000',
                                 CKK2: '00000000',
                                 rim1: 0,
@@ -298,7 +314,7 @@ const AddAction: React.FC = () => {
                                 stateName: 'Принят на хранение',
                                 state: {id: 1, label: 'Принят на хранение'},
                             }, ...buffWS];
-                            console.log('convertedWS2', buf);
+                            console.log('convertedWS2', buf[0]);
                             setBuffWS(buf);
                         }}>
                             Добавить
