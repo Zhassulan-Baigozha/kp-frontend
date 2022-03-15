@@ -199,6 +199,9 @@ const AddAction: React.FC = () => {
                 .then(() => {
                     message.success('Вы успешно добавили КП');
                     setBuffWS([]);
+                    GetWarehouseByStoreId(token.access, selectedWarehouse.id.toString()).then((res)=>{
+                        dispatch(setWSList(res));
+                    });
                 })
                 .catch(errorHandler);
         }
@@ -292,30 +295,39 @@ const AddAction: React.FC = () => {
                             options={statusesList}
                             value={selectedStatus}
                             onChange={(value) => {
-                                if (value?.id && (statusesList.filter(item => item.id === value.id).length === 1)){
+                                if (value?.label && (statusesList.filter(item => item.id === value.id).length === 1)){
                                     selectStatus(statusesList.filter(item => item.id === value.id)[0]);
                                 }
                             }}
                         />
                         <CustomBtn disabled={buffWS.length === 1} onClick={() => {
-                            const currentDate = Date.now().toString();
-                            const buf = [{
-                                ...convertedWS2[0],
-                                axisNum: currentDate.substring(currentDate.length -8 , currentDate.length),
-                                CKK1: '00000000',
-                                CKK2: '00000000',
-                                rim1: 0,
-                                rim2: 0,
-                                flange1: 0,
-                                flange2: 0,
-                                description: 'Добавление новой КП',
-                                editable: true,
-                                key: Date.now(),
-                                stateName: 'Принят на хранение',
-                                state: {id: 1, label: 'Принят на хранение'},
-                            }, ...buffWS];
-                            console.log('convertedWS2', buf[0]);
-                            setBuffWS(buf);
+                            if (!selectedStatus?.label) {
+                                message.error('Вы не выбрали Статус');
+                            } else if (!selectedWarehouse?.label){
+                                message.error('Вы не выбрали Склад');
+                            } else {
+                                const currentDate = Date.now().toString();
+                                const buf = [{
+                                    ...convertedWS2[0],
+                                    axisNum: currentDate.substring(currentDate.length -8 , currentDate.length),
+                                    CKK1: '00000000',
+                                    CKK2: '00000000',
+                                    rim1: 0,
+                                    rim2: 0,
+                                    flange1: 0,
+                                    flange2: 0,
+                                    description: 'Добавление новой КП(покупное)',
+                                    editable: true,
+                                    key: Date.now(),
+                                    stateName: 'Принят на хранение',
+                                    state: {id: 1, label: 'Принят на хранение'},
+                                    statusName: selectedStatus.label,
+                                    status: selectedStatus,
+                                    createdAt: (new Date()).getFullYear().toString(),
+                                }, ...buffWS];
+                                console.log('convertedWS2', buf[0]);
+                                setBuffWS(buf);
+                            }
                         }}>
                             Добавить
                         </CustomBtn>

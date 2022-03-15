@@ -246,7 +246,7 @@ const EditableTable: React.FC<IWSTableAdd> = ({
         render?: (_: any, record: IWSListTableAddPage) => React.ReactNode;
     }[] = editable ? [...EditableTableColums.map(item =>({
         ...item,
-        editable: item.key !== 'stateName' && item.key !== 'state'
+        editable: item.key !== 'stateName' && item.key !== 'state' && item.key !== 'statusName' && item.key !== 'status'
     })), {
         title: 'Действие',
         dataIndex: 'operation',
