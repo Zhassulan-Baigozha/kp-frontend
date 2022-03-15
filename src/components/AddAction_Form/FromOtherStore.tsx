@@ -136,6 +136,9 @@ const FromOtherStore: React.FC<IFromOtherStore> = ({
             <div style={{ display: 'flex' }}>
                 <ComboBox 
                     label={'Выберите статус'}
+                    blockFullWidth={true}
+                    fullWidth={'100%'}
+                    pr={'16px'}
                     placeholder={'Cтатус'}
                     options={statusesList}
                     value={selectedWheelset.status}
@@ -146,7 +149,6 @@ const FromOtherStore: React.FC<IFromOtherStore> = ({
                     }}
                 />
                 <CustomTextArea 
-                    fullWidth={true}
                     placeholder={'Примечание'}
                     onChange={(value)=>{
                         selectWheelset({...selectedWheelset, description: value.target.value});

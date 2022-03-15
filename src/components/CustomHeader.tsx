@@ -11,7 +11,6 @@ import {
 } from 'src/layout/pages';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from 'src/store';
-import { primaryColor } from 'src/constants/primaryColor';
 import { Header } from 'antd/lib/layout/layout';
 import { Menu, Dropdown, Button } from 'antd';
 import { FileTextFilled, HomeFilled, UserOutlined } from '@ant-design/icons';
@@ -137,7 +136,7 @@ const CustomHeader: React.FC<ICustomHeader> = ({
                             {SIGN_IN_ACTION !== currentPage && (
                                 <div style={{display: '-webkit-inline-box'}}>
                                     <ComboBox 
-                                        fullWidth={'300px'}
+                                        fullWidth={'250px'}
                                         label={'Выберите Склад'} 
                                         options={warehouseList}
                                         value={selectedWarehouse}

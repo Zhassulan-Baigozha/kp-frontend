@@ -139,7 +139,6 @@ const FromRepair: React.FC<IFromRepair> = ({
                     value={selectedWheelset.axisNum}
                 />
                 <CustomTextArea 
-                    fullWidth={true}
                     placeholder={'Примечание'}
                     onChange={(value)=>{
                         selectWheelset({...selectedWheelset, description: value.target.value});

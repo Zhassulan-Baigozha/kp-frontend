@@ -4,6 +4,7 @@ import { Select } from 'antd';
 
 const { Option } = Select;
 interface IComboBox {
+    blockFullWidth?: boolean
     fullWidth?: string | undefined
     verticalAlign?: boolean
     label?: string
@@ -11,9 +12,11 @@ interface IComboBox {
     placeholder ?: string
     value: IComboBoxOption | null
     onChange?: (value: IComboBoxOption | null) => void
+    pr?: string | undefined
 }
 
 const ComboBox: React.FC<IComboBox> = ({
+    blockFullWidth = false,
     fullWidth = '',
     verticalAlign = false,
     label,
@@ -21,6 +24,7 @@ const ComboBox: React.FC<IComboBox> = ({
     options,
     placeholder,
     value,
+    pr = undefined,
 }) => {
     function handleChange(value: any) {
         const selectedOption = options.filter(option => option.id === value);
@@ -29,7 +33,10 @@ const ComboBox: React.FC<IComboBox> = ({
         }
     }
     return (
-        <div>
+        <div style={{
+            width: blockFullWidth? '100%': undefined,
+            paddingRight: pr ? pr : undefined,
+        }}>
             <div className="CustomTextField">
                 {placeholder}
             </div>

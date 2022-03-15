@@ -5,7 +5,7 @@ interface ICustomTextArea {
     type ?: string
     value ?: string
     placeholder ?: string
-    fullWidth ?: boolean
+    fullWidth?: string | undefined
     error ?: boolean
     disabled ?: boolean
 }
@@ -14,7 +14,7 @@ const CustomTextArea: React.FC<ICustomTextArea & TextAreaProps> = ({
     value,
     onChange,
     placeholder,
-    fullWidth = false,
+    fullWidth = '',
     error = false, 
     disabled = false,
 }) => {
@@ -33,7 +33,7 @@ const CustomTextArea: React.FC<ICustomTextArea & TextAreaProps> = ({
                     marginBottom: '16px', 
                     marginRight: '16px', 
                     borderRadius: '8px',
-                    width: fullWidth ? '100%': '300px',
+                    width: fullWidth ?? '100%',
                 }}
             />
         </div>

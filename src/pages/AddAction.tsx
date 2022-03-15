@@ -28,7 +28,7 @@ const AddAction: React.FC = () => {
     const selectedWarehouse = useSelector((state: IRootState) => state.selectedWS.data);
     const transferList = useSelector((state: IRootState) => state.data.transferList);
     const token = useSelector((state: IRootState) => state.token.data);
-    const [typeOfAdding, setToggleTypeOfAdding] = useState<IComboBoxOption>(AddActionTypeNames[2]);
+    const [typeOfAdding, setToggleTypeOfAdding] = useState<IComboBoxOption>(AddActionTypeNames[1]);
     const [selectedWS, selectWS] = useState<number[]>([]);
     const [selectWSDetailed, setSelectWSDetailed] = useState<IWSListTableAddPage[]>([]);
     const [selectedTransfer, setSelectedTransfer] = useState<number | string| null>(null);
@@ -75,13 +75,14 @@ const AddAction: React.FC = () => {
             warehouse_id: +selectedWarehouse.id,
             ws_list: selectedWS
         }).then((_res)=>{
-            GetWagonById(token.access, wagonNum)
-                .then((getWagonByIdResponse) => {
-                    const buf = convertWs2(getWagonByIdResponse.wheel_sets);
-                    setWS(buf);
-                    message.success('Вы успешно добавили КП');
-                })
-                .catch(errorHandler);
+            GetWagonById(token.access, wagonNum).then((getWagonByIdResponse) => {
+                const buf = convertWs2(getWagonByIdResponse.wheel_sets);
+                setWS(buf);
+                message.success('Вы успешно добавили КП');
+            }).catch(errorHandler);
+            GetWarehouseByStoreId(token.access, selectedWarehouse.id.toString()).then((res)=>{
+                dispatch(setWSList(res));
+            });
         }).catch((err) => {
             setWS([]);
             errorHandler(err);
@@ -194,7 +195,6 @@ const AddAction: React.FC = () => {
                     year_issue: +buffWS[0].createdAt,
                 }],
             };
-            console.log('AppendPurchased = ', temp);
             AppendPurchased(token.access, temp)
                 .then(() => {
                     message.success('Вы успешно добавили КП');
@@ -335,6 +335,16 @@ const AddAction: React.FC = () => {
                     </>
                 )}
             </div>
+            { typeOfAdding?.id === 1 && (
+                <>
+                    {ws.length > 0 && (
+                        <EditableTable selectionType={'checkbox'} ws={ws} onChange={(_a, _b) => {
+                            selectWS(convertKeyToNumber(_a));
+                            setSelectWSDetailed(_b);
+                        }}/>
+                    )}
+                </>
+            )}
             { typeOfAdding?.id === 2 && transferList.length > 0 && (
                 <>
                     { selectWSDetailed.length > 0 && selectWSDetailed.map(item => (
@@ -355,9 +365,15 @@ const AddAction: React.FC = () => {
                             setWS(convertWs2(_b[0].wheelSet));
                         }
                     }}/>
+                    {ws.length > 0 && (
+                        <EditableTable selectionType={'radio'} ws={ws} onChange={(_a, _b) => {
+                            selectWS(convertKeyToNumber(_a));
+                            setSelectWSDetailed(_b);
+                        }}/>
+                    )}
                 </>
             )}
-            { typeOfAdding?.id === 3 ? (
+            { typeOfAdding?.id === 3 && (
                 <>
                     <EditableTable editable={true} ws={buffWS.concat(convertedWS2)} setWS={(item)=>{
                         if (item.length > 0) {
@@ -366,14 +382,14 @@ const AddAction: React.FC = () => {
                     }} selectionType={'radio'} onChange={(_a, _b) => {
                         console.log('_b = ', _b);
                     }}/>
+                    {ws.length > 0 && (
+                        <EditableTable selectionType={'checkbox'} ws={ws} onChange={(_a, _b) => {
+                            selectWS(convertKeyToNumber(_a));
+                            setSelectWSDetailed(_b);
+                        }}/>
+                    )}
                 </>
-            ): ws.length > 0 ? (
-                <EditableTable selectionType={'checkbox'} ws={ws} onChange={(_a, _b) => {
-                    selectWS(convertKeyToNumber(_a));
-                    setSelectWSDetailed(_b);
-                }}/>
-            ): null}
-            
+            )}
         </BackgroundPaper>
     );
 };
