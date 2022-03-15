@@ -22,7 +22,8 @@ import {
     IParseWSRequest,
     IGetWheelsResponse,
     IGetWSHistoryResponse,
-    IGetStatesResponse
+    IGetStatesResponse,
+    IReNewResponse
 } from './CustomAPIModel';
 import { ITransport, IStatusesTable } from 'src/store/data/types';
 import { ISignUpRequest, ISignUpUser, IUpdateUserRole } from 'src/interfaces';
@@ -67,7 +68,7 @@ export const GetStatuses = (token: string) => CustomAxios2(token)
 export const GetWagonByWarehouse = (token: string, wh_id: number) => CustomAxios2(token)
     .get<IStatusesTable[]>(`api/v1/repair/wagon/${wh_id}`).then((r)=>r.data);
 export const AuthReNew = (token: string, data: IAuthReNew) => CustomAxios2(token)
-    .put<IAuthReNew, AxiosResponse<ISignInResponse>>('api/auth/renew', data).then((r)=>r.data);
+    .put<IAuthReNew, AxiosResponse<IReNewResponse>>('api/auth/renew', data).then((r)=>r.data);
 export const SignIn = (token: string, data: ISignInRequest) => CustomAxios2(token)
     .post<ISignInRequest, AxiosResponse<ISignInResponse>>('api/auth/signin', data).then((r)=>r.data);
 

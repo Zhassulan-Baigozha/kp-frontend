@@ -24,9 +24,9 @@ const InstallAction: React.FC = () => {
     const dispatch = useDispatch();
     const [wsWagon, setWSWagon] = useState<IWSListTableAddPage[]>([]);
     const { convertedWS2 } = useConvertWs();
-    const warehouseList = useSelector((state: IRootState) => state.data.warehouse);
     const [wagonNum, setWagonNum] = useState<string>('61891966');
     const [selectedWSinWarehouse, setSelectedWSinWarehouse] = useState<Key[]>([]);
+
     const onSearch = (value: string) => {
         setWagonNum(value);
         setWSWagon([]);
@@ -59,9 +59,15 @@ const InstallAction: React.FC = () => {
             ws_list: selectedWSinWarehouse
         }).then(() => {
             message.success('Установка успешно произведена!');
+            GetWagonById(token.access, wagonNum).then((getWagonByIdResponse) => {
+                const buf = convertWs2(getWagonByIdResponse.wheel_sets);
+                setWSWagon(buf);
+            }).catch(errorHandler);
+            GetWarehouseByStoreId(token.access, selectedWarehouse.id.toString()).then((res)=>{
+                dispatch(setWSList(res));
+            });
         }).catch(errorHandler);
     };
-
 
     return (
         <BackgroundPaper>

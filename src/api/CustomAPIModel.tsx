@@ -89,6 +89,11 @@ export interface IAuthReNew {
     refresh_token: string,
 }
 
+export interface IReNewResponse {
+    access_token: string,
+    refresh: string,
+}
+
 export interface IUpdateUserFieldsRequest {
     email: string,
     name: string,

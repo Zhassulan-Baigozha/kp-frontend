@@ -1,10 +1,12 @@
 import { message } from 'antd';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { AuthReNew } from 'src/api/CustomAPI';
 import { IRootState } from 'src/store';
+import { setTokenData } from 'src/store/token/actions';
 
 export const useErrorHandler = () => {
+    const dispatch = useDispatch();
     const token = useSelector((state: IRootState) => state.token.data);
     const errorHandler = (err: unknown)=>{
         if (axios.isAxiosError(err))  {
@@ -12,6 +14,11 @@ export const useErrorHandler = () => {
                 message.error('Переавторизуйтесь');
                 AuthReNew(token.access, {
                     refresh_token: token.refresh
+                }).then(res => {
+                    dispatch(setTokenData({
+                        access: res.access_token,
+                        refresh: res.refresh,
+                    }));
                 });
             } else if (err?.response?.status === 500 && err?.response?.data.code === 'TTS-004'){
                 message.error('По данному складу нет трансферов');
