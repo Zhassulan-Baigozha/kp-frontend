@@ -11,12 +11,11 @@ export const useErrorHandler = () => {
     const errorHandler = (err: unknown)=>{
         if (axios.isAxiosError(err))  {
             if (err?.response?.status === 401){
-                message.error('Переавторизуйтесь');
                 AuthReNew(token.access, {
                     refresh_token: token.refresh
                 }).then(res => {
                     dispatch(setTokenData({
-                        access: res.access_token,
+                        access: 'Bearer ' + res.access_token,
                         refresh: res.refresh,
                     }));
                 });
