@@ -23,39 +23,13 @@ export type Action
     | IActWarehouse
 
 
-export const setUserData = (user: IUser): IActUser => {
-    return { type: 'user/SET', user };
-};
-
-export const setAllUsersList = (allUsers: IUser[]): IActAllUsers => {
-    return { type: 'allUsers/SET', allUsers };
-};
-
-export const setAllStatusesList = (allStatuses: IStatusesTable[]): IActAllStatuses => {
-    return { type: 'allStatuses/SET', allStatuses };
-};
-
-export const setAllStatesList = (allStates: IComboBoxOption[]): IActAllStates => {
-    return { type: 'allStates/SET', allStates };
-};
-
-export const setOfficesList = (allOffices: IOffice[]): IActAllOffices => {
-    return { type: 'allOffices/SET', allOffices };
-};
-
-export const setRolesList = (roles: IRoles[]): IActRoles => {
-    return { type: 'roles/SET', roles };
-};
-
-export const setTransportList = (transportList: ITransport[]): IActTransportList => {
-    return { type: 'transportList/SET', transportList };
-};
-
-export const setTransferList = (transferList: ITransferList[]): IActTransfertList => {
-    return { type: 'transferList/SET', transferList };
-};
-
-export const setWarehouseList = (warehouse: IComboBoxOption[]): IActWarehouse => {
-    return { type: 'warehouse/SET', warehouse };
-};
+export const setUserData = (user: IUser): IActUser => ({ type: 'user/SET', user });
+export const setAllUsersList = (allUsers: IUser[]): IActAllUsers => ({ type: 'allUsers/SET', allUsers });
+export const setAllStatusesList = (allStatuses: IStatusesTable[]): IActAllStatuses => ({ type: 'allStatuses/SET', allStatuses });
+export const setAllStatesList = (allStates: IComboBoxOption[]): IActAllStates => ({ type: 'allStates/SET', allStates });
+export const setOfficesList = (allOffices: IOffice[]): IActAllOffices => ({ type: 'allOffices/SET', allOffices });
+export const setRolesList = (roles: IRoles[]): IActRoles => ({ type: 'roles/SET', roles });
+export const setTransportList = (transportList: ITransport[]): IActTransportList => ({ type: 'transportList/SET', transportList });
+export const setTransferList = (transferList: ITransferList[]): IActTransfertList => ({ type: 'transferList/SET', transferList });
+export const setWarehouseList = (warehouse: IComboBoxOption[]): IActWarehouse => ({ type: 'warehouse/SET', warehouse });
 

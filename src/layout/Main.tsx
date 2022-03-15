@@ -4,13 +4,11 @@ import CustomHeader from 'src/components/CustomHeader';
 import { useSelector } from 'react-redux';
 import { IRootState } from 'src/store';
 import './Main.css';
-// import CustomDialog from 'src/components/CustomDialog';
 import { Layout } from 'antd';
 
 const Main: React.FC = () => {
     const token = useSelector((state: IRootState) => state.token.data);
     const [currentPage, switchPage] = useState<string>('');
-
 
     useEffect(() => {
         if (currentPage!== SIGN_IN_ACTION && !(token.access.length > 0)) {

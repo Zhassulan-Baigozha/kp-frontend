@@ -1,6 +1,15 @@
 import React, { useState } from 'react';
 import { IComboBoxOption, IWSListTableAddPage } from 'src/interfaces';
-import { AddWSFromWagon, AppendPurchased, GetTransferByDestination, GetWagonById, GetWarehouseByStoreId } from 'src/api/CustomAPI';
+import { 
+    AddWSFromWagon, 
+    AppendPurchased, 
+    CompleteWSToTransfer, 
+    GetTransferByDestination, 
+    GetWagonById, 
+    GetWarehouseByStoreId, 
+    RepairWSChangeStatus,
+    RepairWSUpdate
+} from 'src/api/CustomAPI';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from 'src/store';
 import { getCurrentDateString } from 'src/utils/getCurrentDateString';
@@ -120,39 +129,36 @@ const AddAction: React.FC = () => {
                 message.error('Вы не выбрали Трансфер');
                 return null;
             }
-            // работает 
-            // await CompleteWSToTransfer(token.access, selectedTransfer);
 
-            // не работает 
-            selectWSDetailed.forEach((item5) =>{
-                // на ремонта
-                console.log('item5', item5);
-                // await RepairWSChangeStatus(token.access, {
-                //     description: '',
-                //     state_id: 1,
-                //     status_id: +selectedStatus?.id,
-                //     wheelset_id: selectedWheelset.key
-                // });
-                // из ремонта 
-                // await RepairWSUpdate(token.access, {
-                //     description: selectedWheelset.description,
-                //     id: selectedWheelset.key,
-                //     state_id: +selectedStatus.id,
-                //     status_id: +selectedWheelset.status.id,
-                //     wheels: selectedWheelset?.wheels && selectedWheelset.wheels?.length > 0 ? 
-                //         selectedWheelset.wheels.map((wheel)=>({
-                //             date_survey: getCurrentDateString({onlyYear:false, withTZ: true}),
-                //             flange: wheel.flange,
-                //             rim: wheel.rim,
-                //             id: wheel.id ? wheel.id : 0,
-                //             state_id: +selectedStatus.id,
-                //             status_id: +selectedWheelset.status.id
-                //         })) : []
-                // })
-            });
-            GetWarehouseByStoreId(token.access, selectedWarehouse.id.toString()).then((res)=>{
-                dispatch(setWSList(res));
-            });
+            CompleteWSToTransfer(token.access, selectedTransfer).then(()=> 
+                ws.forEach(async (wsItem) => {
+                    await RepairWSChangeStatus(token.access, {
+                        description: '',
+                        state_id: 1,
+                        status_id: +wsItem.status.id,
+                        wheelset_id: wsItem.key
+                    });
+                    await RepairWSUpdate(token.access, {
+                        description: wsItem.description,
+                        id: wsItem.key,
+                        state_id: 0,
+                        status_id: +wsItem.status.id,
+                        wheels: wsItem?.wheels && wsItem.wheels?.length > 0 ? 
+                            wsItem.wheels.map((wheel)=>({
+                                date_survey: getCurrentDateString({onlyYear:false, withTZ: true}),
+                                flange: wheel.flange,
+                                rim: wheel.rim,
+                                id: wheel.id ? wheel.id : 0,
+                                state_id: 0,
+                                status_id: +wsItem.status.id
+                            })) : []
+                    });
+                })
+            ).then(()=>
+                GetWarehouseByStoreId(token.access, selectedWarehouse.id.toString()).then((res)=>{
+                    dispatch(setWSList(res));
+                })
+            );
             message.success('Вы успешно добавили КП');
         } catch (err) {
             errorHandler(err);
@@ -352,6 +358,7 @@ const AddAction: React.FC = () => {
                             <FromOtherStore 
                                 selectedWheelset={item} 
                                 selectWheelset={(item2)=>{
+                                    setWS(ws.map(wsItem => item2.id === wsItem.id ? item2 : wsItem));
                                     setSelectWSDetailed([item2, ...(selectWSDetailed.filter(item3 => item3.id !== item2.id))]);
                                 }} 
                             />

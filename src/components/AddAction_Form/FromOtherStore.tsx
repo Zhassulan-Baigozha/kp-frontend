@@ -35,6 +35,7 @@ const FromOtherStore: React.FC<IFromOtherStore> = ({
                             ) {
                                 selectWheelset({
                                     ...selectedWheelset,
+                                    flange1: +value.target.value,
                                     wheels: [{
                                         ...selectedWheelset.wheels[0],
                                         flange: +value.target.value,
@@ -61,6 +62,7 @@ const FromOtherStore: React.FC<IFromOtherStore> = ({
                             ) {
                                 selectWheelset({
                                     ...selectedWheelset,
+                                    rim1: +value.target.value,
                                     wheels: [{
                                         ...selectedWheelset.wheels[0],
                                         rim: +value.target.value,
@@ -92,6 +94,7 @@ const FromOtherStore: React.FC<IFromOtherStore> = ({
                             ) {
                                 selectWheelset({
                                     ...selectedWheelset,
+                                    flange2: +value.target.value,
                                     wheels: [selectedWheelset.wheels[0], {
                                         ...selectedWheelset.wheels[1],
                                         flange: +value.target.value,
@@ -118,6 +121,7 @@ const FromOtherStore: React.FC<IFromOtherStore> = ({
                             ) {
                                 selectWheelset({
                                     ...selectedWheelset,
+                                    rim2: +value.target.value,
                                     wheels: [selectedWheelset.wheels[0], {
                                         ...selectedWheelset.wheels[1],
                                         rim: +value.target.value,
@@ -144,7 +148,11 @@ const FromOtherStore: React.FC<IFromOtherStore> = ({
                     value={selectedWheelset.status}
                     onChange={(value) => {
                         if (value?.id && (statusesList.filter(item => item.id === value.id).length === 1)){
-                            selectWheelset({...selectedWheelset, status: statusesList.filter(item => item.id === value.id)[0]});
+                            selectWheelset({
+                                ...selectedWheelset, 
+                                statusName: statusesList.filter(item => item.id === value.id)[0].label,
+                                status: statusesList.filter(item => item.id === value.id)[0]}
+                            );
                         }
                     }}
                 />
