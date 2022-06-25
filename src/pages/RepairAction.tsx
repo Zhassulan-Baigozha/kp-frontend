@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from 'src/store';
 import { IComboBoxOption, IWSListTableAddPage } from 'src/interfaces';
-import { GetWarehouseByStoreId, RepairWSChangeStatus, RepairWSUpdate } from 'src/api/CustomAPI';
+import { GetWarehouseByStoreId, RepairWSUpdate } from 'src/api/CustomAPI';
 import BackgroundPaper from '../layout/BackgroundPaper';
 import ComboBox from 'src/components/base/ComboBox';
 import { message } from 'antd';
@@ -15,6 +15,7 @@ import FromRepair from 'src/components/RepairAction_Form/FromRepair';
 import { getCurrentDateString } from 'src/utils/getCurrentDateString';
 import EditableTable from 'src/components/tables/EditableTable';
 import { useErrorHandler } from 'src/utils/useErrorHandler';
+import { STATUSES } from 'src/constants/statuses';
 
 
 const RepairAction: React.FC = () => {
@@ -44,45 +45,31 @@ const RepairAction: React.FC = () => {
             return null; 
         }
 
-        if (repairType){
-            // Из ремонта
-            if (selectedWheelset) {
-                RepairWSUpdate(token.access, {
-                    description: selectedWheelset.description,
-                    id: selectedWheelset.key,
-                    state_id: +selectedStatus.id,
-                    status_id: +selectedWheelset.status.id,
-                    wheels: selectedWheelset?.wheels && selectedWheelset.wheels?.length > 0 ? 
-                        selectedWheelset.wheels.map((wheel)=>({
-                            date_survey: getCurrentDateString({onlyYear:false, withTZ: true}),
-                            flange: wheel.flange,
-                            rim: wheel.rim,
-                            id: wheel.id ? wheel.id : 0,
-                            state_id: +selectedStatus.id,
-                            status_id: +selectedWheelset.status.id
-                        })) : []
-                })
-                    .then(() => {
-                        GetWarehouseByStoreId(token.access, selectedWarehouse.id.toString()).then((res)=>{
-                            dispatch(setWSList(res));
-                        });
-                        message.success('Отремонтировали КП');
-                    }).catch(errorHandler);
-            }
-        } else {
-            // На ремонт
-            RepairWSChangeStatus(token.access, {
-                description: '',
-                state_id: 1,
-                status_id: +selectedStatus?.id,
-                wheelset_id: selectedWheelset.key
-            }).then(()=>{
-                GetWarehouseByStoreId(token.access, selectedWarehouse.id.toString()).then((res)=>{
-                    dispatch(setWSList(res));
-                });
-                message.success('Отправили на КП');
-            }).catch(errorHandler);
+        if (selectedWheelset) {
+            RepairWSUpdate(token.access, {
+                description: selectedWheelset.description,
+                id: selectedWheelset.key,
+
+                state_id: repairType ? STATUSES.REPAIRED: STATUSES.REPAIR,
+                status_id: +selectedWheelset.status.id,
+                wheels: selectedWheelset?.wheels && selectedWheelset.wheels?.length > 0 ? 
+                    selectedWheelset.wheels.map((wheel)=>({
+                        date_survey: getCurrentDateString({onlyYear:false, withTZ: true}),
+                        flange: wheel.flange,
+                        rim: wheel.rim,
+                        id: wheel.id ? wheel.id : 0,
+                        state_id: +selectedStatus.id,
+                        status_id: +selectedWheelset.status.id
+                    })) : []
+            })
+                .then(() => {
+                    GetWarehouseByStoreId(token.access, selectedWarehouse.id.toString()).then((res)=>{
+                        dispatch(setWSList(res));
+                    });
+                    message.success('Отремонтировали КП');
+                }).catch(errorHandler);
         }
+        
     };
     return (
         <BackgroundPaper>

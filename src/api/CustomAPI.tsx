@@ -33,7 +33,8 @@ export const CustomAxios2 = (auth_user_token: string) =>{
     // const baseURL = process.env.NODE_ENV === 'development' ? 'http://localhost:8080/': 'https://api.kp.itmd.kz/';
     const instance = axios.create({
         baseURL: 'https://api.kp.itmd.kz/',
-        timeout: 1000,
+        timeout: 10000,
+        maxContentLength: 90000,
         headers: {
             'Content-Type':'application/json',
             'Access-Control-Allow-Origin': '*',
@@ -79,7 +80,6 @@ export const AppendPurchased = (token: string, data: IAppendPurchasedRequest) =>
     .post<IAppendPurchasedRequest, AxiosResponse<ISignInResponse>>('api/v1/repair/append-purchased', data).then((r)=>r.data);
 export const InstallWSToWagon = (token: string, data: IInstallWSToWagonRequest) => CustomAxios2(token)
     .post<IInstallWSToWagonRequest, AxiosResponse>('api/v1/repair/installation-wheelset', data).then((r)=>r.data);
-export const RepairWSChangeStatus = (token: string, data: IRepairWSChangeStatusRequest) => CustomAxios2(token).post<IRepairWSChangeStatusRequest>('api/v1/repair/ws/', data).then((r)=>r.data);
 export const RepairWSUpdate = (token: string, data: IRepairWSUpdateRequest) => CustomAxios2(token)
     .put<IRepairWSUpdateRequest>('api/v1/repair/ws/', data).then((r)=>r.data);
 export const AddWSFromWagon = (token: string, data: IAddWSFromWagonRequest) => CustomAxios2(token)
