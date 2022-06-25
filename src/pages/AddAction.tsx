@@ -7,7 +7,6 @@ import {
     GetTransferByDestination, 
     GetWagonById, 
     GetWarehouseByStoreId, 
-    RepairWSChangeStatus,
     RepairWSUpdate
 } from 'src/api/CustomAPI';
 import { useDispatch, useSelector } from 'react-redux';
@@ -18,8 +17,7 @@ import BackgroundPaper from 'src/layout/BackgroundPaper';
 import ComboBox from 'src/components/base/ComboBox';
 import { CustomBtn, CustomCheckBtn } from 'src/components/base/CustomBtn';
 import { Input, message } from 'antd';
-import { convertWs2 } from 'src/utils/convert';
-import { convertKeyToNumber } from 'src/utils/convert';
+import { convertWs2, convertKeyToNumber } from 'src/utils/convert';
 import { setSelectedWS } from 'src/store/selectedWS/actions';
 import { setWSList } from 'src/store/wsList/actions';
 import TransferTable from 'src/components/tables/TransferTable';
@@ -28,6 +26,8 @@ import useConvertWs from 'src/hooks/useConvertWs';
 import EditableTable from 'src/components/tables/EditableTable';
 import { useErrorHandler } from 'src/utils/useErrorHandler';
 import FromOtherStore from 'src/components/AddAction_Form/FromOtherStore';
+import { STATUSES } from 'src/constants/statuses';
+import { ADD_ACTION } from 'src/constants/addActionValues';
 const { Search } = Input;
 
 
@@ -132,19 +132,13 @@ const AddAction: React.FC = () => {
 
             CompleteWSToTransfer(token.access, selectedTransfer).then(()=> 
                 ws.forEach(async (wsItem) => {
-                    await RepairWSChangeStatus(token.access, {
-                        description: '',
-                        state_id: 1,
-                        status_id: +wsItem.status.id,
-                        wheelset_id: wsItem.key
-                    });
                     await RepairWSUpdate(token.access, {
                         description: wsItem.description,
                         id: wsItem.key,
-                        state_id: 0,
+                        state_id: STATUSES.IN_STORE,
                         status_id: +wsItem.status.id,
                         wheels: wsItem?.wheels && wsItem.wheels?.length > 0 ? 
-                            wsItem.wheels.map((wheel)=>({
+                            wsItem.wheels.map((wheel) => ({
                                 date_survey: getCurrentDateString({onlyYear:false, withTZ: true}),
                                 flange: wheel.flange,
                                 rim: wheel.rim,
@@ -154,7 +148,7 @@ const AddAction: React.FC = () => {
                             })) : []
                     });
                 })
-            ).then(()=>
+            ).then(() =>
                 GetWarehouseByStoreId(token.access, selectedWarehouse.id.toString()).then((res)=>{
                     dispatch(setWSList(res));
                 })
@@ -341,17 +335,17 @@ const AddAction: React.FC = () => {
                     </>
                 )}
             </div>
-            { typeOfAdding?.id === 1 && (
+            { typeOfAdding?.id === ADD_ACTION.CARRIAGE && (
                 <>
                     {ws.length > 0 && (
-                        <EditableTable selectionType={'checkbox'} ws={ws} onChange={(_a, _b) => {
+                        <EditableTable selectionType={'radio'} ws={ws} onChange={(_a, _b) => {
                             selectWS(convertKeyToNumber(_a));
                             setSelectWSDetailed(_b);
                         }}/>
                     )}
                 </>
             )}
-            { typeOfAdding?.id === 2 && transferList.length > 0 && (
+            { typeOfAdding?.id === ADD_ACTION.STORE && transferList.length > 0 && (
                 <>
                     { selectWSDetailed.length > 0 && selectWSDetailed.map(item => (
                         <React.Fragment key={item.id}>
@@ -380,7 +374,7 @@ const AddAction: React.FC = () => {
                     )}
                 </>
             )}
-            { typeOfAdding?.id === 3 && (
+            { typeOfAdding?.id === ADD_ACTION.PURCHASED && (
                 <>
                     <EditableTable editable={true} ws={buffWS.concat(convertedWS2)} setWS={(item)=>{
                         if (item.length > 0) {

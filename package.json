@@ -42,7 +42,6 @@
         "fs-extra": "^10.0.0",
         "html-webpack-plugin": "^5.5.0",
         "identity-obj-proxy": "^3.0.0",
-        "jest": "^27.4.3",
         "jest-resolve": "^27.4.2",
         "jest-watch-typeahead": "^1.0.0",
         "less": "^4.1.2",
@@ -86,22 +85,22 @@
         "test": "node scripts/test.js"
     },
     "eslintConfig": {
-            "extends": [
-                "react-app",
-                "react-app/jest"
-            ]
+        "extends": [
+            "react-app",
+            "react-app/jest"
+        ]
     },
     "browserslist": {
-            "production": [
-                ">0.2%",
-                "not dead",
-                "not op_mini all"
-            ],
-            "development": [
-                "last 1 chrome version",
-                "last 1 firefox version",
-                "last 1 safari version"
-            ]
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
     },
     "jest": {
         "roots": [
@@ -156,11 +155,11 @@
         "resetMocks": true
     },
     "babel": {
-            "presets": [
-                "react-app"
-            ]
+        "presets": [
+            "react-app"
+        ]
     },
     "devDependencies": {
-            "eslint-plugin-react-hooks": "^4.3.0"
+        "eslint-plugin-react-hooks": "^4.3.0"
     }
 }

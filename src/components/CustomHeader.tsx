@@ -103,7 +103,10 @@ const CustomHeader: React.FC<ICustomHeader> = ({
 
         if (value?.id) {
             GetWarehouseByStoreId(token.access, value.id.toString()).then((res)=>{
+                console.log('res', res);
                 dispatch(setWSList(res));
+            }).catch((err)=>{
+                console.log('err', err);
             });
         }
     };
