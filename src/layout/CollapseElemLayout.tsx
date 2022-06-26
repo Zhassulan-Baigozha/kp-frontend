@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface ICollapseElemLayout {
-  children?: React.ReactNode
+    children?: React.ReactNode
 }
 
 const CollapseElemLayout:React.FC<ICollapseElemLayout> = ({ 

@@ -1,8 +1,8 @@
 export interface I_KP_ByTypes {
-  id: number,
-  name: string,
-  status: string,
-  amount?: number,
+    id: number,
+    name: string,
+    status: string,
+    amount?: number,
 }
 
 export const M_STORE_1: I_KP_ByTypes[] = [
@@ -27,7 +27,7 @@ export const M_STORE_1: I_KP_ByTypes[] = [
 ];
 
 type I_KP_Store = {
-  [key in string]: I_KP_ByTypes[];
+    [key in string]: I_KP_ByTypes[];
 };
 
 export const M_STORE: I_KP_Store[] = [

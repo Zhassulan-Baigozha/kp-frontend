@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface ICollapseLastElemLayout {
-  children?: React.ReactNode
+    children?: React.ReactNode
 }
 
 const CollapseLastElemLayout:React.FC<ICollapseLastElemLayout> = ({ 

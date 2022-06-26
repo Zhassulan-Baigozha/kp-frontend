@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface IBackgroundPaper {
-  children: React.ReactNode
+    children: React.ReactNode
 }
 
 const BackgroundPaper: React.FC<IBackgroundPaper> = ({

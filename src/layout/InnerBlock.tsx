@@ -2,7 +2,7 @@
 import React from 'react';
 
 interface IInnerBlock {
-children?: React.ReactNode
+    children?: React.ReactNode
 }
 
 const InnerBlock:React.FC<IInnerBlock> = ({ 
